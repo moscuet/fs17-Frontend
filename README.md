@@ -1,5 +1,6 @@
 # Frontend project
 
+
 This repository for the Frontend project to build an e-commerce website.
 
 ## Requirements
