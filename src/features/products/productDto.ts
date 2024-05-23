@@ -5,9 +5,7 @@ export interface ProductCreateDto {
     productLineId: string;
     productSizeId?: string;
     productColorId?: string;
-    price: number;
     inventory: number;
-    imageUrls: string[];
 }
 
 export interface ProductReadDto extends BaseEntity {
@@ -15,8 +13,6 @@ export interface ProductReadDto extends BaseEntity {
     productSizeId?: string;
     productColorId?: string;
     inventory: number;
-    price: number;
-    images: ProductImage[];
     productLineName: string;
     productSizeValue: string;
     productColorValue: string;
@@ -27,6 +23,5 @@ export interface ProductUpdateDto {
     productSizeId?: string;
     productColorId?: string;
     inventory?: number;
-    price?: number;
 }
 
