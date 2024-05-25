@@ -19,6 +19,9 @@ import { Theme } from "@mui/material/styles";
 import { useTheme, makeStyles } from "@mui/styles";
 
 const useStyles = makeStyles((theme: Theme) => ({
+  appBar: {
+    zIndex: theme.zIndex.drawer + 1,
+  },
     grow: {
       flexGrow: 1,
     },

@@ -10,14 +10,13 @@ import ProductLinesPage from './features/product-lines/ProductLinesPage';
 const App: React.FC = () => {
   return (
     <Router>
-      <Routes>
-        <Route element={<Layout children={undefined} />}>
+      <Layout>
+        <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
           <Route path="/product-lines" element={<ProductLinesPage/>} />
-        </Route>
-      </Routes>
+        </Routes>
+      </Layout>
     </Router>
   );
 }
