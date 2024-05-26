@@ -1,12 +1,11 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
-import { ProductImage } from "../images/imageDto";
 
 export interface ProductLineCreateDto {
     title: string;
     description: string;
     categoryId: string;
     price: number;
-    images: ProductImage[];
+    imageUrl: string;
 }
 
 export interface ProductLineReadDto extends BaseEntity {
@@ -15,7 +14,7 @@ export interface ProductLineReadDto extends BaseEntity {
     categoryId: string;
     categoryName: string;
     price: number;
-    images: ProductImage[];
+    imageUrl: string;
 }
 
 export interface ProductLineUpdateDto {
@@ -23,5 +22,5 @@ export interface ProductLineUpdateDto {
     description?: string;
     categoryId?: string;
     price?: number;
-    images?: ProductImage[];
+    imageUrl?: string;
 }

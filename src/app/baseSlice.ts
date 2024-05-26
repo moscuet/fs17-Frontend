@@ -18,8 +18,21 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
     items: [],
     loading: false,
   };
+  
+  const fetchAllWithParams = createAsyncThunk<T[], { [key: string]: any }>(
+    `${name}/fetchAllWithParams`,
+    async (params, { rejectWithValue }) => {
+      try {
+        const response = await appAxios.get(endpoint, { params });
+        return response.data;
+      } catch (e) {
+        const error = e as AxiosError;
+        return rejectWithValue(error.response?.data);
+      }
+    }
+  );
 
-  const fetchAll = createAsyncThunk<T[]>(
+  const fetchAll = createAsyncThunk<T[], void>(
     `${name}/fetchAll`,
     async (_, { rejectWithValue }) => {
       try {
@@ -31,6 +44,7 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
       }
     }
   );
+
 
   const createOne = createAsyncThunk<T, TCreateDto>(
     `${name}/createOne`,
@@ -89,20 +103,36 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-      // Fetch all
-      builder.addCase(fetchAll.fulfilled, (state, action) => {
+      // Fetch all with params
+      builder.addCase(fetchAllWithParams.fulfilled, (state, action) => {
         state.loading = false;
         state.error = undefined;
-        state.items = action.payload as Draft<T>[]; 
+        state.items = action.payload as Draft<T>[];
       });
-      builder.addCase(fetchAll.pending, (state, action) => {
+      builder.addCase(fetchAllWithParams.pending, (state, action) => {
         state.loading = true;
         state.error = undefined;
       });
-      builder.addCase(fetchAll.rejected, (state, action) => {
+      builder.addCase(fetchAllWithParams.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
       });
+
+         // Fetch all without params
+         builder.addCase(fetchAll.fulfilled, (state, action) => {
+          state.loading = false;
+          state.error = undefined;
+          state.items = action.payload as Draft<T>[];
+        });
+        builder.addCase(fetchAll.pending, (state, action) => {
+          state.loading = true;
+          state.error = undefined;
+        });
+        builder.addCase(fetchAll.rejected, (state, action) => {
+          state.loading = false;
+          state.error = action.payload as string;
+        });
+
 
       // Fetch by id
       builder.addCase(fetchById.fulfilled, (state, action) => {
@@ -132,8 +162,9 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
         .addCase(createOne.rejected, (state, action) => {
           state.loading = false;
           state.error = action.payload as string;
-        })
+        });
 
+      builder
         .addCase(updateOne.pending, (state) => {
           state.loading = true;
           state.error = undefined;
@@ -145,8 +176,9 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
         .addCase(updateOne.rejected, (state, action) => {
           state.loading = false;
           state.error = action.payload as string;
-        })
+        });
 
+      builder
         .addCase(deleteOne.pending, (state) => {
           state.loading = true;
           state.error = undefined;
@@ -166,8 +198,28 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
 
   return {
     slice: baseSlice,
-    actions: { fetchAll, fetchById },
+    actions: { fetchAllWithParams, fetchAll, fetchById },
   };
 };
 
 export default createBaseSlice;
+
+// [
+
+//   {
+//     "id": "1d4b7604-d88c-4d5b-a6ed-6fd454dda00d",
+//     "name": "Music",
+//     "parentCategoryId": null,
+//     "imageUrl": "image_url10"
+//   },
+//   {
+//     "id": "1d4b7604-d88c-4d5b-a6ed-6fd454dda029",
+//     "title": "Fitness Gear",
+//     "description": "Essential fitness equipment",
+//     "imageUrl": "Fitness_Gear.jpg",
+//     "price": 59.99,
+//     "categoryId": "1d4b7604-d88c-4d5b-a6ed-6fd454dda009",
+//     "products": [],
+//     "reviews": []
+//   }
+// ]

@@ -1,16 +1,22 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import ProductLinesPage from '../features/product-lines/ProductLinesPage';
+// new code start
+import React, { useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { Box, Chip } from "@mui/material";
+import ProductLinesPage from "../features/product-lines/ProductLinesPage";
+import { CategoryReadDto } from "../features/categories/categoryDto";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { fetchAllCategories } from "../features/categories/categoriesSlice";
+
 
 const Home: React.FC = () => {
+  const location = useLocation();
+  const dispatch = useAppDispatch();
 
-    return (
-        <div>
-            <h2>Home Page</h2>
-            <Link to="/about">Go to About</Link>
-            <ProductLinesPage/>
-        </div>
-    );
+  useEffect(() => {
+    dispatch(fetchAllCategories());
+  }, [location.search, dispatch]);
+  
+  return <ProductLinesPage />;
 };
 
 export default Home;

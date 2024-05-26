@@ -1,201 +1,119 @@
-// src/ProductsPage.tsx
-import React, { ReactNode, useState } from "react";
-import {
-  Container,
-  Grid,
-  Card,
-  CardContent,
-  CardMedia,
-  Typography,
-  Button,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
-  Box,
-  SelectChangeEvent,
-  styled,
-} from "@mui/material";
-import { useAppSelector } from "../../app/hooks";
+import React, { useState, useEffect } from "react";
+import { Container, Box, Chip, SelectChangeEvent } from "@mui/material";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { CategoryReadDto } from "../categories/categoryDto";
 import { ProductLineReadDto } from "./productLineDto";
-import { Theme } from "@mui/material/styles";
+import FilterBar from "../../shared-components/FilterBar";
+import { useNavigate, useLocation } from 'react-router-dom';
+import ProductsDisplay from "./productsDisplay";
+import { fetchAllProductLines } from "./productLinesSlice";
 
-
-import { makeStyles } from '@mui/styles';
-
-
-
-const StyledDrawer = styled(Drawer)(({ theme }) => ({
-    width: 250,
-    flexShrink: 0,
-    '& .MuiDrawer-paper': {
-      width: 250,
-      zIndex: theme.zIndex.appBar - 1,
-    },
-  }));
-
-  const ContentContainer = styled('div')(({ theme }) => ({
-    flexGrow: 1,
-    paddingLeft: 250, 
-  }));
-
-  
 const ProductLinesPage: React.FC = () => {
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
-  const [sortOption, setSortOption] = useState<string | null>(null);
-  const [drawerOpen, setDrawerOpen] = useState(false);
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+    const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
+    const [sortOption, setSortOption] = useState<string | null>(null);
+    const [searchTerm, setSearchTerm] = useState<string | null>(null);
 
-  const products: ProductLineReadDto[] = useAppSelector(
-    (state) => state.productLines.items
-  );
-  const categories: CategoryReadDto[] = useAppSelector(
-    (state) => state.categories.items
-  );
+    console.log("priceRange", priceRange);
+    const navigate = useNavigate();
+    const location = useLocation();
+    const dispatch = useAppDispatch();
 
-  const toggleDrawer = (open: boolean) => (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (event.type === 'keydown' && ((event as React.KeyboardEvent).key === 'Tab' || (event as React.KeyboardEvent).key === 'Shift')) {
-      return;
-    }
-    setDrawerOpen(open);
-  };
-  
+    const products: ProductLineReadDto[] = useAppSelector(state => state.productLines.items);
+    const categories: CategoryReadDto[] = useAppSelector(state => state.categories.items);
 
+    console.log("products", products);
+    const topCategories = categories.slice(0, 10);
 
-  const handleCategoryChange = (
-    event: SelectChangeEvent<string | null>,
-    child: ReactNode
-  ) => {
-    setSelectedCategory(event.target.value as string);
-  };
+    useEffect(() => {
+        const query = new URLSearchParams(location.search);
+        const category = query.get("category");
+        const search = query.get("search");
+        const priceRangeParam = query.get("priceRange")?.split(',').map(Number) as number[];
+        const sortOption = query.get("sortOption");
 
-  const handlePriceChange = (event: Event, newValue: number | number[]) => {
-    setPriceRange(newValue as number[]);
-  };
+        if (category) setSelectedCategory(category);
+        if (search) setSearchTerm(search);
+        if (priceRangeParam && priceRangeParam.length === 2) setPriceRange(priceRangeParam);
+        if (sortOption) setSortOption(sortOption);
 
-  const handleSortChange = (
-    event: SelectChangeEvent<string | null>,
-    child: ReactNode
-  ) => {
-    setSortOption(event.target.value as string);
-  };
+        dispatch(fetchAllProductLines({
+            categoryName: category,
+            searchKey: search,
+            sortBy: sortOption,
+            limit: 50,
+            startingAfter: 0,
+            priceRange: priceRangeParam && priceRangeParam.length === 2 ? priceRangeParam.join(',') : undefined
+        }));
+    }, [location.search, dispatch]);
 
-  const filteredProducts = products
-    .filter((product) =>
-      selectedCategory ? product.categoryId === selectedCategory : true
-    )
-    .filter(
-      (product) =>
-        product.price >= priceRange[0] && product.price <= priceRange[1]
-    )
-    .sort((a, b) => {
-      if (sortOption === "date") {
-        return (
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        );
-      }
-      if (sortOption === "price") {
-        return b.price - a.price;
-      }
-      return 0;
-    });
+    const handleCategoryChange = (event: SelectChangeEvent<string>) => {
+        setSelectedCategory(event.target.value);
+        updateUrl(event.target.value, searchTerm, priceRange, sortOption);
+    };
 
-  return (
-    <div>
-      <Container>
-      <Button onClick={toggleDrawer(true)}>Open Filters</Button>
+    const handlePriceChange = (event: Event, newValue: number | number[]) => {
+        setPriceRange(newValue as number[]);
+    };
 
-        <Grid container spacing={4}>
-          <Grid item xs={12} sm={3}>
-            <Drawer variant="permanent" anchor="left" style={{ zIndex: 1250 }}>
-              <Box sx={{ width: 250, padding: 2 }}>
-                <Typography variant="h6">Filters</Typography>
-                <List>
-                  <ListItem>
-                    <FormControl fullWidth>
-                      <InputLabel>Category</InputLabel>
-                      <Select
-                        value={selectedCategory}
-                        onChange={handleCategoryChange}
-                      >
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        {categories.map((category) => (
-                          <MenuItem key={category.id} value={category.id}>
-                            {category.name}
-                          </MenuItem>
-                        ))}
-                      </Select>
-                    </FormControl>
-                  </ListItem>
-                  <ListItem>
-                    <Typography gutterBottom>Price Range</Typography>
-                    <Slider
-                      value={priceRange}
-                      onChange={handlePriceChange}
-                      valueLabelDisplay="auto"
-                      min={0}
-                      max={100}
+    const handlePriceChangeCommitted = (event: Event | React.SyntheticEvent<Element, Event>, newValue: number | number[]) => {
+        updateUrl(selectedCategory, searchTerm, newValue as number[], sortOption);
+    };
+
+    const handleSortChange = (event: SelectChangeEvent<string>) => {
+        setSortOption(event.target.value);
+        updateUrl(selectedCategory, searchTerm, priceRange, event.target.value);
+    };
+
+    const handleCategoryClick = (categoryName: string) => {
+        setSelectedCategory(categoryName);
+        setPriceRange([0, 100]);
+        setSortOption(null);
+        updateUrl(categoryName, searchTerm, [0, 100], null);
+    };
+
+    const updateUrl = (category: string | null, search: string | null, priceRange: number[], sortOption: string | null) => {
+        const params = new URLSearchParams();
+        if (category) params.append("category", category);
+        if (search) params.append("search", search);
+        if (priceRange) params.append("priceRange", priceRange.join(','));
+        if (sortOption) params.append("sortOption", sortOption);
+        navigate({ pathname: '/product-lines', search: params.toString() });
+    };
+
+    // const filteredProducts = products
+    //     .filter(product => !selectedCategory || product.categoryName === selectedCategory)
+    //     .filter(product => product.price >= priceRange[0] && product.price <= priceRange[1])
+    //     .filter(product => !searchTerm || product.title.toLowerCase().includes(searchTerm.toLowerCase()))
+    //     .sort((a, b) => sortOption === "price" ? b.price - a.price : sortOption === "date" ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() : 0);
+
+    return (
+        <Container>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, paddingX: 2, border: '1px solid black', marginBottom: 2 }}>
+                {topCategories.map((category) => (
+                    <Chip 
+                        key={category.id}
+                        label={category.name}
+                        clickable
+                        onClick={() => handleCategoryClick(category.name)}
+                        color="primary"
+                        sx={{ margin: '5px' }}
                     />
-                  </ListItem>
-                  <ListItem>
-                    <FormControl fullWidth>
-                      <InputLabel>Sort By</InputLabel>
-                      <Select value={sortOption} onChange={handleSortChange}>
-                        <MenuItem value="">
-                          <em>None</em>
-                        </MenuItem>
-                        <MenuItem value="date">Date</MenuItem>
-                        <MenuItem value="price">Price</MenuItem>
-                      </Select>
-                    </FormControl>
-                  </ListItem>
-                </List>
-              </Box>
-            </Drawer>
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            <Grid container spacing={4}>
-              {filteredProducts.map((product) => (
-                <Grid item xs={12} sm={6} md={4} key={product.id}>
-                  <Card>
-                    <CardMedia
-                      component="img"
-                      height="240"
-                      image={product.images[0].url}
-                      alt={product.title}
-                    />
-                    <CardContent>
-                      <Typography variant="h6">{product.title}</Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {product.categoryName}
-                      </Typography>
-                      <Typography variant="body2" color="textSecondary">
-                        {product.description}
-                      </Typography>
-                      <Typography variant="h6" color="primary">
-                        ${product.price}
-                      </Typography>
-                      <Button variant="contained" color="primary">
-                        Buy Now
-                      </Button>
-                    </CardContent>
-                  </Card>
-                </Grid>
-              ))}
-            </Grid>
-          </Grid>
-        </Grid>
-      </Container>
-    </div>
-  );
+                ))}
+            </Box>
+            <FilterBar
+                selectedCategory={selectedCategory}
+                handleCategoryChange={handleCategoryChange}
+                priceRange={priceRange}
+                handlePriceChange={handlePriceChange}
+                handlePriceChangeCommitted={handlePriceChangeCommitted}
+                sortOption={sortOption}
+                handleSortChange={handleSortChange}
+                categories={categories}
+            />
+            <ProductsDisplay filteredProducts={products} /> 
+        </Container>
+    );
 };
 
 export default ProductLinesPage;

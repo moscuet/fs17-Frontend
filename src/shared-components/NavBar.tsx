@@ -1,112 +1,100 @@
-import React from "react";
-import {
-  AppBar,
-  Toolbar,
-  IconButton,
-  Typography,
-  InputBase,
-  MenuItem,
-  Menu,
-  Box,
-} from "@mui/material";
-import {
-  Search as SearchIcon,
-  AccountCircle,
-  MoreVert as MoreIcon,
-  ShoppingCart,
-} from "@mui/icons-material";
+import React, { useState } from "react";
+import { AppBar, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu, Box } from "@mui/material";
+import { Search as SearchIcon, AccountCircle, MoreVert as MoreIcon, ShoppingCart } from "@mui/icons-material";
 import { Theme } from "@mui/material/styles";
 import { useTheme, makeStyles } from "@mui/styles";
+import { useNavigate } from 'react-router-dom';
 
 const useStyles = makeStyles((theme: Theme) => ({
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
   },
-    grow: {
+  grow: {
+    flexGrow: 1,
+  },
+  menuButton: {
+    marginRight: theme.spacing(2),
+  },
+  title: {
+    display: "none",
+    [theme.breakpoints.up("sm")]: {
+      display: "block",
+    },
+    color: theme.palette.text.primary,
+  },
+  search: {
+    position: "relative",
+    borderRadius: theme.shape.borderRadius,
+    backgroundColor: theme.palette.common.white,
+    "&:hover": {
+      backgroundColor: theme.palette.grey[200],
+    },
+    marginRight: theme.spacing(2),
+    marginLeft: 0,
+    width: "100%",
+    height: "50px",
+    [theme.breakpoints.up("sm")]: {
+      marginLeft: theme.spacing(3),
+      width: "auto",
       flexGrow: 1,
     },
-    menuButton: {
-      marginRight: theme.spacing(2),
+    display: "flex",
+    alignItems: "center",
+  },
+  searchIcon: {
+    padding: theme.spacing(1),
+    height: "100%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: theme.palette.text.primary,
+  },
+  inputRoot: {
+    color: "inherit",
+    width: "100%",
+    marginLeft: theme.spacing(4),
+  },
+  inputInput: {
+    padding: theme.spacing(1, 1, 1, 0),
+    transition: theme.transitions.create("width"),
+    width: "100%",
+  },
+  sectionDesktop: {
+    display: "none",
+    [theme.breakpoints.up("md")]: {
+      display: "flex",
     },
-    title: {
-      display: 'none',
-      [theme.breakpoints.up('sm')]: {
-        display: 'block',
-      },
-      color: theme.palette.text.primary,
+  },
+  sectionMobile: {
+    display: "flex",
+    [theme.breakpoints.up("md")]: {
+      display: "none",
     },
-    search: {
-      position: 'relative',
-      borderRadius: theme.shape.borderRadius,
-      backgroundColor: theme.palette.common.white,
-      '&:hover': {
-        backgroundColor: theme.palette.grey[200],
-      },
-      marginRight: theme.spacing(2),
-      marginLeft: 0,
-      width: '100%',
-      height: '50px',
-      [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(3),
-        width: 'auto',
-        flexGrow: 1,
-      },
-      display: 'flex',
-      alignItems: 'center',
+  },
+  toolbar: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  searchContainer: {
+    padding: "20px",
+    display: "flex",
+    justifyContent: "center",
+    flexGrow: 1,
+    maxWidth: "600px",
+    [theme.breakpoints.up("md")]: {
+      maxWidth: "800px",
     },
-    searchIcon: {
-      padding: theme.spacing(1),
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      color: theme.palette.text.primary,
-    },
-    inputRoot: {
-      color: 'inherit',
-      width: '100%',
-      marginLeft: theme.spacing(4), 
-    },
-    inputInput: {
-      padding: theme.spacing(1, 1, 1, 0),
-      transition: theme.transitions.create('width'),
-      width: '100%',
-    },
-    sectionDesktop: {
-      display: 'none',
-      [theme.breakpoints.up('md')]: {
-        display: 'flex',
-      },
-    },
-    sectionMobile: {
-      display: 'flex',
-      [theme.breakpoints.up('md')]: {
-        display: 'none',
-      },
-    },
-    toolbar: {
-      display: 'flex',
-      justifyContent: 'space-between',
-    },
-    searchContainer: {
-       padding:'20px',
-      display: 'flex',
-      justifyContent: 'center',
-      flexGrow: 1,
-      maxWidth: '600px',
-      [theme.breakpoints.up('md')]: {
-        maxWidth: '800px',
-      },
-    },
-  }));
-  
+  },
+}));
 
 const Navbar: React.FC = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
-    React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -126,6 +114,17 @@ const Navbar: React.FC = () => {
 
   const handleMobileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setMobileMoreAnchorEl(event.currentTarget);
+  };
+
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSearchSubmit = () => {
+    if (searchTerm.trim()) {
+      navigate(`/product-lines?search=${searchTerm}`);
+      setSearchTerm("");
+    }
   };
 
   const menuId = "primary-search-account-menu";
@@ -164,7 +163,7 @@ const Navbar: React.FC = () => {
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           aria-label="account of current user"
-          aria-controls="primary-search-account-menu"
+          aria-controls={menuId}
           aria-haspopup="true"
           color="inherit"
         >
@@ -184,20 +183,21 @@ const Navbar: React.FC = () => {
           </Typography>
           <div className={classes.searchContainer}>
             <div className={classes.search}>
-              <div className={classes.searchIcon}>
-                <SearchIcon />
-              </div>
               <InputBase
                 placeholder="Search…"
+                value={searchTerm}
+                onChange={handleSearchChange}
                 classes={{
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
                 inputProps={{ "aria-label": "search" }}
               />
+              <IconButton onClick={handleSearchSubmit} color="primary">
+                <SearchIcon />
+              </IconButton>
             </div>
           </div>
-
           <div className={classes.sectionDesktop}>
             <IconButton aria-label="show 4 new mails" color="inherit">
               <ShoppingCart />
@@ -233,3 +233,4 @@ const Navbar: React.FC = () => {
 };
 
 export default Navbar;
+// new code finish

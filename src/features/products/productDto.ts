@@ -6,9 +6,11 @@ export interface ProductCreateDto {
     productSizeId?: string;
     productColorId?: string;
     inventory: number;
+    imageUrls: string[];
 }
 
 export interface ProductReadDto extends BaseEntity {
+    id: string;
     productLineId: string;
     productSizeId?: string;
     productColorId?: string;
