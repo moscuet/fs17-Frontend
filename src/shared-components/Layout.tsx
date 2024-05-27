@@ -15,7 +15,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Navbar />
-      <Container component="main" sx={{ mt: 2, mb: 4 }}>
+      <Container component="main" sx={{ mt: 2, mb: 4, minHeight: 'calc(100vh - 220px)' }}>
         {children}
       </Container>
       <Footer />

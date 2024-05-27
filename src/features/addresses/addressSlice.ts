@@ -18,7 +18,7 @@ const initialState: AddressState = {
 };
 
 // Create the base slice using createBaseSlice
-const { slice: addressBaseSlice, actions: baseActions } = createBaseSlice<AddressReadDto, AddressCreateDto, AddressUpdateDto>(
+const {  actions: baseActions } = createBaseSlice<AddressReadDto, AddressCreateDto, AddressUpdateDto>(
   'addresses',
   '/api/v1/addresses'
 );

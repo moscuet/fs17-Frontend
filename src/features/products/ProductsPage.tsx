@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Container, Box, Chip, SelectChangeEvent } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { CategoryReadDto } from "../categories/categoryDto";
-import { ProductLineReadDto } from "./productLineDto";
 import FilterBar from "../../shared-components/FilterBar";
 import { useNavigate, useLocation } from 'react-router-dom';
-import ProductsDisplay from "./productsDisplay";
-import { fetchAllProductLines } from "./productLinesSlice";
+import ProductsDisplay from "./ProductDisplay";
+import { ProductReadDto } from "./productDto";
+import { productsActions } from "./productsSlice";
 
-const ProductLinesPage: React.FC = () => {
+const ProductsPage: React.FC = () => {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
     const [sortOption, setSortOption] = useState<string | null>(null);
@@ -19,7 +19,7 @@ const ProductLinesPage: React.FC = () => {
     const location = useLocation();
     const dispatch = useAppDispatch();
 
-    const products: ProductLineReadDto[] = useAppSelector(state => state.productLines.items);
+    const products: ProductReadDto[] = useAppSelector(state => state.products.items);
     const categories: CategoryReadDto[] = useAppSelector(state => state.categories.items);
 
     console.log("products", products);
@@ -27,24 +27,24 @@ const ProductLinesPage: React.FC = () => {
 
     useEffect(() => {
         const query = new URLSearchParams(location.search);
-        const category = query.get("category");
+        const categoryId = query.get("categoryId");
         const search = query.get("search");
         const priceRangeParam = query.get("priceRange")?.split(',').map(Number) as number[];
         const sortOption = query.get("sortOption");
 
-        if (category) setSelectedCategory(category);
+        if (categoryId) setSelectedCategory(categoryId);
         if (search) setSearchTerm(search);
         if (priceRangeParam && priceRangeParam.length === 2) setPriceRange(priceRangeParam);
         if (sortOption) setSortOption(sortOption);
 
-        dispatch(fetchAllProductLines({
-            categoryName: category,
+        dispatch(productsActions.fetchAllWithParams({
+            categoryId: categoryId,
             searchKey: search,
             sortBy: sortOption,
             limit: 50,
             startingAfter: 0,
             priceRange: priceRangeParam && priceRangeParam.length === 2 ? priceRangeParam.join(',') : undefined
-        }));
+          }));
     }, [location.search, dispatch]);
 
     const handleCategoryChange = (event: SelectChangeEvent<string>) => {
@@ -74,28 +74,22 @@ const ProductLinesPage: React.FC = () => {
 
     const updateUrl = (category: string | null, search: string | null, priceRange: number[], sortOption: string | null) => {
         const params = new URLSearchParams();
-        if (category) params.append("category", category);
+        if (category) params.append("categoryId", category);
         if (search) params.append("search", search);
         if (priceRange) params.append("priceRange", priceRange.join(','));
         if (sortOption) params.append("sortOption", sortOption);
-        navigate({ pathname: '/product-lines', search: params.toString() });
+        navigate({ pathname: '/products', search: params.toString() });
     };
-
-    // const filteredProducts = products
-    //     .filter(product => !selectedCategory || product.categoryName === selectedCategory)
-    //     .filter(product => product.price >= priceRange[0] && product.price <= priceRange[1])
-    //     .filter(product => !searchTerm || product.title.toLowerCase().includes(searchTerm.toLowerCase()))
-    //     .sort((a, b) => sortOption === "price" ? b.price - a.price : sortOption === "date" ? new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() : 0);
 
     return (
         <Container>
-            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, paddingX: 2, border: '1px solid black', marginBottom: 2 }}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: 1, paddingX: 2, marginBottom: 2 }}>
                 {topCategories.map((category) => (
                     <Chip 
                         key={category.id}
                         label={category.name}
                         clickable
-                        onClick={() => handleCategoryClick(category.name)}
+                        onClick={() => handleCategoryClick(category.id)}
                         color="primary"
                         sx={{ margin: '5px' }}
                     />
@@ -116,4 +110,4 @@ const ProductLinesPage: React.FC = () => {
     );
 };
 
-export default ProductLinesPage;
+export default ProductsPage;

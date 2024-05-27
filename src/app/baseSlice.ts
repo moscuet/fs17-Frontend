@@ -76,7 +76,7 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
     { id: string; updateDto: TUpdateDto }
   >(`${name}/updateOne`, async ({ id, updateDto }, { rejectWithValue }) => {
     try {
-      const response = await appAxios.put(`${endpoint}/${id}`, updateDto);
+       await appAxios.put(`${endpoint}/${id}`, updateDto);
       return true;
     } catch (e) {
       const error = e as AxiosError;

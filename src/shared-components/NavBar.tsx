@@ -1,106 +1,91 @@
 import React, { useState } from "react";
-import { AppBar, Toolbar, IconButton, Typography, InputBase, MenuItem, Menu, Box } from "@mui/material";
-import { Search as SearchIcon, AccountCircle, MoreVert as MoreIcon, ShoppingCart } from "@mui/icons-material";
-import { Theme } from "@mui/material/styles";
-import { useTheme, makeStyles } from "@mui/styles";
-import { useNavigate } from 'react-router-dom';
+import {
+  AppBar,
+  Toolbar,
+  IconButton,
+  Typography,
+  InputBase,
+  MenuItem,
+  Menu,
+  styled,
+  alpha,
+  Box,
+} from "@mui/material";
+import {
+  Search as SearchIcon,
+  AccountCircle,
+  MoreVert as MoreIcon,
+  ShoppingCart,
+  ExitToApp as ExitToAppIcon,
+  Login as LoginIcon,
+} from "@mui/icons-material";
+import { Link, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { logout } from "../features/auth/authSlice";
+import LoginModal from "../features/auth/LoginModal";
 
-const useStyles = makeStyles((theme: Theme) => ({
-  appBar: {
-    zIndex: theme.zIndex.drawer + 1,
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
+  borderRadius: theme.shape.borderRadius,
+  backgroundColor: alpha(theme.palette.common.white, 0.15),
+  '&:hover': {
+    backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
-  grow: {
-    flexGrow: 1,
+  marginRight: theme.spacing(2),
+  marginLeft: theme.spacing(2),
+  width: '100%',
+  [theme.breakpoints.up('md')]: {
+    width: 'auto',
   },
-  menuButton: {
-    marginRight: theme.spacing(2),
-  },
-  title: {
-    display: "none",
-    [theme.breakpoints.up("sm")]: {
-      display: "block",
-    },
-    color: theme.palette.text.primary,
-  },
-  search: {
-    position: "relative",
-    borderRadius: theme.shape.borderRadius,
-    backgroundColor: theme.palette.common.white,
-    "&:hover": {
-      backgroundColor: theme.palette.grey[200],
-    },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
-    width: "100%",
-    height: "50px",
-    [theme.breakpoints.up("sm")]: {
-      marginLeft: theme.spacing(3),
-      width: "auto",
-      flexGrow: 1,
-    },
-    display: "flex",
-    alignItems: "center",
-  },
-  searchIcon: {
-    padding: theme.spacing(1),
-    height: "100%",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    color: theme.palette.text.primary,
-  },
-  inputRoot: {
-    color: "inherit",
-    width: "100%",
-    marginLeft: theme.spacing(4),
-  },
-  inputInput: {
+  display: 'flex',
+  alignItems: 'center',
+}));
+
+const SearchIconWrapper = styled('div')(({ theme }) => ({
+  padding: theme.spacing(0, 2),
+  height: '100%',
+  position: 'absolute',
+  pointerEvents: 'none',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+}));
+
+const StyledInputBase = styled(InputBase)(({ theme }) => ({
+  color: 'inherit',
+  '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    transition: theme.transitions.create("width"),
-    width: "100%",
-  },
-  sectionDesktop: {
-    display: "none",
-    [theme.breakpoints.up("md")]: {
-      display: "flex",
-    },
-  },
-  sectionMobile: {
-    display: "flex",
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
-  },
-  toolbar: {
-    display: "flex",
-    justifyContent: "space-between",
-  },
-  searchContainer: {
-    padding: "20px",
-    display: "flex",
-    justifyContent: "center",
-    flexGrow: 1,
-    maxWidth: "600px",
-    [theme.breakpoints.up("md")]: {
-      maxWidth: "800px",
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
   },
 }));
 
-const Navbar: React.FC = () => {
-  const classes = useStyles();
-  const theme = useTheme();
+const Navbar = () => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const isLoggedIn = Boolean(user);
+  const cartItems = useAppSelector((state) => state.cart.items);
+  const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
+    React.useState<null | HTMLElement>(null);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
+    if (window.innerWidth >= 960) {
+      navigate("/profile");
+    } else {
+      setAnchorEl(event.currentTarget);
+    }
   };
 
   const handleMobileMenuClose = () => {
@@ -116,15 +101,22 @@ const Navbar: React.FC = () => {
     setMobileMoreAnchorEl(event.currentTarget);
   };
 
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchTerm(event.target.value);
+  const handleLoginLogout = () => {
+    if (isLoggedIn) {
+      dispatch(logout());
+    }
   };
 
-  const handleSearchSubmit = () => {
-    if (searchTerm.trim()) {
-      navigate(`/product-lines?search=${searchTerm}`);
-      setSearchTerm("");
-    }
+  const handleLogout = () => {
+    dispatch(logout());
+  };
+
+  const handleLoginModalOpen = () => {
+    setModalOpen(true);
+  };
+
+  const handleLoginModalClose = () => {
+    setModalOpen(false);
   };
 
   const menuId = "primary-search-account-menu";
@@ -139,7 +131,6 @@ const Navbar: React.FC = () => {
       onClose={handleMenuClose}
     >
       <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
     </Menu>
   );
 
@@ -155,65 +146,119 @@ const Navbar: React.FC = () => {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton aria-label="show 4 new mails" color="inherit">
+        <IconButton aria-label="show cart" color="inherit">
           <ShoppingCart />
+          <span
+            style={{
+              position: "absolute",
+              top: "4px",
+              right: "4px",
+              background: "red",
+              borderRadius: "50%",
+              padding: "2px 6px",
+              color: "white",
+              fontSize: "12px",
+              lineHeight: "1",
+            }}
+          >
+            {cartItems.reduce((total, item) => total + item.quantity, 0)}
+          </span>
         </IconButton>
         <p>Cart</p>
       </MenuItem>
-      <MenuItem onClick={handleProfileMenuOpen}>
-        <IconButton
-          aria-label="account of current user"
-          aria-controls={menuId}
-          aria-haspopup="true"
-          color="inherit"
+      {isLoggedIn && (
+        <MenuItem
+          onClick={() => {
+            handleMobileMenuClose();
+            navigate("/profile");
+          }}
         >
-          <AccountCircle />
+          <IconButton
+            aria-label="account of current user"
+            aria-controls="primary-search-account-menu"
+            aria-haspopup="true"
+            color="inherit"
+          >
+            <AccountCircle />
+          </IconButton>
+          <p>Profile</p>
+        </MenuItem>
+      )}
+      <MenuItem onClick={handleLoginLogout}>
+        <IconButton color="inherit">
+          {isLoggedIn ? <ExitToAppIcon /> : <LoginIcon />}
         </IconButton>
-        <p>Profile</p>
+        <p>{isLoggedIn ? "Logout" : "Login"}</p>
       </MenuItem>
     </Menu>
   );
 
   return (
-    <div className={classes.grow}>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" color="primary">
-        <Toolbar className={classes.toolbar}>
-          <Typography className={classes.title} variant="h6" noWrap>
-            MyShop
-          </Typography>
-          <div className={classes.searchContainer}>
-            <div className={classes.search}>
-              <InputBase
-                placeholder="Search…"
-                value={searchTerm}
-                onChange={handleSearchChange}
-                classes={{
-                  root: classes.inputRoot,
-                  input: classes.inputInput,
-                }}
-                inputProps={{ "aria-label": "search" }}
-              />
-              <IconButton onClick={handleSearchSubmit} color="primary">
-                <SearchIcon />
-              </IconButton>
-            </div>
-          </div>
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="show 4 new mails" color="inherit">
-              <ShoppingCart />
-            </IconButton>
+        <Toolbar>
+          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+            <Typography variant="h6" noWrap>
+              MyShop
+            </Typography>
+          </Link>
+          <Box sx={{ flexGrow: 1 }} />
+          <Search>
+            <SearchIconWrapper>
+              <SearchIcon />
+            </SearchIconWrapper>
+            <StyledInputBase
+              placeholder="Search…"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              inputProps={{ "aria-label": "search" }}
+            />
+          </Search>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
-              edge="end"
-              aria-label="account of current user"
-              aria-controls={menuId}
-              aria-haspopup="true"
-              onClick={handleProfileMenuOpen}
+              aria-label="show cart"
               color="inherit"
+              style={{ position: "relative" }}
+              onClick={() => navigate("/cart")}
             >
-              <AccountCircle />
+              <ShoppingCart />
+              <span
+                style={{
+                  position: "absolute",
+                  top: "4px",
+                  right: "4px",
+                  background: "red",
+                  borderRadius: "50%",
+                  padding: "2px 6px",
+                  color: "white",
+                  fontSize: "12px",
+                  lineHeight: "1",
+                }}
+              >
+                {cartItems.reduce((total, item) => total + item.quantity, 0)}
+              </span>
             </IconButton>
-          </div>
-          <div className={classes.sectionMobile}>
+            {isLoggedIn ? (
+              <>
+                <IconButton
+                  edge="end"
+                  onClick={handleProfileMenuOpen}
+                  color="inherit"
+                >
+                  <AccountCircle />
+                </IconButton>
+                <IconButton edge="end" onClick={handleLogout} color="inherit">
+                  <ExitToAppIcon />
+                </IconButton>
+              </>
+            ) : (
+              <IconButton onClick={handleLoginModalOpen} color="inherit">
+                <LoginIcon />
+              </IconButton>
+            )}
+          </Box>
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
@@ -223,14 +268,14 @@ const Navbar: React.FC = () => {
             >
               <MoreIcon />
             </IconButton>
-          </div>
+          </Box>
         </Toolbar>
       </AppBar>
+      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} />
       {renderMobileMenu}
       {renderMenu}
-    </div>
+    </Box>
   );
 };
 
 export default Navbar;
-// new code finish

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, FormControl, InputLabel, Select, MenuItem, Slider, Typography, SelectChangeEvent } from "@mui/material";
+import { Box, FormControl, InputLabel, Select, MenuItem, SelectChangeEvent } from "@mui/material";
 
 interface Category {
     id: string;
@@ -51,7 +51,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
                     ))}
                 </Select>
             </FormControl>
-            <Box sx={{ minWidth: 200, maxWidth: 300, position: 'relative', padding: 0 }}>
+            {/* <Box sx={{ minWidth: 200, maxWidth: 300, position: 'relative', padding: 0 }}>
                 <Slider
                     value={priceRange}
                     onChange={handlePriceChange}
@@ -63,7 +63,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
                 <Typography gutterBottom component="div" sx={{ position: 'absolute', bottom: 0, width: '100%', textAlign: 'center',marginBottom: -1 }}>
                     Price Range
                 </Typography>
-            </Box>
+            </Box> */}
             <FormControl fullWidth sx={{ minWidth: 120, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingTop: 1 }}>
                 <InputLabel id="sort-select-label">Sort By</InputLabel>
                 <Select

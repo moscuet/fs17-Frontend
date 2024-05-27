@@ -1,11 +1,9 @@
 // new code start
 import React, { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Box, Chip } from "@mui/material";
-import ProductLinesPage from "../features/product-lines/ProductLinesPage";
-import { CategoryReadDto } from "../features/categories/categoryDto";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
+import { useLocation} from "react-router-dom";
+import { useAppDispatch } from "../app/hooks";
 import { fetchAllCategories } from "../features/categories/categoriesSlice";
+import ProductsPage from "../features/products/ProductsPage";
 
 
 const Home: React.FC = () => {
@@ -16,7 +14,7 @@ const Home: React.FC = () => {
     dispatch(fetchAllCategories());
   }, [location.search, dispatch]);
   
-  return <ProductLinesPage />;
+  return <ProductsPage />;
 };
 
 export default Home;

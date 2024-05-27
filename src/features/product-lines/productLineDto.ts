@@ -1,4 +1,5 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
+import { ProductDetails } from "../products/productDto";
 
 export interface ProductLineCreateDto {
     title: string;
@@ -24,3 +25,14 @@ export interface ProductLineUpdateDto {
     price?: number;
     imageUrl?: string;
 }
+
+export interface ProductLineDetails {
+    id: string;
+    title: string;
+    description: string;
+    imageUrl: string;
+    price: number;
+    categoryId: string;
+    products: ProductDetails[];
+    reviews: any[];
+  }
