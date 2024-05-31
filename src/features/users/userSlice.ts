@@ -3,7 +3,6 @@ import appAxios from "../../shared-features/appAxios";
 import { AxiosError } from "axios";
 import { UserCreateDto, UserReadDto, UserUpdateDto } from "./userDto";
 import { toast } from "react-toastify";
-import { Navigate } from "react-router-dom";
 
 interface UserState {
   data: UserReadDto | null;

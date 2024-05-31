@@ -1,10 +1,9 @@
 import React, { ReactNode } from "react";
-import { CssBaseline, Container } from "@mui/material";
+import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import Navbar from "./NavBar";
 import theme from "../theme/theme";
 import Footer from "./Footer";
-import { ToastContainer } from "react-toastify";
 
 interface LayoutProps {
   children: ReactNode;

@@ -1,9 +1,6 @@
 import React from "react";
 import {
   Grid,
-  Card,
-  CardMedia,
-  CardContent,
   Typography,
   Container,
   Box,
