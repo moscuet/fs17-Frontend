@@ -4,7 +4,6 @@ import { AxiosError } from "axios";
 import createBaseSlice from "../../app/baseSlice";
 import { AddressCreateDto, AddressReadDto, AddressUpdateDto } from "./addressDto";
 
-// Define the state interface for address management
 interface AddressState {
   items: AddressReadDto[];
   loading: boolean;

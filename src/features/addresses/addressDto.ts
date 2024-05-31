@@ -27,3 +27,18 @@ export interface AddressUpdateDto {
   country?: string;
   phoneNumber?: string;
 }
+
+
+
+export interface AddressForm {
+  street: string;
+  house: string;
+  city: string;
+  zipCode: string;
+  country: string;
+  phoneNumber: string;
+}
+
+export interface AddressForms {
+  [key: string]: AddressForm;
+}
