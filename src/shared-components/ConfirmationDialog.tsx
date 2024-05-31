@@ -1,5 +1,5 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { CancelButton, DeleteButton, SaveButton } from "./CustomButton";
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import { CancelButton, DeleteButton } from "./CustomButton";
 
 interface ConfirmationDialogProps {
   open: boolean;

@@ -1,11 +1,9 @@
 import React, { useEffect } from "react";
-import { Container, Paper, Typography, Box, Button } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import { Container, Typography } from "@mui/material";
+import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { ordersActions } from "./orderSlice";
-import { PrimaryButton } from "../../shared-components/CustomButton";
 import OrderItem from "./OrderItem";
-import { OrderReadDto } from "./orderDto";
 
 
 const OrderList: React.FC = () => {
