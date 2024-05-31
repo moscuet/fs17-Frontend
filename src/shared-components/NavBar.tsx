@@ -10,6 +10,7 @@ import {
   styled,
   alpha,
   Box,
+  Button,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -145,6 +146,12 @@ const Navbar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
+      <MenuItem onClick={() => navigate("/register")}>
+        <IconButton color="inherit">
+          <LoginIcon />
+        </IconButton>
+        <p>Register</p>
+      </MenuItem>
       <MenuItem>
         <IconButton aria-label="show cart" color="inherit">
           <ShoppingCart />
@@ -195,7 +202,7 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary">
+      <AppBar position="static" color="primary" sx={{ height: '80px' }}>
         <Toolbar>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography variant="h6" noWrap>
@@ -215,11 +222,26 @@ const Navbar = () => {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
+            {!isLoggedIn && (
+              <Typography
+              component={Link}
+              to="/signup"
+              sx={{
+                textTransform: 'none',
+                color: 'inherit',
+                '&:hover': {
+                  textDecoration: 'underline',
+                },
+              }}
+            >
+              SIGNUP
+            </Typography>
+            )}
             <IconButton
               aria-label="show cart"
               color="inherit"
-              style={{ position: "relative" }}
+              style={{ position: "relative", fontSize: '1.5rem' }}
               onClick={() => navigate("/cart")}
             >
               <ShoppingCart />
@@ -245,15 +267,16 @@ const Navbar = () => {
                   edge="end"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
+                  sx={{ fontSize: '1.5rem' }}
                 >
                   <AccountCircle />
                 </IconButton>
-                <IconButton edge="end" onClick={handleLogout} color="inherit">
+                <IconButton edge="end" onClick={handleLogout} color="inherit" sx={{ fontSize: '1.5rem' }}>
                   <ExitToAppIcon />
                 </IconButton>
               </>
             ) : (
-              <IconButton onClick={handleLoginModalOpen} color="inherit">
+              <IconButton onClick={handleLoginModalOpen} color="inherit" sx={{ fontSize: '1.5rem' }}>
                 <LoginIcon />
               </IconButton>
             )}
@@ -265,6 +288,7 @@ const Navbar = () => {
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
+              sx={{ fontSize: '1.5rem' }}
             >
               <MoreIcon />
             </IconButton>
