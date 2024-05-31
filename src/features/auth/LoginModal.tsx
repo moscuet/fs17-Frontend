@@ -39,9 +39,7 @@ const isAuthenticated = useAppSelector( state  => state.auth.user !== null);
   
   return (
     <Dialog open={open} onClose={handleClose}>
-      <DialogTitle>
-        Login user: test.userone@gmail.com pass:testuserone{" "}
-      </DialogTitle>
+
       <DialogContent>
         <TextField
           autoFocus
