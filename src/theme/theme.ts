@@ -1,88 +1,62 @@
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
-    palette: {
-        primary: {
-            main: '#D9EDBF',
-            dark: '#2C7865',
-            light: '#90D26D'
-        },
-        secondary: {
-            main: '#FF9800',
-            dark: '#CC7A00',
-            light: '#FFB347'
-        },
-        background: {
-            default: '#FFFFFF',
-            paper: '#FAFAFA'
-        },
-        text: {
-            primary: '#333333',
-            secondary: '#757575'
-        },
-        error: {
-            main: '#E57373'
-        },
-        warning: {
-            main: '#FFB74D'
-        },
-        info: {
-            main: '#64B5F6'
-        },
-        success: {
-            main: '#81C784'
-        }
+  palette: {
+    primary: {
+      main: '#FAF9F6',
+      dark: '#36454F',
     },
-    spacing: 8,
-    typography: {
-        fontFamily: 'Arial, sans-serif',
-        h1: {
-            fontSize: '20px',
-            fontWeight: 700,
-            color: '#333333'
+    secondary: {
+      main: '#607D8B',
+    },
+    error: {
+      main: '#f44336',
+    },
+    info: {
+      main: '#ff9800',
+    },
+    background: {
+      default: '#fafafa',
+      paper: '#ffffff',
+    },
+    text: {
+      primary: '#36454F',
+      secondary: '#607D8B',
+      disabled: '#607D8B',
+    },
+  },
+  typography: {
+    fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
+    fontSize: 14,
+    button: {
+      textTransform: 'uppercase',
+    },
+    h1: {
+      fontSize: '2.125rem',
+      fontWeight: 600,
+    },
+    body1: {
+      fontSize: '1rem',
+      fontWeight: 400,
+    },
+  },
+  components: {
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          fontSize: '1rem',
+          padding: '8px 16px',
+          fontWeight: '500',
+          borderRadius: '4px',
+          backgroundColor: '#607D8B',
+          color: '#FFFFFF',
+          '&:hover': {
+            backgroundColor: '#455a64',
+          }
         },
-        h2: {
-            fontSize: '18px',
-            fontWeight: 700,
-            color: '#333333'
-        },
-        h3: {
-            fontSize: '15px',
-            fontWeight: 700,
-            color: '#333333'
-        },
-        h4: {
-            fontSize: '15px',
-            fontWeight: 700,
-            color: '#333333'
-        },
-        h5: {
-            fontSize: '12px',
-            fontWeight: 700,
-            color: '#333333'
-        },
-        h6: {
-            fontSize: '12px',
-            fontWeight: 700,
-            color: '#333333'
-        },
-        body1: {
-            fontSize: '12px',
-            fontWeight: 400,
-            color: '#333333'
-        },
-        body2: {
-            fontSize: '10px',
-            fontWeight: 400,
-            color: '#757575'
-        },
-        button: {
-            fontSize: '12px',
-            fontWeight: 700,
-            color: '#FFFFFF',
-            backgroundColor: '#FF9800'
-        }
-    }
+      },
+    },
+  },
 });
 
 export default theme;
