@@ -14,8 +14,6 @@ const BaseButton: React.FC<BaseButtonProps> = ({ text, size = 'medium', color, v
   </Button>
 );
 
-
-// PrimaryButton
 // DeleteButton
 const DeleteButton: React.FC<BaseButtonProps> = (props) => (
   <BaseButton {...props} color="error" variant="contained" />
@@ -31,4 +29,9 @@ const SaveButton: React.FC<BaseButtonProps> = (props) => (
   <BaseButton {...props} color="secondary" variant="contained" />
 );
 
-export {  DeleteButton, CancelButton, SaveButton };
+const PrimaryButton: React.FC<BaseButtonProps> = (props) => (
+  <BaseButton {...props} color="secondary" variant="contained" />
+);
+
+
+export {  DeleteButton, CancelButton, SaveButton , PrimaryButton};

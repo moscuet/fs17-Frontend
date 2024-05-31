@@ -13,6 +13,10 @@ import { UserForm } from "./userDto";
 import { AddressForms } from "./Interface";
 import CircularImageBox from "./CircularImageBox";
 import FullPageLoader from "../../shared-components/FullPageLoader";
+import { ordersActions } from "../order-items/orderSlice";
+import OrderDetails from "../orders/OrderDetailsPage";
+import OrderDetailsPage from "../orders/OrderDetailsPage";
+import Order from "../orders/OrderList";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -25,7 +29,7 @@ const UserProfile: React.FC = () => {
     (state) => state.user.error || state.address.error
   );
 
-  console.log(addresses)
+
 
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
@@ -63,6 +67,7 @@ const UserProfile: React.FC = () => {
     }
   }, [user]);
 
+
   useEffect(() => {
     if (addresses && addresses.length > 0) {
       const newAddressFormDatas: AddressForms = {};
@@ -79,6 +84,14 @@ const UserProfile: React.FC = () => {
       setAddressFormDatas(newAddressFormDatas);
     }
   }, [addresses]);
+
+
+  useEffect(() => {
+    if (user) {
+      dispatch(ordersActions.fetchAll());
+    }
+  })
+
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
@@ -235,12 +248,7 @@ const UserProfile: React.FC = () => {
             ))}
           {tabIndex === 2 && <AddAddress />}
           {tabIndex === 3 && (
-            <Box>
-              <Typography variant="h6" sx={{ mb: 2 }}>
-                Order List
-              </Typography>
-              <Typography>No orders found.</Typography>
-            </Box>
+           <Order/>
           )}
         </Box>
       </Box>

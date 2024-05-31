@@ -29,14 +29,6 @@ const isAuthenticated = useAppSelector( state  => state.auth.user !== null);
     handleClose();
   };
 
-
-  
-  useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/profile');
-    }
-  }, [isAuthenticated, navigate]);
-  
   return (
     <Dialog open={open} onClose={handleClose}>
 

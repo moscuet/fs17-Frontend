@@ -1,5 +1,5 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
-import { CancelButton, SaveButton } from "./CustomButton";
+import { CancelButton, DeleteButton, SaveButton } from "./CustomButton";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -32,9 +32,8 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       <DialogActions>
         <CancelButton onClick={onCancel} text="Cancel" size="small"/>
          
-        <SaveButton onClick={onConfirm}  text={"Confirm"} >
+        <DeleteButton onClick={onConfirm}  text={"Confirm"} />
        
-        </SaveButton>
       </DialogActions>
     </Dialog>
   );

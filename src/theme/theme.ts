@@ -3,11 +3,11 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#FAF9F6',
-      dark: '#36454F',
+      main: '#FAF9F6', // Keeping your original light primary color
+      dark: '#b0bec5', // A darker shade for contrasting elements if needed
     },
     secondary: {
-      main: '#607D8B',
+      main: '#607D8B', // Secondary color stays the same
     },
     error: {
       main: '#f44336',
@@ -18,15 +18,14 @@ const theme = createTheme({
     warning: {
       main: '#FFA726',
     },
-  
     background: {
       default: '#fafafa',
       paper: '#ffffff',
     },
     text: {
-      primary: '#36454F',
-      secondary: '#607D8B',
-      disabled: '#607D8B',
+      primary: '#2C3E50', // Dark blue shade for high contrast text
+      secondary: '#607D8B', // This remains the same
+      disabled: '#B0BEC5',
     },
   },
   typography: {
@@ -44,7 +43,6 @@ const theme = createTheme({
       fontWeight: 400,
     },
   },
-
   components: {
     MuiButton: {
       styleOverrides: {
@@ -69,10 +67,10 @@ const theme = createTheme({
         {
           props: { variant: 'contained', color: 'primary' },
           style: {
-            backgroundColor: '#FAF9F6',
-            color: '#36454F',
+            backgroundColor: '#FAF9F6', // Light primary background
+            color: '#2C3E50', // Dark text for visibility
             '&:hover': {
-              backgroundColor: '#e8e6e3',
+              backgroundColor: '#EDE7F6', // A light hover effect
             }
           }
         },
@@ -100,4 +98,5 @@ const theme = createTheme({
     },
   },
 });
+
 export default theme;

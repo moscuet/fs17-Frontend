@@ -7,7 +7,6 @@ export interface OrderCreateDto {
     addressId: string;
     items: OrderItemCreateDto[];
 }
-
 export interface OrderReadDto extends BaseEntity {
     UserId: string;
     Total: number;

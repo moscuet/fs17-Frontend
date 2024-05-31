@@ -6,5 +6,3 @@ const { slice, actions } = createBaseSlice<OrderReadDto, OrderCreateDto, OrderUp
 export const ordersReducer = slice.reducer;
 export const ordersActions = actions;
 
-
-
