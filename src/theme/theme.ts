@@ -15,6 +15,10 @@ const theme = createTheme({
     info: {
       main: '#ff9800',
     },
+    warning: {
+      main: '#FFA726',
+    },
+  
     background: {
       default: '#fafafa',
       paper: '#ffffff',
@@ -40,23 +44,60 @@ const theme = createTheme({
       fontWeight: 400,
     },
   },
+
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
           fontSize: '1rem',
-          padding: '8px 16px',
+          padding: '4px 16px',
           fontWeight: '500',
           borderRadius: '4px',
-          backgroundColor: '#607D8B',
-          color: '#FFFFFF',
-          '&:hover': {
-            backgroundColor: '#455a64',
-          }
         },
       },
+      variants: [
+        {
+          props: { variant: 'contained', color: 'secondary' },
+          style: {
+            backgroundColor: '#607D8B',
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: '#455a64',
+            }
+          }
+        },
+        {
+          props: { variant: 'contained', color: 'primary' },
+          style: {
+            backgroundColor: '#FAF9F6',
+            color: '#36454F',
+            '&:hover': {
+              backgroundColor: '#e8e6e3',
+            }
+          }
+        },
+        {
+          props: { variant: 'contained', color: 'error' },
+          style: {
+            backgroundColor: '#f44336',
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: '#d32f2f',
+            }
+          }
+        },
+        {
+          props: { variant: 'contained', color: 'warning' },
+          style: {
+            backgroundColor: '#FFA726',
+            color: '#FFFFFF',
+            '&:hover': {
+              backgroundColor: '#fb8c00',
+            }
+          }
+        },
+      ]
     },
   },
 });
-
 export default theme;

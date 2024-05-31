@@ -4,7 +4,7 @@ import { ProductReadDto } from "./productDto";
 import { addToCart } from "../cart/cartSlice";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import theme from "../../theme/theme";
-import { PrimaryButton } from "../../shared-components/PrimaryButton";
+import { SaveButton } from "../../shared-components/CustomButton";
 
 const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
     const navigate = useNavigate();
@@ -56,7 +56,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
             <Typography variant="h6" sx={{ color: theme.palette.info.main }}>
               ${product.price.toFixed(2)}
             </Typography>
-            <PrimaryButton
+            <SaveButton
               onClick={handleAddToCart} 
               text="Add to Cart"
             />

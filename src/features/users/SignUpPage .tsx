@@ -16,6 +16,8 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import PageLoader from "../../shared-components/FullPageLoader";
+import FullPageLoader from "../../shared-components/FullPageLoader";
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -55,7 +57,7 @@ const SignUpPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { isRegistered, error} = useAppSelector((state) => state.user);
+  const { isRegistered, error, loading} = useAppSelector((state) => state.user);
 
   const initialValues: SignUpFormData = {
     firstName: "",
@@ -266,6 +268,7 @@ const SignUpPage: React.FC = () => {
         </Box>
       </Paper>
       <LoginModal open={modalOpen} handleClose={handleLoginModalClose} />
+      <FullPageLoader loading={loading}/>
     </Container>
   );
 };

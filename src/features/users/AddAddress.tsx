@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, Typography } from '@mui/material';
-import { useAppDispatch } from '../../app/hooks';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
 import { addressActions } from '../addresses/addressSlice';
 import EditableView from '../../shared-components/EditableView';
 
@@ -13,16 +13,20 @@ interface AddressForm {
   phoneNumber: string;
 }
 
+const initialState = {
+  street: '',
+  house: '',
+  city: '',
+  zipCode: '',
+  country: '',
+  phoneNumber: '',
+}
 const AddAddress: React.FC = () => {
   const dispatch = useAppDispatch();
-  const [addressFormData, setAddressFormData] = useState<AddressForm>({
-    street: '',
-    house: '',
-    city: '',
-    zipCode: '',
-    country: '',
-    phoneNumber: '',
-  });
+
+  const userId = (useAppSelector(state=>state.auth.user?.id))
+
+  const [addressFormData, setAddressFormData] = useState<AddressForm>(initialState);
 
   const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -32,14 +36,8 @@ console.log(name,value)
 
   const handleSaveAddress = async () => {
     await dispatch(addressActions.createAddress(addressFormData));
-    setAddressFormData({
-      street: '',
-      house: '',
-      city: '',
-      zipCode: '',
-      country: '',
-      phoneNumber: '',
-    });
+    setAddressFormData(initialState);
+    userId && dispatch(addressActions.fetchAddressByUserId(userId));
   };
 
   return (

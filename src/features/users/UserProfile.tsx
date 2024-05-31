@@ -11,8 +11,8 @@ import theme from "../../theme/theme";
 import AddAddress from "./AddAddress";
 import { UserForm } from "./userDto";
 import { AddressForms } from "./Interface";
-import { Title } from "@mui/icons-material";
 import CircularImageBox from "./CircularImageBox";
+import FullPageLoader from "../../shared-components/FullPageLoader";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -24,6 +24,8 @@ const UserProfile: React.FC = () => {
   const error = useAppSelector(
     (state) => state.user.error || state.address.error
   );
+
+  console.log(addresses)
 
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
@@ -94,7 +96,8 @@ const UserProfile: React.FC = () => {
 
   const handleSaveUser = () => {
     dispatch(userActions.updateCurrentUser(formData));
-    setTimeout(() => dispatch(userActions.fetchCurrentUser()), 100);
+    setTimeout(
+      () => dispatch(userActions.fetchCurrentUser()), 100);
     handleEditToggle();
   };
 
@@ -110,7 +113,7 @@ const UserProfile: React.FC = () => {
       })
     );
     setEditAddressMode({ ...editAddressMode, [id]: false });
-    dispatch(fetchAddressByUserId(user?.id as string));
+    setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
   };
 
   const handleAddressInputChange = (
@@ -124,9 +127,15 @@ const UserProfile: React.FC = () => {
     });
   };
 
-  if (loading) return <Typography>Loading...</Typography>;
+  const  handleDeleteAddress = async (id: string) => {
+    await dispatch(addressActions.deleteAddress(id));
+    setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
+  }
+
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
+
+ 
 
   return (
     <Container maxWidth="xl">
@@ -162,13 +171,12 @@ const UserProfile: React.FC = () => {
                 alignItems: "flex-start",
                 transition: "0.3s",
                 "&:hover": {
-                  backgroundColor: theme.palette.primary.light,
-                  color: theme.palette.secondary.contrastText,
+                  backgroundColor: theme.palette.secondary.light,
+                  fontWeight: "bold",
                 },
                 "&.Mui-selected": {
                   backgroundColor: theme.palette.secondary.main,
                   color: theme.palette.secondary.contrastText,
-                  fontWeight: "bold",
                 },
               },
             }}
@@ -212,6 +220,7 @@ const UserProfile: React.FC = () => {
                   data={addressFormDatas[address.id]}
                   onChange={(e) => handleAddressInputChange(e, address.id)}
                   onSave={() => handleSaveAddress(address.id)}
+                  onDelete={() => handleDeleteAddress(address.id)}
                   editMode={editAddressMode[address.id]}
                   fields={[
                     { name: "street", label: "Street" },
@@ -235,6 +244,7 @@ const UserProfile: React.FC = () => {
           )}
         </Box>
       </Box>
+      {/* <FullPageLoader loading={loading}/> */}
     </Container>
   );
 };
