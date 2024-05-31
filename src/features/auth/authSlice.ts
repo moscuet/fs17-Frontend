@@ -68,7 +68,7 @@ export const fetchUserByToken = createAsyncThunk(
 
 export const rehydrateAuth = createAsyncThunk(
   'auth/rehydrate',
-  async (_, { dispatch, getState }) => {
+  async (_, { dispatch }) => {
     const token = localStorage.getItem('token');
     if (token) {
       dispatch(fetchUserByToken());

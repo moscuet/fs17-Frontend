@@ -7,6 +7,7 @@ import { userReducer } from '../features/users/userSlice';
 import cartReducer from "../features/cart/cartSlice";
 import { addressReducer } from '../features/addresses/addressSlice';
 import { ordersReducer } from '../features/order-items/orderSlice';
+import toastMiddleware from '../middleware/toastNotificationMiddleware';
 export const store = configureStore({
   reducer: {
     products: productsReducer,
@@ -18,6 +19,7 @@ export const store = configureStore({
     cart: cartReducer,
     orders:ordersReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(toastMiddleware),
 });
 
 export type AppDispatch = typeof store.dispatch;
