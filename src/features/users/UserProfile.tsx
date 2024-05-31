@@ -12,19 +12,13 @@ import AddAddress from "./AddAddress";
 import { UserForm } from "./userDto";
 import { AddressForms } from "./Interface";
 import CircularImageBox from "./CircularImageBox";
-import FullPageLoader from "../../shared-components/FullPageLoader";
 import { ordersActions } from "../order-items/orderSlice";
-import OrderDetails from "../orders/OrderDetailsPage";
-import OrderDetailsPage from "../orders/OrderDetailsPage";
 import Order from "../orders/OrderList";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.data);
   const addresses = useAppSelector((state) => state.address.items);
-  const loading = useAppSelector(
-    (state) => state.user.loading || state.address.loading
-  );
   const error = useAppSelector(
     (state) => state.user.error || state.address.error
   );
@@ -227,7 +221,10 @@ const UserProfile: React.FC = () => {
             />
           )}
           {tabIndex === 1 &&
+
             addresses.map((address) => (
+              <>
+              { addresses.length<1 && <Typography>You have No Saved address</Typography>}
               <Paper key={address.id} sx={{ p: 2, mb: 2 }}>
                 <EditableView
                   data={addressFormDatas[address.id]}
@@ -245,11 +242,10 @@ const UserProfile: React.FC = () => {
                   toggleEdit={() => handleEditAddressMode(address.id, true)}
                 />
               </Paper>
+              </>
             ))}
           {tabIndex === 2 && <AddAddress />}
-          {tabIndex === 3 && (
-           <Order/>
-          )}
+          {tabIndex === 3 && (<Order/>  )}
         </Box>
       </Box>
       {/* <FullPageLoader loading={loading}/> */}

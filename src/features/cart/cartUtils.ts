@@ -34,3 +34,7 @@ export const isInCart = (itemId: string): boolean => {
   const cart = loadCart();
   return cart.some(cartItem => cartItem.id === itemId);
 };
+
+export const resetCart = (): void => {
+  localStorage.setItem("cart", JSON.stringify([]));
+};

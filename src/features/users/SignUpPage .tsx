@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import PageLoader from "../../shared-components/FullPageLoader";
 import FullPageLoader from "../../shared-components/FullPageLoader";
 
 // Validation Schema
@@ -86,7 +85,7 @@ const SignUpPage: React.FC = () => {
     } else if (error) {
       toast.error("Signup failed: " + error);
     }
-  }, [isRegistered, error, navigate]);
+  }, [isRegistered, error, navigate, dispatch]);
 
   return (
     <Container maxWidth="sm">
@@ -267,7 +266,7 @@ const SignUpPage: React.FC = () => {
           </Typography>
         </Box>
       </Paper>
-      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} />
+      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} title={"Login"} />
       <FullPageLoader loading={loading}/>
     </Container>
   );

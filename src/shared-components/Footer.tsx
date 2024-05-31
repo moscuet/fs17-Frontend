@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
         backgroundColor: theme.palette.secondary.main,
         padding: theme.spacing(3),
         mt: 'auto',
-        zIndex: 99999,
+        zIndex: 99,
         position: 'relative',
         minHeight: '100px',
       }}

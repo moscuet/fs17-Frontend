@@ -9,8 +9,8 @@ export interface OrderCreateDto {
 }
 export interface OrderReadDto extends BaseEntity {
     UserId: string;
-    Total: number;
-    Status: OrderStatus;
+    total: number;
+    status: OrderStatus;
     Items: OrderItemReadDto[];
 }
 

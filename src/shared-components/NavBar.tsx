@@ -10,7 +10,6 @@ import {
   styled,
   alpha,
   Box,
-  Button,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -295,7 +294,7 @@ const Navbar = () => {
           </Box>
         </Toolbar>
       </AppBar>
-      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} />
+      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} title={"Login"} />
       {renderMobileMenu}
       {renderMenu}
     </Box>

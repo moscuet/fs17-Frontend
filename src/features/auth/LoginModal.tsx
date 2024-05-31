@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Dialog,
   DialogTitle,
@@ -7,22 +7,19 @@ import {
   DialogActions,
   Button,
 } from "@mui/material";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch } from "../../app/hooks";
 import { login } from "./authSlice";
-import { useNavigate } from "react-router-dom";
 
 interface LoginModalProps {
+  title:string
   open: boolean;
   handleClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({ open, handleClose }) => {
+const LoginModal: React.FC<LoginModalProps> = ({title, open, handleClose }) => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
-
-const isAuthenticated = useAppSelector( state  => state.auth.user !== null);
 
   const handleLogin = () => {
     dispatch(login({ email, password }));
@@ -31,7 +28,7 @@ const isAuthenticated = useAppSelector( state  => state.auth.user !== null);
 
   return (
     <Dialog open={open} onClose={handleClose}>
-
+      <DialogTitle>{title}</DialogTitle>
       <DialogContent>
         <TextField
           autoFocus

@@ -3,7 +3,7 @@ import TextFieldComponent from "./TextField";
 import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import ConfirmationDialog from "./ConfirmationDialog";
-import { SaveButton } from "./CustomButton";
+import { CancelButton, SaveButton } from "./CustomButton";
 
 interface Field {
   name: string;
@@ -17,6 +17,7 @@ interface EditableViewProps {
   ) => void;
   onDelete?: () => void;
   onSave: () => void;
+  onClose?: () => void;
   editMode: boolean;
   fields: Field[];
   toggleEdit: () => void;
@@ -26,6 +27,7 @@ const EditableView: React.FC<EditableViewProps> = ({
   data,
   onChange,
   onSave,
+  onClose,
   onDelete,
   editMode,
   fields,
@@ -57,10 +59,8 @@ const EditableView: React.FC<EditableViewProps> = ({
           onChange={onChange}
         />
       ))}
-      <SaveButton
-        onClick={onSave}
-        text="save" />
-  
+      <SaveButton onClick={onSave} text="Save" />
+      <CancelButton onClick={onClose} text="Cancel" />
     </Box>
   ) : (
     <Box>

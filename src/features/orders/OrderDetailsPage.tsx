@@ -3,6 +3,7 @@ import { Container, Grid, Paper, Typography, Box, Button } from '@mui/material';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../app/hooks';
 import { ordersActions } from './orderSlice';
+import theme from '../../theme/theme';
 
 const OrderDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -28,8 +29,8 @@ const OrderDetails: React.FC = () => {
       </Typography>
       <Paper sx={{ padding: 3, marginBottom: 3 }}>
         <Typography variant="h6">Order ID: {order.id}</Typography>
-        <Typography variant="body1">Total: ${order.Total.toFixed(2)}</Typography>
-        <Typography variant="body1">Status: {order.Status}</Typography>
+        <Typography variant="body1" color = { theme.palette.info.main }>Total: ${order.total.toFixed(2)}</Typography>
+        <Typography variant="body1">Status: {order.status}</Typography>
       </Paper>
       <Grid container spacing={3}>
         {order.Items.map((item) => (
@@ -43,7 +44,9 @@ const OrderDetails: React.FC = () => {
                   <Typography variant="body2">Quantity: {item.quantity}</Typography>
                 </Grid>
                 <Grid item xs={2}>
-                  <Typography variant="body2">Price: ${item.price.toFixed(2)}</Typography>
+                
+
+                  <Typography color = { theme.palette.info.main } variant="body2">Price: ${item.price.toFixed(2)}</Typography>
                 </Grid>
               </Grid>
             </Paper>
