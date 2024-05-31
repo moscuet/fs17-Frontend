@@ -1,55 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { Box, Container, Typography, Tabs, Tab, Paper } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import {
-  Typography,
-  Box,
-  Container,
-  Avatar,
-  Tabs,
-  Tab,
-  TextField,
-  Button,
-  Paper,
-  styled,
-} from "@mui/material";
 import { fetchCurrentUser, userActions } from "./userSlice";
 import {
   fetchAddressByUserId,
   addressActions,
 } from "../addresses/addressSlice";
+import EditableView from "../../shared-components/EditableView";
+import theme from "../../theme/theme";
+import AddAddress from "./AddAddress";
+import { UserForm } from "./userDto";
+import { AddressForms } from "./Interface";
+import { Title } from "@mui/icons-material";
+import CircularImageBox from "./CircularImageBox";
 
-const CustomTabs = styled(Tabs)(({ theme }) => ({
-  marginBottom: theme.spacing(),
-}));
-
-const CustomTab = styled(Tab)(({ theme }) => ({
-  minHeight: "36px",
-  padding: theme.spacing(0, 4),
-  marginRight: theme.spacing(3),
-}));
-
-interface AddressForm {
-  street: string;
-  house: string;
-  city: string;
-  zipCode: string;
-  country: string;
-  phoneNumber: string;
-}
-
-interface AddressForms {
-  [key: string]: AddressForm;
-}
-
-interface UserForm {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phoneNumber: string;
-  dateOfBirth: string;
-}
-
-const UserProfile = () => {
+const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.user.data);
   const addresses = useAppSelector((state) => state.address.items);
@@ -62,7 +27,9 @@ const UserProfile = () => {
 
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
-  const [editAddressMode, setEditAddressMode] = useState<{ [id: string]: boolean }>({});
+  const [editAddressMode, setEditAddressMode] = useState<{
+    [id: string]: boolean;
+  }>({});
   const [formData, setFormData] = useState<UserForm>({
     firstName: "",
     lastName: "",
@@ -111,34 +78,31 @@ const UserProfile = () => {
     }
   }, [addresses]);
 
-  const handleTabChange = (_event: React.ChangeEvent<{}>, newValue: number) => {
+  const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
 
   const handleEditToggle = () => {
     setEditMode(!editMode);
   };
-
-  const handleUserInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
+  const handleUserInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target as HTMLInputElement | HTMLTextAreaElement;
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleAddressInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, id: string) => {
-    const { name, value } = e.target;
-    setAddressFormDatas({
-      ...addressFormDatas,
-      [id]: { ...addressFormDatas[id], [name]: value },
-    });
-};
-
   const handleSaveUser = () => {
     dispatch(userActions.updateCurrentUser(formData));
- setTimeout(  ()=>  dispatch(userActions.fetchCurrentUser()),100);
+    setTimeout(() => dispatch(userActions.fetchCurrentUser()), 100);
     handleEditToggle();
   };
 
-  const handleSaveAddress = async (id:string) => {
+  const handleEditAddressMode = (id: string, mode: boolean) => {
+    setEditAddressMode({ ...editAddressMode, [id]: mode });
+  };
+
+  const handleSaveAddress = async (id: string) => {
     await dispatch(
       addressActions.updateAddress({
         id,
@@ -146,28 +110,18 @@ const UserProfile = () => {
       })
     );
     setEditAddressMode({ ...editAddressMode, [id]: false });
-    dispatch(fetchAddressByUserId(user?.id as string)); 
-};
-
-
-  const handleEditAddressMode = (id: string, mode: boolean) => {
-    setEditAddressMode({ ...editAddressMode, [id]: mode });
+    dispatch(fetchAddressByUserId(user?.id as string));
   };
 
-  const handleAddNewAddress = () => {
-    const newId = "new"; // Placeholder; ideally generate a unique ID
+  const handleAddressInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    id: string
+  ) => {
+    const { name, value } = e.target;
     setAddressFormDatas({
       ...addressFormDatas,
-      [newId]: {
-        street: "",
-        house: "",
-        city: "",
-        zipCode: "",
-        country: "",
-        phoneNumber: "",
-      },
+      [id]: { ...addressFormDatas[id], [name]: value },
     });
-    setEditAddressMode({ ...editAddressMode, [newId]: true });
   };
 
   if (loading) return <Typography>Loading...</Typography>;
@@ -175,195 +129,108 @@ const UserProfile = () => {
   if (!user) return <Typography>User not found!</Typography>;
 
   return (
-    <Container maxWidth="md">
+    <Container maxWidth="xl">
       <Box mt={4} display="flex">
-        <Box mr={4}>
-          <Avatar
-            src={user.avatar}
-            alt={`${user.firstName} ${user.lastName}`}
-            sx={{ width: 100, height: 100 }}
-          />
-        </Box>
-        <Box flexGrow={1}>
-          <CustomTabs
+        <Box sx={{ ml: "60px" }}></Box>
+        <Box
+          sx={{
+            width: "240px",
+            borderRight: `2px solid ${theme.palette.divider}`,
+            mr: 4,
+            position: "fixed",
+            height: "calc(100vh - 0px)",
+            overflow: "auto",
+            top: "100px",
+            backgroundColor: theme.palette.background.paper,
+          }}
+        >
+          <Box display={"flex"} justifyContent={"center"} mb={1}>
+            <CircularImageBox imageUrl="default_avatar.webp" size={120} />
+          </Box>
+          <Tabs
+            orientation="vertical"
             value={tabIndex}
             onChange={handleTabChange}
-            aria-label="profile tabs"
-            indicatorColor="primary"
+            aria-label="Profile categories"
             textColor="primary"
-            centered
+            indicatorColor="secondary"
+            sx={{
+              ".MuiTabs-indicator": {
+                width: "4px",
+              },
+              ".MuiTab-root": {
+                alignItems: "flex-start",
+                transition: "0.3s",
+                "&:hover": {
+                  backgroundColor: theme.palette.primary.light,
+                  color: theme.palette.secondary.contrastText,
+                },
+                "&.Mui-selected": {
+                  backgroundColor: theme.palette.secondary.main,
+                  color: theme.palette.secondary.contrastText,
+                  fontWeight: "bold",
+                },
+              },
+            }}
           >
-            <CustomTab label="Account" />
-            <CustomTab label="Address" />
-          </CustomTabs>
+            <Tab label="Account" />
+            <Tab label="Address" />
+            <Tab label="Add Address" />
+            <Tab label="Order List" />
+          </Tabs>
+        </Box>
+        <Box
+          sx={{
+            flexGrow: 1,
+            ml: "280px",
+            padding: "20px",
+            maxWidth:"600px",
+            backgroundColor: theme.palette.background.default,
+            color: theme.palette.text.primary,
+          }}
+        >
           {tabIndex === 0 && (
-            <Box mt={2}>
-              {editMode ? (
-                <Box>
-                  <TextField
-                    label="First Name"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleUserInputChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Last Name"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleUserInputChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleUserInputChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Phone Number"
-                    name="phoneNumber"
-                    value={formData.phoneNumber}
-                    onChange={handleUserInputChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <TextField
-                    label="Date of Birth"
-                    name="dateOfBirth"
-                    value={formData.dateOfBirth}
-                    onChange={handleUserInputChange}
-                    fullWidth
-                    margin="normal"
-                  />
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleSaveUser}
-                    sx={{ mt: 2 }}
-                  >
-                    Save
-                  </Button>
-                </Box>
-              ) : (
-                <Box>
-                  <Typography variant="h5">
-                    {user.firstName} {user.lastName}
-                  </Typography>
-                  <Typography variant="subtitle1">{user.email}</Typography>
-                  <Typography variant="subtitle1">{user.phoneNumber}</Typography>
-                  <Typography variant="subtitle1">
-                    {new Date(user.dateOfBirth).toLocaleDateString()}
-                  </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleEditToggle}
-                    sx={{ mt: 2 }}
-                  >
-                    Edit
-                  </Button>
-                </Box>
-              )}
-            </Box>
+            <EditableView
+              data={formData}
+              onChange={handleUserInputChange}
+              onSave={handleSaveUser}
+              editMode={editMode}
+              fields={[
+                { name: "firstName", label: "First Name" },
+                { name: "lastName", label: "Last Name" },
+                { name: "email", label: "Email" },
+                { name: "phoneNumber", label: "Phone Number" },
+                { name: "dateOfBirth", label: "Date of Birth" },
+              ]}
+              toggleEdit={handleEditToggle}
+            />
           )}
-         
-
-          {tabIndex === 1 && (
-            <Box mt={2}>
-              {addresses.length === 0 ? (
-                <Typography>No address saved yet</Typography>
-              ) : (
-                addresses.map((address) => (
-                  <Paper key={address.id} sx={{ p: 2, mb: 2 }}>
-                    {editAddressMode[address.id] ? (
-                      <Box>
-                        <TextField
-                          label="Street"
-                          name="street"
-                          value={addressFormDatas[address.id].street}
-                          onChange={(e) => handleAddressInputChange(e, address.id)}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="House"
-                          name="house"
-                          value={addressFormDatas[address.id].house}
-                          onChange={(e) => handleAddressInputChange(e, address.id)}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="City"
-                          name="city"
-                          value={addressFormDatas[address.id].city}
-                          onChange={(e) => handleAddressInputChange(e, address.id)}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="Zip Code"
-                          name="zipCode"
-                          value={addressFormDatas[address.id].zipCode}
-                          onChange={(e) => handleAddressInputChange(e, address.id)}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <TextField
-                          label="Country"
-                          name="country"
-                          value={addressFormDatas[address.id].country}
-                          onChange={(e) => handleAddressInputChange(e, address.id)}
-                          fullWidth
-                          margin="normal"
-                        />
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleSaveAddress(address.id)}
-                          sx={{ mt: 2 }}
-                        >
-                          Save
-                        </Button>
-                      </Box>
-                    ) : (
-                      <Box>
-                        <Typography variant="h6">
-                          {address.street}, {address.house}
-                        </Typography>
-                        <Typography variant="subtitle1">{address.city}</Typography>
-                        <Typography variant="subtitle1">
-                          {address.zipCode}
-                        </Typography>
-                        <Typography variant="subtitle1">
-                          {address.country}
-                        </Typography>
-                        <Button
-                          variant="contained"
-                          color="primary"
-                          onClick={() => handleEditAddressMode(address.id, true)}
-                          sx={{ mt: 2 }}
-                        >
-                          Edit
-                        </Button>
-                      </Box>
-                    )}
-                  </Paper>
-                ))
-              )}
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={handleAddNewAddress}
-                sx={{ mt: 2 }}
-              >
-                Add New Address
-              </Button>
+          {tabIndex === 1 &&
+            addresses.map((address) => (
+              <Paper key={address.id} sx={{ p: 2, mb: 2 }}>
+                <EditableView
+                  data={addressFormDatas[address.id]}
+                  onChange={(e) => handleAddressInputChange(e, address.id)}
+                  onSave={() => handleSaveAddress(address.id)}
+                  editMode={editAddressMode[address.id]}
+                  fields={[
+                    { name: "street", label: "Street" },
+                    { name: "house", label: "House" },
+                    { name: "city", label: "City" },
+                    { name: "zipCode", label: "Zip Code" },
+                    { name: "country", label: "Country" },
+                  ]}
+                  toggleEdit={() => handleEditAddressMode(address.id, true)}
+                />
+              </Paper>
+            ))}
+          {tabIndex === 2 && <AddAddress />}
+          {tabIndex === 3 && (
+            <Box>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Order List
+              </Typography>
+              <Typography>No orders found.</Typography>
             </Box>
           )}
         </Box>

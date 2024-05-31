@@ -1,5 +1,4 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
-import { UserRole } from "../../common-types/UserRole";
 
 export interface UserCreateDto {
     firstName: string;
@@ -9,7 +8,7 @@ export interface UserCreateDto {
     avatar: string;
     phoneNumber: string;
     dateOfBirth: string;
-    userRole: UserRole;
+    userRole?: UserRole;
 }
 
 // UserReadDto Interface
@@ -32,4 +31,18 @@ export interface UserUpdateDto {
     dateOfBirth?: string;
     userRole?: UserRole;
     phoneNumber?: string;
+}
+
+export interface UserForm {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phoneNumber: string;
+    dateOfBirth: string;
+  }
+
+export type UserRole = 'user' | 'admin';
+
+export interface SignUpFormData extends UserCreateDto { 
+  confirmPassword: string;
 }
