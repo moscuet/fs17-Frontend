@@ -145,11 +145,11 @@ const Navbar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => navigate("/register")}>
+      <MenuItem onClick={() => navigate("/signup")}>
         <IconButton color="inherit">
           <LoginIcon />
         </IconButton>
-        <p>Register</p>
+        <p>Signup</p>
       </MenuItem>
       <MenuItem>
         <IconButton aria-label="show cart" color="inherit">

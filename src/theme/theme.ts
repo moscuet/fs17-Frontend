@@ -3,29 +3,38 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#FAF9F6', // Keeping your original light primary color
-      dark: '#b0bec5', // A darker shade for contrasting elements if needed
+      main: '#1B1A17', // Primary color
+      light: '#3A3937', // Light shade of primary for contrast
+      dark: '#000000', // Dark shade for contrast elements
     },
     secondary: {
-      main: '#607D8B', // Secondary color stays the same
+      main: '#A35709', // Secondary color
+      dark: '#7B4307', // Dark shade for secondary
+      light: '#CC7224', // Light shade for secondary
     },
     error: {
-      main: '#f44336',
+      main: '#FF8303', // Error color
+      dark: '#CC6902', // Darker shade for error
+      light: '#FFAC4D', // Lighter shade for error
     },
     info: {
-      main: '#ff9800',
+      main: '#F0E3CA', // Info color
+      dark: '#CBB297', // Darker shade for contrast
+      light: '#FFF6E5', // Lighter shade for background
     },
     warning: {
-      main: '#FFA726',
+      main: '#FF8303', // Warning color
+      dark: '#CC6902', // Darker shade for warning
+      light: '#FFAC4D', // Lighter shade for warning
     },
     background: {
-      default: '#fafafa',
-      paper: '#ffffff',
+      default: '#fafafa', // Background color
+      paper: '#ffffff', // Paper color
     },
     text: {
-      primary: '#2C3E50', // Dark blue shade for high contrast text
-      secondary: '#607D8B', // This remains the same
-      disabled: '#B0BEC5',
+      primary: '#1B1A17', // Primary text color
+      secondary: '#A35709', // Secondary text color
+      disabled: '#B0BEC5', // Disabled text color
     },
   },
   typography: {
@@ -55,42 +64,52 @@ const theme = createTheme({
       },
       variants: [
         {
-          props: { variant: 'contained', color: 'secondary' },
+          props: { variant: 'contained', color: 'primary' },
           style: {
-            backgroundColor: '#607D8B',
-            color: '#FFFFFF',
+            backgroundColor: '#1B1A17',
+            color: '#F0E3CA',
             '&:hover': {
-              backgroundColor: '#455a64',
+              backgroundColor: '#3A3937',
             }
           }
         },
         {
-          props: { variant: 'contained', color: 'primary' },
+          props: { variant: 'contained', color: 'secondary' },
           style: {
-            backgroundColor: '#FAF9F6', // Light primary background
-            color: '#2C3E50', // Dark text for visibility
+            backgroundColor: '#A35709',
+            color: '#FFFFFF',
             '&:hover': {
-              backgroundColor: '#EDE7F6', // A light hover effect
+              backgroundColor: '#7B4307',
             }
           }
         },
         {
           props: { variant: 'contained', color: 'error' },
           style: {
-            backgroundColor: '#f44336',
+            backgroundColor: '#FF8303',
             color: '#FFFFFF',
             '&:hover': {
-              backgroundColor: '#d32f2f',
+              backgroundColor: '#CC6902',
+            }
+          }
+        },
+        {
+          props: { variant: 'contained', color: 'info' },
+          style: {
+            backgroundColor: '#F0E3CA',
+            color: '#1B1A17',
+            '&:hover': {
+              backgroundColor: '#CBB297',
             }
           }
         },
         {
           props: { variant: 'contained', color: 'warning' },
           style: {
-            backgroundColor: '#FFA726',
+            backgroundColor: '#FF8303',
             color: '#FFFFFF',
             '&:hover': {
-              backgroundColor: '#fb8c00',
+              backgroundColor: '#CC6902',
             }
           }
         },
