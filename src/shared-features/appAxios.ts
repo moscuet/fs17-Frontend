@@ -7,7 +7,6 @@ const appAxios = axios.create({
 appAxios.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token'); 
-    console.log("token", token);
     if (token) {
       if (!config.headers) {
         config.headers = {}; 
@@ -17,6 +16,20 @@ appAxios.interceptors.request.use(
     return config;
   },
   (error) => {
+    return Promise.reject(error);
+  }
+  
+);
+appAxios.interceptors.response.use(
+  response => response,
+  error => {
+    console.error();
+    if (error.response) {
+      if (error.message.includes('Network Error') || error.code === 'ERR_NETWORK') {
+        const event = new CustomEvent('network-error', { detail: { message: 'Network Error' } });
+        window.dispatchEvent(event);
+      }
+    }
     return Promise.reject(error);
   }
 );

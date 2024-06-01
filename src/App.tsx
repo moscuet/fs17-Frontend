@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './App.css';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import HomePage from './pages/HomePage';
 import About from './pages/About';
 import Layout from './shared-components/Layout';
@@ -14,13 +14,15 @@ import ProductsPage from './pages/ProductsPage';
 import PrivateRoute from './Routes/PrivateRoute';
 import SignUpPage from './features/users/SignUpPage ';
 import NotFoundPage from './pages/NotFoundPage';
+import NetworkErrorPage from './pages/NetworkErrorPage';
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch();
-
-    React.useEffect(() => {
+    
+    useEffect(() => {
         dispatch(rehydrateAuth());
     }, [dispatch]);
+
 
     return (
         <Router>
@@ -33,7 +35,9 @@ const App: React.FC = () => {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/orders/:id" element={<OrderDetails />} />
                     <Route path="/products/:id" element={<ProductDetailsPage />} />
+                    
                     <Route path="/not-found" element={<NotFoundPage />} />
+                    <Route path="/network-error" element={<NetworkErrorPage />} />
 
                     <Route path="/profile" element={
                         <PrivateRoute>
