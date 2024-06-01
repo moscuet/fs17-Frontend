@@ -16,7 +16,6 @@ const HomePage: React.FC = () => {
     dispatch(productsActions.fetchAllWithParams({}));
   }, [location.search, dispatch]);
 
-
   return <>
      <HeroPage />
      <FeatureProducts/>

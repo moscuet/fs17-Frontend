@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Box, SelectChangeEvent, Grid } from "@mui/material";
-import { useAppSelector, useAppDispatch } from "../app/hooks";
-import { CategoryReadDto } from "../features/categories/categoryDto";
-import FilterBar from "../shared-components/FilterBar";
+import { useAppSelector, useAppDispatch } from "../../app/hooks";
+import { CategoryReadDto } from "../categories/categoryDto";
+import FilterBar from "../../shared-components/FilterBar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ProductReadDto } from "../features/products/productDto";
-import { productsActions } from "../features/products/productsSlice";
-import TopCategory from "../features/categories/TopCategory";
-import ProductCard from "../features/products/ProductCard";
+import { ProductReadDto } from "./productDto";
+import { productsActions } from "./productsSlice";
+import TopCategory from "../categories/TopCategory";
+import ProductCard from "./ProductCard";
 
 const ProductsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);

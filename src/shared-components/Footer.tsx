@@ -18,7 +18,7 @@ const Footer: React.FC = () => {
       }}
     >
       <Typography variant="body1" align="center" color="white">
-        © 2024 MyShop. All rights reserved.
+        © 2024 Eshop. All rights reserved.
       </Typography>
     </Box>
   );

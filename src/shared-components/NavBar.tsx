@@ -205,7 +205,7 @@ const Navbar = () => {
         <Toolbar>
           <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
             <Typography variant="h6" noWrap>
-              MyShop
+              Eshop
             </Typography>
           </Link>
           <Box sx={{ flexGrow: 1 }} />
