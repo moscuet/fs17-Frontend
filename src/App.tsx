@@ -13,6 +13,7 @@ import OrderDetails from './features/orders/OrderDetailsPage';
 import ProductsPage from './pages/ProductsPage';
 import PrivateRoute from './Routes/PrivateRoute';
 import SignUpPage from './features/users/SignUpPage ';
+import NotFoundPage from './pages/NotFoundPage';
 
 const App: React.FC = () => {
     const dispatch = useAppDispatch();
@@ -32,6 +33,8 @@ const App: React.FC = () => {
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/orders/:id" element={<OrderDetails />} />
                     <Route path="/products/:id" element={<ProductDetailsPage />} />
+                    <Route path="/not-found" element={<NotFoundPage />} />
+
                     <Route path="/profile" element={
                         <PrivateRoute>
                             <UserProfile />
