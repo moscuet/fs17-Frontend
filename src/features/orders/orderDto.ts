@@ -1,7 +1,5 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
 import { OrderStatus } from "../../common-types/OrderStatus";
-import { OrderItemCreateDto, OrderItemReadDto } from "../order-items/orderItemDto";
-
 
 export interface OrderCreateDto {
     addressId: string;
@@ -11,10 +9,25 @@ export interface OrderReadDto extends BaseEntity {
     UserId: string;
     total: number;
     status: OrderStatus;
-    Items: OrderItemReadDto[];
+    items: OrderItemReadDto[];
 }
 
 export interface OrderUpdateDto {
     AddressId?: string;
     Status?: OrderStatus;
 }
+
+
+export interface OrderItemCreateDto {
+    productId: string;
+    quantity: number;
+}
+
+export interface OrderItemReadDto extends BaseEntity {
+    id: string;
+    productId: string;
+    quantity: number;
+    price: number;
+}
+
+

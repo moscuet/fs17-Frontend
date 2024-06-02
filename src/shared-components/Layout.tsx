@@ -21,7 +21,6 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   }
   useEffect(() => {
     const handleNetworkError = (event:NetworkErrorEvent) => {
-      console.log(event.detail.message, "Network Error detected");  // "Network Error"
       navigate('/network-error');
     };
 

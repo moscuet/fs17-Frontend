@@ -8,12 +8,16 @@ import {
 } from "../addresses/addressSlice";
 import EditableView from "../../shared-components/EditableView";
 import theme from "../../theme/theme";
-import AddAddress from "./AddAddress";
+import AddAddress from "../addresses/AddAddress";
 import { UserForm } from "./userDto";
 import { AddressForms } from "./Interface";
 import CircularImageBox from "./CircularImageBox";
-import { ordersActions } from "../order-items/orderSlice";
 import Order from "../orders/OrderList";
+import { ordersActions } from "../orders/orderSlice";
+import ProfileTab from "./ProfileTab";
+import { userFormInitialValues, userTableFileds, userValidationSchema } from "./consts/valueObject";
+import { addressTableFileds, addressValidationSchema } from "../addresses/const/valueObject";
+
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,20 +27,12 @@ const UserProfile: React.FC = () => {
     (state) => state.user.error || state.address.error
   );
 
-
-
   const [tabIndex, setTabIndex] = useState(0);
   const [editMode, setEditMode] = useState(false);
   const [editAddressMode, setEditAddressMode] = useState<{
     [id: string]: boolean;
   }>({});
-  const [formData, setFormData] = useState<UserForm>({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phoneNumber: "",
-    dateOfBirth: "",
-  });
+  const [formData, setFormData] = useState<UserForm>(userFormInitialValues );
   const [addressFormDatas, setAddressFormDatas] = useState<AddressForms>({});
 
   useEffect(() => {
@@ -107,6 +103,9 @@ const UserProfile: React.FC = () => {
       () => dispatch(userActions.fetchCurrentUser()), 100);
     handleEditToggle();
   };
+const handleCloseUserEdit = () => {
+  setEditMode(false);
+}
 
   const handleEditAddressMode = (id: string, mode: boolean) => {
     setEditAddressMode({ ...editAddressMode, [id]: mode });
@@ -122,6 +121,9 @@ const UserProfile: React.FC = () => {
     setEditAddressMode({ ...editAddressMode, [id]: false });
     setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
   };
+const handleCloseAddressEdit = (id: string) => {
+  setEditAddressMode({ ...editAddressMode, [id]: false });
+}
 
   const handleAddressInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -163,36 +165,7 @@ const UserProfile: React.FC = () => {
           <Box display={"flex"} justifyContent={"center"} mb={1}>
             <CircularImageBox imageUrl="default_avatar.webp" size={120} />
           </Box>
-          <Tabs
-            orientation="vertical"
-            value={tabIndex}
-            onChange={handleTabChange}
-            aria-label="Profile categories"
-            textColor="primary"
-            indicatorColor="secondary"
-            sx={{
-              ".MuiTabs-indicator": {
-                width: "4px",
-              },
-              ".MuiTab-root": {
-                alignItems: "flex-start",
-                transition: "0.3s",
-                "&:hover": {
-                  backgroundColor: theme.palette.secondary.light,
-                  fontWeight: "bold",
-                },
-                "&.Mui-selected": {
-                  backgroundColor: theme.palette.secondary.main,
-                  color: theme.palette.secondary.contrastText,
-                },
-              },
-            }}
-          >
-            <Tab label="Account" />
-            <Tab label="Address" />
-            <Tab label="Add Address" />
-            <Tab label="Order List" />
-          </Tabs>
+          <ProfileTab tabIndex={tabIndex} handleTabChange={handleTabChange}/>
         </Box>
         <Box
           sx={{
@@ -210,14 +183,10 @@ const UserProfile: React.FC = () => {
               onChange={handleUserInputChange}
               onSave={handleSaveUser}
               editMode={editMode}
-              fields={[
-                { name: "firstName", label: "First Name" },
-                { name: "lastName", label: "Last Name" },
-                { name: "email", label: "Email" },
-                { name: "phoneNumber", label: "Phone Number" },
-                { name: "dateOfBirth", label: "Date of Birth" },
-              ]}
+              fields={userTableFileds}
+              validationSchema={userValidationSchema}
               toggleEdit={handleEditToggle}
+              onClose={handleCloseUserEdit}
             />
           )}
           {tabIndex === 1 &&
@@ -230,15 +199,11 @@ const UserProfile: React.FC = () => {
                   data={addressFormDatas[address.id]}
                   onChange={(e) => handleAddressInputChange(e, address.id)}
                   onSave={() => handleSaveAddress(address.id)}
+                  onClose={() => handleCloseAddressEdit(address.id)}
                   onDelete={() => handleDeleteAddress(address.id)}
                   editMode={editAddressMode[address.id]}
-                  fields={[
-                    { name: "street", label: "Street" },
-                    { name: "house", label: "House" },
-                    { name: "city", label: "City" },
-                    { name: "zipCode", label: "Zip Code" },
-                    { name: "country", label: "Country" },
-                  ]}
+                  fields={addressTableFileds}
+                  validationSchema={addressValidationSchema}
                   toggleEdit={() => handleEditAddressMode(address.id, true)}
                 />
               </Paper>

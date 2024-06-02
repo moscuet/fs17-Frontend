@@ -4,6 +4,7 @@ import { Button, Typography } from "@mui/material";
 import { useState } from "react";
 import ConfirmationDialog from "./ConfirmationDialog";
 import { CancelButton, SaveButton } from "./CustomButton";
+import { AnyObjectSchema } from "yup";
 
 interface Field {
   name: string;
@@ -17,9 +18,10 @@ interface EditableViewProps {
   ) => void;
   onDelete?: () => void;
   onSave: () => void;
-  onClose?: () => void;
+  onClose: () => void;
   editMode: boolean;
   fields: Field[];
+  validationSchema: AnyObjectSchema; 
   toggleEdit: () => void;
 }
 

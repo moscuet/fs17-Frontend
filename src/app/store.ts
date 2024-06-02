@@ -6,8 +6,8 @@ import authReducer from '../features/auth/authSlice';
 import { userReducer } from '../features/users/userSlice';
 import cartReducer from "../features/cart/cartSlice";
 import { addressReducer } from '../features/addresses/addressSlice';
-import { ordersReducer } from '../features/order-items/orderSlice';
 import toastMiddleware from '../middleware/toastNotificationMiddleware';
+import { ordersReducer } from '../features/orders/orderSlice';
 export const store = configureStore({
   reducer: {
     products: productsReducer,

@@ -18,7 +18,7 @@ export default function OrderItem({ order }: OrderItemProps) {
               Total: ${order?.total?.toFixed(2)}
             </Typography>
             <Typography variant="body1" mb={2}>Status: {order?.status}</Typography>
-            <PrimaryButton text={"Details"}/>
+            <PrimaryButton text={"Details"} onClick={() => window.location.href = `/orders/${order?.id}`}/>
           </Paper>
         </Box>
   )

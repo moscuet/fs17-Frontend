@@ -10,7 +10,6 @@ import {
 import { CartItem, loadCart } from "../cart/cartUtils";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { useNavigate } from "react-router-dom";
-import { ordersActions } from "../order-items/orderSlice";
 import { fetchAddressByUserId } from "../addresses/addressSlice";
 import DeleteIcon from "@mui/icons-material/Delete";
 import AddIcon from "@mui/icons-material/Add";
@@ -27,8 +26,9 @@ import {
 } from "../../shared-components/CustomButton";
 import theme from "../../theme/theme";
 import LoginModal from "../auth/LoginModal";
-import AddAddress from "../users/AddAddress";
+import AddAddress from "../addresses/AddAddress";
 import ConfirmationDialog from "../../shared-components/ConfirmationDialog";
+import { ordersActions } from "../orders/orderSlice";
 
 const CartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -105,7 +105,6 @@ const CartPage: React.FC = () => {
       })),
     };
     const orderCreated = await dispatch(ordersActions.createOne(orderPayload));
-    console.log(orderCreated)
     if(orderCreated && orderCreated.payload) {
       dispatch(resetCart());
       setCartItems([]);

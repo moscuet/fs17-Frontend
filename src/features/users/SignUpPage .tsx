@@ -236,9 +236,6 @@ const SignUpPage: React.FC = () => {
                     fontSize: theme.typography.button.fontSize,
                     borderRadius: theme.shape.borderRadius,
                   }}
-                  onClick={() =>
-                    console.log(isSubmitting ? "Submitting" : "Not Submitting")
-                  }
                 >
                   Sign Up
                 </Button>
@@ -260,7 +257,6 @@ const SignUpPage: React.FC = () => {
                 cursor: "pointer",
               }}
             >
-              {" "}
               Sign In
             </span>
           </Typography>

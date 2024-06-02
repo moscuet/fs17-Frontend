@@ -18,7 +18,6 @@ const OrderList: React.FC = () => {
 
   const orders = useAppSelector((state) => state.orders);
 
-  console.log(orders);
   if (orders.loading) {
     return <Typography>Loading...</Typography>;
   }

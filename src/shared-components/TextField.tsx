@@ -1,32 +1,36 @@
-import { TextField } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
 
-interface TextFieldComponentProps {
+interface TextFieldComponentProps extends Omit<TextFieldProps, 'value' | 'onChange' | 'name'> {
     label: string;
     name: string;
     value: string;
     onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    fullWidth?: boolean;
-    margin?: 'normal' | 'none' | 'dense';
-  }
-  
-  const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
+}
+
+const TextFieldComponent: React.FC<TextFieldComponentProps> = ({
     label,
     name,
     value,
     onChange,
     fullWidth = true,
-    margin = "normal"
-  }) => {
+    margin = "normal",
+    error = false,
+    helperText = "",
+    ...otherProps
+}) => {
     return (
-      <TextField
-        label={label}
-        name={name}
-        value={value}
-        onChange={onChange}
-        fullWidth={fullWidth}
-        margin={margin}
-      />
+        <TextField
+            label={label}
+            name={name}
+            value={value}
+            onChange={onChange}
+            fullWidth={fullWidth}
+            margin={margin}
+            error={error}
+            helperText={helperText}
+            {...otherProps} 
+        />
     );
-  };
-  
-  export default  TextFieldComponent;
+};
+
+export default TextFieldComponent;
