@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import appAxios from "../../shared-features/appAxios";
 import { AxiosError } from "axios";
 import { UserCreateDto, UserReadDto, UserUpdateDto } from "./userDto";
-import { toast } from "react-toastify";
 
 interface UserState {
   data: UserReadDto | null;
@@ -47,7 +46,6 @@ export const fetchCurrentUser = createAsyncThunk<
 >("user/fetchCurrentUser", async (_, { rejectWithValue }) => {
   try {
     const response = await appAxios.get("/api/v1/users/me");
-    toast.success("Account created successfully");
     return response.data;
   } catch (error) {
     const axiosError = error as AxiosError;

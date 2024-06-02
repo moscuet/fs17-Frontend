@@ -22,7 +22,7 @@ import {
 } from "./cartSlice";
 import {
   CancelButton,
-  PrimaryButton,
+  ConfirmButton,
 } from "../../shared-components/CustomButton";
 import theme from "../../theme/theme";
 import LoginModal from "../auth/LoginModal";
@@ -118,11 +118,6 @@ const CartPage: React.FC = () => {
     navigate("/");
   };
 
-  useEffect(() => {
-    if (order) {
-      navigate(`/order-details/${order.id}`);
-    }
-  }, [order, navigate]);
 
   function handleLoginModalClose(): void {
     setModalOpen(false);
@@ -212,7 +207,7 @@ const CartPage: React.FC = () => {
       </Grid>
       {cartItems.length > 0 && (
         <Box mt={4} mb={4} display="flex" justifyContent="space-between">
-          <PrimaryButton onClick={()=>setOpenConfirmDialog(true)} text="Confirm Order" />
+          <ConfirmButton onClick={()=>setOpenConfirmDialog(true)} text="Confirm Order" />
           <CancelButton onClick={handleCancelOrder} text=" Cancel" />
         </Box>
       )}

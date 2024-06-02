@@ -119,6 +119,15 @@ const Navbar = () => {
     setModalOpen(false);
   };
 
+
+  const handleCartClick = (e: React.MouseEvent<HTMLElement>) => {
+
+      e.stopPropagation();
+      navigate("/cart");
+    }
+
+
+
   const menuId = "primary-search-account-menu";
   const renderMenu = (
     <Menu
@@ -241,7 +250,7 @@ const Navbar = () => {
               aria-label="show cart"
               color="inherit"
               style={{ position: "relative", fontSize: '1.5rem' }}
-              onClick={() => navigate("/cart")}
+              onClick={handleCartClick}
             >
               <ShoppingCart />
               <span

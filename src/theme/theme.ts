@@ -3,38 +3,38 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1B1A17', // Primary color
-      light: '#3A3937', // Light shade of primary for contrast
-      dark: '#000000', // Dark shade for contrast elements
+      main: '#1B1A17', // Onyx
+      light: '#3A3937', // Dark Charcoal
+      dark: '#000000', // Black
     },
     secondary: {
-      main: '#A35709', // Secondary color
-      dark: '#7B4307', // Dark shade for secondary
-      light: '#CC7224', // Light shade for secondary
+      main: '#A35709', // Chocolate
+      dark: '#7B4307', // Dark Brown
+      light: '#CC7224', // Tawny
     },
     error: {
-      main: '#FF8303', // Error color
-      dark: '#CC6902', // Darker shade for error
-      light: '#FFAC4D', // Lighter shade for error
+      main: '#FF8303', // Orange Peel
+      dark: '#CC6902', // Dark Orange
+      light: '#FFAC4D', // Peach Orange
     },
     info: {
-      main: '#F0E3CA', // Info color
-      dark: '#CBB297', // Darker shade for contrast
-      light: '#FFF6E5', // Lighter shade for background
+      main: '#1B1A17', // Onyx
+      dark: '#000000', // Black
+      light: '#3A3937', // Dark Charcoal
     },
     warning: {
-      main: '#FF8303', // Warning color
-      dark: '#CC6902', // Darker shade for warning
-      light: '#FFAC4D', // Lighter shade for warning
+      main: '#FF8303', // Orange Peel
+      dark: '#CC6902', // Dark Orange
+      light: '#FFAC4D', // Peach Orange
     },
     background: {
-      default: '#fafafa', // Background color
-      paper: '#ffffff', // Paper color
+      default: '#F0E3CA', // Almond
+      paper: '#FFFFFF', // White
     },
     text: {
-      primary: '#1B1A17', // Primary text color
-      secondary: '#A35709', // Secondary text color
-      disabled: '#B0BEC5', // Disabled text color
+      primary: '#1B1A17', // Onyx
+      secondary: '#A35709', // Chocolate
+      disabled: '#B0BEC5', // Blue Gray
     },
   },
   typography: {
@@ -66,50 +66,50 @@ const theme = createTheme({
         {
           props: { variant: 'contained', color: 'primary' },
           style: {
-            backgroundColor: '#1B1A17',
-            color: '#F0E3CA',
+            backgroundColor: '#1B1A17', // Onyx
+            color: '#F0E3CA', // Almond
             '&:hover': {
-              backgroundColor: '#3A3937',
+              backgroundColor: '#3A3937', // Dark Charcoal
             }
           }
         },
         {
           props: { variant: 'contained', color: 'secondary' },
           style: {
-            backgroundColor: '#A35709',
-            color: '#FFFFFF',
+            backgroundColor: '#A35709', // Chocolate
+            color: '#FFFFFF', // White
             '&:hover': {
-              backgroundColor: '#7B4307',
+              backgroundColor: '#7B4307', // Dark Brown
             }
           }
         },
         {
           props: { variant: 'contained', color: 'error' },
           style: {
-            backgroundColor: '#FF8303',
-            color: '#FFFFFF',
+            backgroundColor: '#FF8303', // Orange Peel
+            color: '#FFFFFF', // White
             '&:hover': {
-              backgroundColor: '#CC6902',
+              backgroundColor: '#CC6902', // Dark Orange
             }
           }
         },
         {
           props: { variant: 'contained', color: 'info' },
           style: {
-            backgroundColor: '#F0E3CA',
-            color: '#1B1A17',
+            backgroundColor: '#1B1A17', // Onyx
+            color: '#F0E3CA', // Almond
             '&:hover': {
-              backgroundColor: '#CBB297',
+              backgroundColor: '#3A3937', // Dark Charcoal
             }
           }
         },
         {
           props: { variant: 'contained', color: 'warning' },
           style: {
-            backgroundColor: '#FF8303',
-            color: '#FFFFFF',
+            backgroundColor: '#FF8303', // Orange Peel
+            color: '#FFFFFF', // White
             '&:hover': {
-              backgroundColor: '#CC6902',
+              backgroundColor: '#CC6902', // Dark Orange
             }
           }
         },

@@ -5,6 +5,8 @@ import Navbar from "./NavBar";
 import theme from "../theme/theme";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 interface LayoutProps {
   children: ReactNode;
@@ -30,7 +32,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       window.removeEventListener('network-error', handleNetworkError as EventListener);
     };
   }, []);
-  
+
   return (
     <ThemeProvider theme={theme}>
       <div style={{ border: "2px solid red" }}>
@@ -39,6 +41,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <div style={{ minHeight: "calc(100vh - 180px)" }}>{children}</div>
         <Footer />
       </div>
+      <ToastContainer />
     </ThemeProvider>
   );
 };

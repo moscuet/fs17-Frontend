@@ -4,7 +4,6 @@ import {
   Typography,
   Container,
   Box,
-  Button,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
@@ -13,6 +12,7 @@ import theme from "../../theme/theme";
 import { ProductReadDto } from "./productDto";
 import { shuffleArray } from "./helpers";
 import ProductCard from "./ProductCard";
+import { InfoButton } from "../../shared-components/CustomButton";
 
 const ProductsDisplay: React.FC<{ products: ProductReadDto[] }> = ({
   products,
@@ -43,20 +43,11 @@ const FeatureProducts: React.FC = () => {
           </Typography>
           <ProductsDisplay products={randomProducts} />
           <Box sx={{ textAlign: "center", mt: 4 }}>
-            <Button
-              variant="contained"
-              color="primary"
+            <InfoButton
               onClick={() => navigate("/products")}
-              sx={{
-                backgroundColor: theme.palette.secondary.main,
-                color: theme.palette.text.primary,
-                "&:hover": {
-                  backgroundColor: theme.palette.secondary.dark,
-                },
-              }}
-            >
-              Discover More
-            </Button>
+              text="Discover More"
+            />
+              
           </Box>
         </Box>
       </Container>

@@ -1,21 +1,43 @@
 import { Middleware } from '@reduxjs/toolkit';
 import { toast } from 'react-toastify';
 
-const toastMiddleware: Middleware = ({ getState }) => (next) => (action) => {
-    if (action.type.endsWith('rejected')) {
-        let errorMessage = action.error?.message || 'An error occurred';
-        if (typeof action.payload === 'string') {
-            errorMessage = action.payload;
-        }
-        toast.error(errorMessage);
+function singularize(entityName: string): string {
+    if (entityName.endsWith('addresses')) {
+        return entityName.replace('addresses', 'address');
+    } else if (entityName.endsWith('s')) {
+        return entityName.slice(0, -1);
     }
-    
-    if (action.type.endsWith('fulfilled')) {
-        const [entityName, actionType] = action.type.split('/'); 
-        const actionTypePart = actionType.replace(/[A-Z][a-z]+/g, (word: string) => ` ${word.toLowerCase()}`).trim();
-        let successMessage = `${entityName.charAt(0).toUpperCase() + entityName.slice(1)} ${actionTypePart} successfully!`;
-        
-        toast.success(successMessage);
+    return entityName;
+}
+
+const toastMiddleware: Middleware = ({ getState }) => (next) => (action) => {
+    const validActions = ['updateOne', 'createOne', 'deleteOne', 'signup', 'updateCurrentUser'];
+
+    const parts = action.type.split('/');
+    const entityName = parts[0];  
+    const actionName = parts[1];  
+    const status = parts[2];     
+
+    // Check if the action is one of the valid actions
+    if (validActions.includes(actionName)) {
+        const verbMatch = actionName.match(/^(update|create|delete)/i);
+        const verb = verbMatch ? verbMatch[0] : '';
+        const formattedVerb = verb.charAt(0).toUpperCase() + verb.slice(1); 
+
+        // Singularize the entity name
+        const singularEntityName = singularize(entityName);
+        const formattedEntityName = singularEntityName.charAt(0).toUpperCase() + singularEntityName.slice(1); // Capitalize first letter
+
+        if (status === 'rejected') {
+            let errorMessage = action.error?.message || 'An error occurred';
+            if (typeof action.payload === 'string') {
+                errorMessage = action.payload;
+            }
+            toast.error(errorMessage);
+        } else if (status === 'fulfilled') {
+            let successMessage = `${formattedEntityName} ${formattedVerb} successfully!`;
+            toast.success(successMessage);
+        }
     }
     return next(action);
 };
