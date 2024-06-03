@@ -103,7 +103,7 @@ const ProductsPage: React.FC = () => {
   };
 
   return (
-    <Box style={{ border: "2px solid " }}>
+    <Box >
       <TopCategory handleCategoryClick={handleCategoryClick} />
       <Box sx={{ display: "flex" }}>
         <FilterBar

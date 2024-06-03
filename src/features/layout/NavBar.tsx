@@ -20,46 +20,46 @@ import {
   Login as LoginIcon,
 } from "@mui/icons-material";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../app/hooks";
-import { logout } from "../features/auth/authSlice";
-import LoginModal from "../features/auth/LoginModal";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { logout } from "../auth/authSlice";
+import LoginModal from "../auth/LoginModal";
 
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: theme.spacing(2),
-  width: '100%',
-  [theme.breakpoints.up('md')]: {
-    width: 'auto',
+  width: "100%",
+  [theme.breakpoints.up("md")]: {
+    width: "auto",
   },
-  display: 'flex',
-  alignItems: 'center',
+  display: "flex",
+  alignItems: "center",
 }));
 
-const SearchIconWrapper = styled('div')(({ theme }) => ({
+const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
-  pointerEvents: 'none',
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
+  height: "100%",
+  position: "absolute",
+  pointerEvents: "none",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 0),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
@@ -119,14 +119,10 @@ const Navbar = () => {
     setModalOpen(false);
   };
 
-
   const handleCartClick = (e: React.MouseEvent<HTMLElement>) => {
-
-      e.stopPropagation();
-      navigate("/cart");
-    }
-
-
+    e.stopPropagation();
+    navigate("/cart");
+  };
 
   const menuId = "primary-search-account-menu";
   const renderMenu = (
@@ -210,13 +206,51 @@ const Navbar = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="static" color="primary" sx={{ height: '80px' }}>
+      <AppBar position="static" color="primary" sx={{ height: "80px" }}>
         <Toolbar>
-          <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+            }}
+          >
             <Typography variant="h6" noWrap>
               Eshop
             </Typography>
           </Link>
+
+          {!isLoggedIn && (
+            <Typography
+              component={Link}
+              to="/signup"
+              sx={{
+                margin:"1rem",
+                textTransform: "none",
+                color: "inherit",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              SIGNUP
+            </Typography>
+          )}
+
+          <Typography
+            component={Link}
+            to="/contact"
+            sx={{
+              textTransform: "none",
+              color: "inherit",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+          >
+            CONTACT
+          </Typography>
+
           <Box sx={{ flexGrow: 1 }} />
           <Search>
             <SearchIconWrapper>
@@ -230,26 +264,13 @@ const Navbar = () => {
             />
           </Search>
           <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, alignItems: 'center' }}>
-            {!isLoggedIn && (
-              <Typography
-              component={Link}
-              to="/signup"
-              sx={{
-                textTransform: 'none',
-                color: 'inherit',
-                '&:hover': {
-                  textDecoration: 'underline',
-                },
-              }}
-            >
-              SIGNUP
-            </Typography>
-            )}
+          <Box
+            sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
+          >
             <IconButton
               aria-label="show cart"
               color="inherit"
-              style={{ position: "relative", fontSize: '1.5rem' }}
+              style={{ position: "relative", fontSize: "1.5rem" }}
               onClick={handleCartClick}
             >
               <ShoppingCart />
@@ -275,35 +296,48 @@ const Navbar = () => {
                   edge="end"
                   onClick={handleProfileMenuOpen}
                   color="inherit"
-                  sx={{ fontSize: '1.5rem' }}
+                  sx={{ fontSize: "1.5rem" }}
                 >
                   <AccountCircle />
                 </IconButton>
-                <IconButton edge="end" onClick={handleLogout} color="inherit" sx={{ fontSize: '1.5rem' }}>
+                <IconButton
+                  edge="end"
+                  onClick={handleLogout}
+                  color="inherit"
+                  sx={{ fontSize: "1.5rem" }}
+                >
                   <ExitToAppIcon />
                 </IconButton>
               </>
             ) : (
-              <IconButton onClick={handleLoginModalOpen} color="inherit" sx={{ fontSize: '1.5rem' }}>
+              <IconButton
+                onClick={handleLoginModalOpen}
+                color="inherit"
+                sx={{ fontSize: "1.5rem" }}
+              >
                 <LoginIcon />
               </IconButton>
             )}
           </Box>
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ display: { xs: "flex", md: "none" } }}>
             <IconButton
               aria-label="show more"
               aria-controls={mobileMenuId}
               aria-haspopup="true"
               onClick={handleMobileMenuOpen}
               color="inherit"
-              sx={{ fontSize: '1.5rem' }}
+              sx={{ fontSize: "1.5rem" }}
             >
               <MoreIcon />
             </IconButton>
           </Box>
         </Toolbar>
       </AppBar>
-      <LoginModal open={modalOpen} handleClose={handleLoginModalClose} title={"Login"} />
+      <LoginModal
+        open={modalOpen}
+        handleClose={handleLoginModalClose}
+        title={"Login"}
+      />
       {renderMobileMenu}
       {renderMenu}
     </Box>

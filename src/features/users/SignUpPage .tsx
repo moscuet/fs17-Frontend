@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   Container,
   Box,
@@ -15,8 +15,6 @@ import { SignUpFormData } from "./userDto";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
-import FullPageLoader from "../../shared-components/FullPageLoader";
 
 // Validation Schema
 const validationSchema = Yup.object({
@@ -56,7 +54,7 @@ const SignUpPage: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const { isRegistered, error, loading} = useAppSelector((state) => state.user);
+  const isLoggedIn = !!useAppSelector((state) => state.auth.user?.id);
 
   const initialValues: SignUpFormData = {
     firstName: "",
@@ -77,15 +75,9 @@ const SignUpPage: React.FC = () => {
     setModalOpen(false);
     navigate("/");
   };
-
-  useEffect(() => {
-    if (isRegistered && !error) {
-       setModalOpen(true);
-       dispatch(userActions.resetRegistrationState());
-    } else if (error) {
-      toast.error("Signup failed: " + error);
-    }
-  }, [isRegistered, error, navigate, dispatch]);
+if(isLoggedIn) {
+  navigate("/");
+}
 
   return (
     <Container maxWidth="sm">
@@ -117,6 +109,7 @@ const SignUpPage: React.FC = () => {
           .then(() => {
             resetForm();
             setSubmitting(false);
+            setModalOpen(true); 
           })
           .catch((error) => {
             setSubmitting(false);
@@ -263,7 +256,6 @@ const SignUpPage: React.FC = () => {
         </Box>
       </Paper>
       <LoginModal open={modalOpen} handleClose={handleLoginModalClose} title={"Login"} />
-      <FullPageLoader loading={loading}/>
     </Container>
   );
 };

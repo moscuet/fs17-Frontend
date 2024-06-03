@@ -1,17 +1,16 @@
 import React, { ReactNode, useEffect } from "react";
 import { CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
-import Navbar from "./NavBar";
-import theme from "../theme/theme";
+import theme from "../../theme/theme";
 import Footer from "./Footer";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
   import 'react-toastify/dist/ReactToastify.css';
+import ToastComponent from "../../shared-components/ToastContainer";
+import Navbar from "./NavBar";
 
 interface LayoutProps {
   children: ReactNode;
 }
-
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -31,17 +30,17 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     return () => {
       window.removeEventListener('network-error', handleNetworkError as EventListener);
     };
-  }, []);
+  }, [navigate]);
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ border: "2px solid red" }}>
+      <div >
         <CssBaseline />
         <Navbar />
         <div style={{ minHeight: "calc(100vh - 180px)" }}>{children}</div>
         <Footer />
       </div>
-      <ToastContainer />
+      <ToastComponent />
     </ThemeProvider>
   );
 };

@@ -2,19 +2,16 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import appAxios from "../../shared-features/appAxios";
 import { AxiosError } from "axios";
 import { UserCreateDto, UserReadDto, UserUpdateDto } from "./userDto";
+import { logout } from "../auth/authSlice";
 
 interface UserState {
-  data: UserReadDto | null;
   loading: boolean;
   error?: string;
-  isRegistered: boolean;
 }
 
 const initialState: UserState = {
-  data: null,
   loading: false,
   error: undefined,
-  isRegistered: false,
 };
 
 export const signup = createAsyncThunk<
@@ -39,25 +36,6 @@ export const signup = createAsyncThunk<
   }
 });
 
-export const fetchCurrentUser = createAsyncThunk<
-  UserReadDto,
-  void,
-  { rejectValue: string }
->("user/fetchCurrentUser", async (_, { rejectWithValue }) => {
-  try {
-    const response = await appAxios.get("/api/v1/users/me");
-    return response.data;
-  } catch (error) {
-    const axiosError = error as AxiosError;
-    if (axiosError.response && axiosError.response.data) {
-      return rejectWithValue(
-        JSON.stringify(axiosError.response.data) || "Fetch failed"
-      );
-    }
-    return rejectWithValue("Fetch failed");
-  }
-});
-
 export const updateCurrentUser = createAsyncThunk<
   boolean,
   UserUpdateDto,
@@ -77,14 +55,32 @@ export const updateCurrentUser = createAsyncThunk<
   }
 });
 
+
+
+export const deleteUser = createAsyncThunk(
+  "user/deleteUser",
+  async (_, { rejectWithValue, dispatch }) => {
+    try {
+      await appAxios.delete("/api/v1/users/me");
+      dispatch(logout()); 
+      return;
+    }  catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response && axiosError.response.data) {
+        return rejectWithValue(
+          JSON.stringify(axiosError.response.data) || "Update failed"
+        );
+      }
+      return rejectWithValue("Delete failed");
+    }
+  }
+);
+
+
 const userSlice = createSlice({
-  name: "user",
+  name: "users",
   initialState,
-  reducers: {
-    resetRegistrationState(state) {
-      state.isRegistered = false;
-    },
-  },
+  reducers: {},
 
   extraReducers: (builder) => {
     builder.addCase(signup.pending, (state) => {
@@ -95,7 +91,6 @@ const userSlice = createSlice({
       (state, action: PayloadAction<UserReadDto>) => {
         state.loading = false;
         state.error = undefined;
-        state.isRegistered = true;
       }
     );
     builder.addCase(
@@ -103,27 +98,6 @@ const userSlice = createSlice({
       (state, action: PayloadAction<string | undefined>) => {
         state.loading = false;
         state.error = action.payload;
-        state.isRegistered = false;
-      }
-    );
-
-    builder.addCase(fetchCurrentUser.pending, (state) => {
-      state.loading = true;
-    });
-    builder.addCase(
-      fetchCurrentUser.fulfilled,
-      (state, action: PayloadAction<UserReadDto>) => {
-        state.data = action.payload;
-        state.loading = false;
-        state.error = undefined;
-      }
-    );
-    builder.addCase(
-      fetchCurrentUser.rejected,
-      (state, action: PayloadAction<string | undefined>) => {
-        state.error = action.payload;
-        state.loading = false;
-        state.data = null;
       }
     );
 
@@ -134,6 +108,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = undefined;
     });
+
     builder.addCase(
       updateCurrentUser.rejected,
       (state, action: PayloadAction<string | undefined>) => {
@@ -141,13 +116,21 @@ const userSlice = createSlice({
         state.loading = false;
       }
     );
+
+    builder.addCase(deleteUser.pending, (state) => {
+      state.loading = true;
+    });
+    builder.addCase(deleteUser.fulfilled, (state) => {
+      state.loading = false;
+      state.error = undefined;
+    });
+
+
   },
 });
-export const { resetRegistrationState } = userSlice.actions;
 export const { reducer: userReducer } = userSlice;
 export const userActions = {
   signup,
-  fetchCurrentUser,
+  deleteUser,
   updateCurrentUser,
-  resetRegistrationState
 };

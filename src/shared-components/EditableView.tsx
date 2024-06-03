@@ -23,6 +23,7 @@ interface EditableViewProps {
   fields: Field[];
   validationSchema: AnyObjectSchema; 
   toggleEdit: () => void;
+  dataType?: string;
 }
 
 const EditableView: React.FC<EditableViewProps> = ({
@@ -34,9 +35,11 @@ const EditableView: React.FC<EditableViewProps> = ({
   editMode,
   fields,
   toggleEdit,
+  dataType
 }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
+  console.log(data);
   const handleDelete = () => {
     setOpenDeleteDialog(true);
   };
@@ -93,8 +96,9 @@ const EditableView: React.FC<EditableViewProps> = ({
         title="Confirm Delete"
         onConfirm={handleConfirmDelete}
         onCancel={handleCancelDelete}
+        actionType="delete"
       >
-        Are you sure you want to delete this item? This action cannot be undone.
+        Are you sure you want to delete this {dataType? dataType:"account"} This action cannot be undone.
       </ConfirmationDialog>
     </Box>
   );

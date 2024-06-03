@@ -1,4 +1,10 @@
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from "@mui/material";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { CancelButton, DeleteButton } from "./CustomButton";
 
 interface ConfirmationDialogProps {
@@ -7,6 +13,7 @@ interface ConfirmationDialogProps {
   children: React.ReactNode;
   onConfirm: () => void;
   onCancel: () => void;
+  actionType?: string;
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
@@ -15,6 +22,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
   children,
   onConfirm,
   onCancel,
+  actionType,
 }) => {
   return (
     <Dialog
@@ -23,17 +31,23 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
+      <DialogTitle
+        id="alert-dialog-title"
+        sx={{
+          color: actionType === "delete" ? "#ff0000" : "inherit",
+        }}
+      >
+        {title}
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
           {children}
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <CancelButton onClick={onCancel} text="Cancel" size="small"/>
-         
-        <DeleteButton onClick={onConfirm}  text={"Confirm"} />
-       
+        <CancelButton onClick={onCancel} text="Cancel" size="small" />
+
+        <DeleteButton onClick={onConfirm} text={"Confirm"} />
       </DialogActions>
     </Dialog>
   );

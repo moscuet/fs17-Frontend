@@ -2,7 +2,6 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import appAxios from '../../shared-features/appAxios';
 import { UserReadDto } from '../users/userDto';
-import { RootState } from '../../app/store';
 
 interface AuthState {
   user: UserReadDto| null; 
@@ -23,15 +22,12 @@ interface LoginPayload {
   password: string;
 }
 
-
-
 export const login = createAsyncThunk(
   'auth/login',
   async (payload: LoginPayload, { rejectWithValue }) => {
     try {
       const response = await appAxios.post('/api/v1/auth/login', payload);
       const { accessToken, user } = response.data;
-
       localStorage.setItem('token', accessToken);
       return { user, token: accessToken };
     } catch (error) {
@@ -43,11 +39,11 @@ export const login = createAsyncThunk(
     }
   }
 );
+
 export const fetchUserByToken = createAsyncThunk(
   'auth/fetchUserByToken',
   async (_, { getState, rejectWithValue }) => {
-      const state = getState() as RootState; 
-      const token = state.auth.token || localStorage.getItem('token');
+      const token = localStorage.getItem('token');
 
       if (!token) {
           return rejectWithValue('No token available');
@@ -123,4 +119,9 @@ const authSlice = createSlice({
 
 
 export const { logout } = authSlice.actions;
-export default authSlice.reducer;
+export const authReducer = authSlice.reducer;
+export const authActions = {
+  logout,
+  login,
+  fetchUserByToken
+};

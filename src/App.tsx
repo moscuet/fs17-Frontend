@@ -4,11 +4,10 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  useNavigate,
 } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
-import Layout from "./shared-components/Layout";
+import Layout from "./features/layout/Layout";
 import { useAppDispatch } from "./app/hooks";
 import { rehydrateAuth } from "./features/auth/authSlice";
 import UserProfile from "./features/users/UserProfile";
@@ -17,9 +16,11 @@ import Cart from "./features/cart/CartPage";
 import OrderDetails from "./features/orders/OrderDetailsPage";
 import ProductsPage from "./features/products/ProductsPage";
 import PrivateRoute from "./Routes/PrivateRoute";
-import SignUpPage from "./features/users/SignUpPage ";
 import NotFoundPage from "./pages/NotFoundPage";
 import NetworkErrorPage from "./pages/NetworkErrorPage";
+import SignUpPage from "./features/users/SignUpPage ";
+import Contact from "./features/contact/componenets/Contact";
+import ContactConfirmation from "./features/contact/componenets/ContactConfirmation";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -36,10 +37,10 @@ const App: React.FC = () => {
           <Route path="/products" element={<ProductsPage />} />
           <Route path="/about" element={<About />} />
           <Route path="/signup" element={<SignUpPage />} />
+          <Route path="/contact" element={<Contact />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
-          
           <Route
             path="/profile"
             element={
@@ -48,10 +49,8 @@ const App: React.FC = () => {
               </PrivateRoute>
             }
           />
-
           <Route path="/network-error" element={<NetworkErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />
-
         </Routes>
       </Layout>
     </Router>

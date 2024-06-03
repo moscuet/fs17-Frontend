@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Typography, Tabs, Tab, Paper } from "@mui/material";
+import { Box, Container, Typography, Paper } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { fetchCurrentUser, userActions } from "./userSlice";
+import { userActions } from "./userSlice";
 import {
-  fetchAddressByUserId,
   addressActions,
 } from "../addresses/addressSlice";
 import EditableView from "../../shared-components/EditableView";
@@ -15,16 +14,20 @@ import CircularImageBox from "./CircularImageBox";
 import Order from "../orders/OrderList";
 import { ordersActions } from "../orders/orderSlice";
 import ProfileTab from "./ProfileTab";
-import { userFormInitialValues, userTableFileds, userValidationSchema } from "./consts/valueObject";
+import { userFormInitialValues, userTableFileds, userValidationSchema } from "./const/valueObject";
 import { addressTableFileds, addressValidationSchema } from "../addresses/const/valueObject";
+import { authActions } from "../auth/authSlice";
+import { useNavigate } from "react-router-dom";
 
 
 const UserProfile: React.FC = () => {
+  const navigate = useNavigate();
+  
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.user.data);
+  const user = useAppSelector((state) => state.auth.user);
   const addresses = useAppSelector((state) => state.address.items);
   const error = useAppSelector(
-    (state) => state.user.error || state.address.error
+    (state) => state.auth.error || state.address.error
   );
 
   const [tabIndex, setTabIndex] = useState(0);
@@ -35,15 +38,6 @@ const UserProfile: React.FC = () => {
   const [formData, setFormData] = useState<UserForm>(userFormInitialValues );
   const [addressFormDatas, setAddressFormDatas] = useState<AddressForms>({});
 
-  useEffect(() => {
-    dispatch(fetchCurrentUser());
-  }, [dispatch]);
-
-  useEffect(() => {
-    if (user?.id) {
-      dispatch(fetchAddressByUserId(user.id));
-    }
-  }, [dispatch, user]);
 
   useEffect(() => {
     if (user) {
@@ -56,7 +50,6 @@ const UserProfile: React.FC = () => {
       });
     }
   }, [user]);
-
 
   useEffect(() => {
     if (addresses && addresses.length > 0) {
@@ -82,7 +75,6 @@ const UserProfile: React.FC = () => {
     }
   })
 
-
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
@@ -100,7 +92,7 @@ const UserProfile: React.FC = () => {
   const handleSaveUser = () => {
     dispatch(userActions.updateCurrentUser(formData));
     setTimeout(
-      () => dispatch(userActions.fetchCurrentUser()), 100);
+      () => dispatch(authActions.fetchUserByToken()), 100);
     handleEditToggle();
   };
 const handleCloseUserEdit = () => {
@@ -141,10 +133,16 @@ const handleCloseAddressEdit = (id: string) => {
     setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
   }
 
+  const  handleDeleteUser = async () => {
+   await dispatch(userActions.deleteUser());
+   navigate('/')
+  }
+
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
 
  
+
 
   return (
     <Container maxWidth="xl">
@@ -187,6 +185,8 @@ const handleCloseAddressEdit = (id: string) => {
               validationSchema={userValidationSchema}
               toggleEdit={handleEditToggle}
               onClose={handleCloseUserEdit}
+              onDelete={() => handleDeleteUser()}
+
             />
           )}
           {tabIndex === 1 &&
@@ -205,6 +205,7 @@ const handleCloseAddressEdit = (id: string) => {
                   fields={addressTableFileds}
                   validationSchema={addressValidationSchema}
                   toggleEdit={() => handleEditAddressMode(address.id, true)}
+                  dataType="address"
                 />
               </Paper>
               </>
@@ -213,7 +214,6 @@ const handleCloseAddressEdit = (id: string) => {
           {tabIndex === 3 && (<Order/>  )}
         </Box>
       </Box>
-      {/* <FullPageLoader loading={loading}/> */}
     </Container>
   );
 };

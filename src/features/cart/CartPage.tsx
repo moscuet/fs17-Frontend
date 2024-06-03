@@ -34,7 +34,6 @@ const CartPage: React.FC = () => {
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const order = useAppSelector((state) => state.orders.selectedItem);
   const address = useAppSelector((state) => state.address.items[0]);
   const userId = useAppSelector((state) => state.auth.user?.id);
   const [modalOpen, setModalOpen] = useState(false);
