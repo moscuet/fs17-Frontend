@@ -225,7 +225,7 @@ const Navbar = () => {
               component={Link}
               to="/signup"
               sx={{
-                margin:"1rem",
+                marginLeft:"1rem",
                 textTransform: "none",
                 color: "inherit",
                 "&:hover": {
@@ -241,6 +241,7 @@ const Navbar = () => {
             component={Link}
             to="/contact"
             sx={{
+              marginLeft:"1rem",
               textTransform: "none",
               color: "inherit",
               "&:hover": {
