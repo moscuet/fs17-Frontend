@@ -24,42 +24,39 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../auth/authSlice";
 import LoginModal from "../auth/LoginModal";
 
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
+
+const Search = styled('div')(({ theme }) => ({
+  position: 'relative',
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
+  '&:hover': {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
-  marginLeft: theme.spacing(2),
-  width: "100%",
-  [theme.breakpoints.up("md")]: {
-    width: "auto",
-  },
-  display: "flex",
-  alignItems: "center",
+  marginLeft: 0,
+  width: 'auto',
+  display: 'flex',
+  alignItems: 'center',
 }));
 
-const SearchIconWrapper = styled("div")(({ theme }) => ({
+const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
+  height: '100%',
+  position: 'absolute',
+  right: 0,
+  zIndex: 1, 
+  cursor: 'pointer',
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
+  color: 'inherit',
+  '& .MuiInputBase-input': {
+    padding: theme.spacing(1, 1, 1, 2),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("md")]: {
-      width: "20ch",
+    transition: theme.transitions.create('width'),
+    width: '100%',
+    [theme.breakpoints.up('md')]: {
+      width: '20ch',
     },
   },
 }));
@@ -71,6 +68,7 @@ const Navbar = () => {
   const cartItems = useAppSelector((state) => state.cart.items);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
+
   const [searchTerm, setSearchTerm] = useState<string>("");
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -122,6 +120,21 @@ const Navbar = () => {
   const handleCartClick = (e: React.MouseEvent<HTMLElement>) => {
     e.stopPropagation();
     navigate("/cart");
+  };
+
+  const handleSearch = () => {
+    console.log("I am clicked")
+      const params = new URLSearchParams();
+      params.set("search", searchTerm);
+      navigate({ pathname: "/products", search: params.toString() });
+  
+  };
+
+  // Handle Enter key in the search input
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
   };
 
   const menuId = "primary-search-account-menu";
@@ -225,7 +238,7 @@ const Navbar = () => {
               component={Link}
               to="/signup"
               sx={{
-                marginLeft:"1rem",
+                marginLeft: "1rem",
                 textTransform: "none",
                 color: "inherit",
                 "&:hover": {
@@ -241,7 +254,7 @@ const Navbar = () => {
             component={Link}
             to="/contact"
             sx={{
-              marginLeft:"1rem",
+              marginLeft: "1rem",
               textTransform: "none",
               color: "inherit",
               "&:hover": {
@@ -254,10 +267,11 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 1 }} />
           <Search>
-            <SearchIconWrapper>
+            <SearchIconWrapper onClick={handleSearch}>
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase
+              onKeyDown={handleKeyDown}
               placeholder="Search…"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}

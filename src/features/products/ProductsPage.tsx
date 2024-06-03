@@ -31,6 +31,7 @@ const ProductsPage: React.FC = () => {
     const query = new URLSearchParams(location.search);
     const categoryId = query.get("categoryId");
     const search = query.get("search");
+    console.log("search", search);
     const priceRangeParam = query
       .get("priceRange")
       ?.split(",")
@@ -88,6 +89,7 @@ const ProductsPage: React.FC = () => {
     updateUrl(categoryName, searchTerm, [0, 100], null);
   };
 
+  
   const updateUrl = (
     category: string | null,
     search: string | null,
