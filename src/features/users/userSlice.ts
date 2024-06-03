@@ -3,6 +3,7 @@ import appAxios from "../../shared-features/appAxios";
 import { AxiosError } from "axios";
 import { UserCreateDto, UserReadDto, UserUpdateDto } from "./userDto";
 import { logout } from "../auth/authSlice";
+import { toast } from "react-toastify";
 
 interface UserState {
   loading: boolean;
@@ -62,6 +63,7 @@ export const deleteUser = createAsyncThunk(
   async (_, { rejectWithValue, dispatch }) => {
     try {
       await appAxios.delete("/api/v1/users/me");
+      toast.success("Your account deleted! We hope to get you back soon!");
       dispatch(logout()); 
       return;
     }  catch (error) {

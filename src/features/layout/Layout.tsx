@@ -14,7 +14,6 @@ interface LayoutProps {
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const navigate = useNavigate();
 
-
   interface NetworkErrorEvent extends Event {
     detail: {
       message: string;};
