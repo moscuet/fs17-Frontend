@@ -20,7 +20,6 @@ import NotFoundPage from "./pages/NotFoundPage";
 import NetworkErrorPage from "./pages/NetworkErrorPage";
 import SignUpPage from "./features/users/SignUpPage ";
 import Contact from "./features/contact/componenets/Contact";
-import ContactConfirmation from "./features/contact/componenets/ContactConfirmation";
 
 const App: React.FC = () => {
   const dispatch = useAppDispatch();
