@@ -2,12 +2,19 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { AxiosError } from 'axios';
 import appAxios from '../../shared-features/appAxios';
 import { UserReadDto } from '../users/userDto';
+import { toast } from 'react-toastify';
 
 interface AuthState {
   user: UserReadDto| null; 
   token: string | null;
   loading: boolean;
   error?: string;
+}
+
+
+interface AxiosErrorResponse {
+  message: string;
+  statusCode: number;
 }
 
 const initialState: AuthState = {
@@ -29,16 +36,21 @@ export const login = createAsyncThunk(
       const response = await appAxios.post('/api/v1/auth/login', payload);
       const { accessToken, user } = response.data;
       localStorage.setItem('token', accessToken);
+      toast.success('Login successful');
       return { user, token: accessToken };
     } catch (error) {
-      const axiosError = error as AxiosError;
+      const axiosError = error as AxiosError<AxiosErrorResponse>;
       if (axiosError.response && axiosError.response.data) {
-        return rejectWithValue(axiosError.response.data || 'Login failed');
+     const errorMessage = axiosError.response.data.message
+        toast.error(errorMessage);
+        return rejectWithValue(errorMessage);
       }
+      toast.error('Login failed');
       return rejectWithValue('Login failed');
     }
   }
 );
+
 
 export const fetchUserByToken = createAsyncThunk(
   'auth/fetchUserByToken',
