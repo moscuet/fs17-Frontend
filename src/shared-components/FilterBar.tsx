@@ -10,6 +10,8 @@ import {
   Typography,
   useTheme 
 } from "@mui/material";
+import { PrimaryButton } from "./CustomButton";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface Category {
   id: string;
@@ -26,8 +28,9 @@ interface FilterBarProps {
     newValue: number | number[]
   ) => void;
   sortOption: string | null;
-  handleSortChange: (event: SelectChangeEvent<string>) => void;
+  selectedSortOption: string | null;
   categories: Category[];
+  handleSortByPrice: (event: SelectChangeEvent<string>) => void;
 }
 
 const FilterBar: React.FC<FilterBarProps> = ({
@@ -37,10 +40,12 @@ const FilterBar: React.FC<FilterBarProps> = ({
   handlePriceChange,
   handlePriceChangeCommitted,
   sortOption,
-  handleSortChange,
-  categories,
+  handleSortByPrice,
+ categories,
+ selectedSortOption
 }) => {
   const theme = useTheme(); 
+  const navigate = useNavigate();
 
   return (
     <Box
@@ -155,17 +160,20 @@ const FilterBar: React.FC<FilterBarProps> = ({
         <InputLabel id="sort-select-label" sx={{ color: theme.palette.text.primary }}>Sort By</InputLabel>
         <Select
           labelId="sort-select-label"
-          value={sortOption || ""}
-          onChange={handleSortChange}
+          value={selectedSortOption || ""}
+          onChange={handleSortByPrice}
           size="small"
         >
           <MenuItem value="">
             <em>None</em>
           </MenuItem>
-          <MenuItem value="date">Price increase</MenuItem>
-          <MenuItem value="price">Price decrease</MenuItem>
+          <MenuItem value="Price increase">Price increase</MenuItem>
+          <MenuItem value="Price decrease">Price decrease</MenuItem>
         </Select>
       </FormControl>
+      <Box>
+        <PrimaryButton text={" Clear filter"} onClick={()=>navigate("/products")} />
+      </Box>
     </Box>
   );
 };

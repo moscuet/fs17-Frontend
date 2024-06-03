@@ -11,10 +11,14 @@ import ProductCard from "./ProductCard";
 
 const ProductsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [priceRange, setPriceRange] = useState<number[]>([0, 100]);
+  const [priceRange, setPriceRange] = useState<number[]>([0, 10000]);
   const [sortOption, setSortOption] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
+  const [ selectedSortOption, setSelectedSortOption] = useState<string | null>(null);
 
+
+ 
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
@@ -25,7 +29,6 @@ const ProductsPage: React.FC = () => {
   const categories: CategoryReadDto[] = useAppSelector(
     (state) => state.categories.items
   );
-
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -48,11 +51,10 @@ const ProductsPage: React.FC = () => {
       productsActions.fetchAllWithParams({
         categoryId: categoryId,
         searchKey: search,
-        // sortBy: sortOption, // Check later
-        sortBy: "Price",
+        sortBy: sortOption, 
         limit: 50,
         startingAfter: 0,
-        sortOrder: "DESC",
+        sortOrder: sortOrder,
         priceRange:
           priceRangeParam && priceRangeParam.length === 2
             ? priceRangeParam.join(",")
@@ -63,7 +65,13 @@ const ProductsPage: React.FC = () => {
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value);
-    updateUrl(event.target.value, searchTerm, priceRange, sortOption);
+    updateUrl(
+      event.target.value,
+      searchTerm,
+      sortOption,
+      sortOrder,
+      priceRange
+    );
   };
 
   const handlePriceChange = (event: Event, newValue: number | number[]) => {
@@ -74,38 +82,46 @@ const ProductsPage: React.FC = () => {
     event: Event | React.SyntheticEvent<Element, Event>,
     newValue: number | number[]
   ) => {
-    updateUrl(selectedCategory, searchTerm, newValue as number[], sortOption);
+    updateUrl(selectedCategory, searchTerm, sortOption, sortOrder, priceRange);
   };
 
-  const handleSortChange = (event: SelectChangeEvent<string>) => {
-    setSortOption(event.target.value);
-    updateUrl(selectedCategory, searchTerm, priceRange, event.target.value);
+  const handleSortByPrice = (event: SelectChangeEvent<string>) => {
+    setSelectedSortOption(event.target.value);
+    let order 
+    if (event.target.value === "Price increase") order = "ASC";
+    if (event.target.value === "Price decrease") order = "DESC";
+    setSortOption("Price");
+    order && setSortOrder(order);
+    
+    updateUrl(selectedCategory, searchTerm, "price", order??"", priceRange);
   };
 
-  const handleCategoryClick = (categoryName: string) => {
-    setSelectedCategory(categoryName);
-    setPriceRange([0, 100]);
+  const handleCategoryClick = (categoryId: string) => {
+    setSelectedCategory(categoryId);
     setSortOption(null);
-    updateUrl(categoryName, searchTerm, [0, 100], null);
+    setSortOrder(null);
+    updateUrl(categoryId, searchTerm, sortOption, sortOrder, priceRange);
   };
 
-  
   const updateUrl = (
     category: string | null,
     search: string | null,
-    priceRange: number[],
-    sortOption: string | null
+    sortOption: string | null,
+    sortOrder: string | null,
+    priceRange: number[]
   ) => {
     const params = new URLSearchParams();
     if (category) params.append("categoryId", category);
     if (search) params.append("search", search);
     if (priceRange) params.append("priceRange", priceRange.join(","));
     if (sortOption) params.append("sortOption", sortOption);
+    if (sortOrder) params.append("sortOrder", sortOrder);
+    console.log(params.toString());
     navigate({ pathname: "/products", search: params.toString() });
   };
 
   return (
-    <Box >
+    <Box>
       <TopCategory handleCategoryClick={handleCategoryClick} />
       <Box sx={{ display: "flex" }}>
         <FilterBar
@@ -115,8 +131,9 @@ const ProductsPage: React.FC = () => {
           handlePriceChange={handlePriceChange}
           handlePriceChangeCommitted={handlePriceChangeCommitted}
           sortOption={sortOption}
-          handleSortChange={handleSortChange}
+          handleSortByPrice={handleSortByPrice}
           categories={categories}
+          selectedSortOption={selectedSortOption}
         />
 
         <Grid container spacing={4} justifyContent={"center"}>

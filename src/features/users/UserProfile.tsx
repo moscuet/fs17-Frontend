@@ -141,9 +141,6 @@ const handleCloseAddressEdit = (id: string) => {
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
 
- 
-
-
   return (
     <Container maxWidth="xl">
       <Box mt={4} display="flex">
