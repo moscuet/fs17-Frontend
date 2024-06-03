@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
 import { useNavigate } from "react-router-dom";
 
-// Validation Schema
 const validationSchema = Yup.object({
   firstName: Yup.string()
     .max(50, "Must be 50 characters or less")

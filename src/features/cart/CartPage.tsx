@@ -52,7 +52,6 @@ const CartPage: React.FC = () => {
     const updatedItems = cartItems.filter((item) => item.id !== id);
     setCartItems(updatedItems);
     dispatch(removeFromCart(id));
-    // saveCart(updatedItems);
   };
 
   const handleIncreaseQuantity = (id: string) => {
@@ -83,7 +82,6 @@ const CartPage: React.FC = () => {
           currentItems.filter((item) => item.id !== id)
         );
       }
-      // saveCart(cartItems.filter((item) => item.id !== id || item.quantity > 1));
     }
   };
 

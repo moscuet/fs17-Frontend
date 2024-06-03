@@ -13,10 +13,8 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ContactConfirmation";
 import contactService from "../service/contactService";
-import { SubmitButton } from "../../../shared-components/CustomButton";
 import theme from "../../../theme/theme";
 
-// Define the validation schema using Yup
 const validationSchema = Yup.object({
   name: Yup.string()
     .max(50, "Must be 50 characters or less")
