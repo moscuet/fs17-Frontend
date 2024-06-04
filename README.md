@@ -106,7 +106,7 @@ Here's a high-level overview of the folder structure:
 ```sh
 fs17-fe-project/
 │
-├── public/ # Public files served by the web server
+├── public/ 
 │ ├── index.html # Entry HTML file
 │ └── assets/productImages
 │
