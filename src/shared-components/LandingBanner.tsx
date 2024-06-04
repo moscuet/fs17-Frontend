@@ -11,7 +11,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageUrl, title }) => {
   return (
     <StyledBox
       sx={{
-        backgroundImage: `url(${imageUrl})`,
+        backgroundImage: `url(${imageUrl?imageUrl:"assets/productLineImages/image_url1.webp"})`,
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',

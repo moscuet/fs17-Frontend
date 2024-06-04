@@ -42,7 +42,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
           <CardMedia
             component="img"
             height="240"
-            image={"/assets/productLineImages/"+ product.images[0].url+'.webp' }// Replace withactual path later
+            image={"/assets/productLineImages/"+ product.images[0].url? product.images[0].url:'image_url1'+'.webp' }
             alt={product.productLineName}
             onClick={navigateToProductDetail} 
           />
