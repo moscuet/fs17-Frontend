@@ -93,6 +93,8 @@ dotnet run
 
 <img width="1420" alt="Screenshot 2024-06-04 at 10 07 35" src="https://github.com/moscuet/fs17-Frontend-project/assets/51766137/534be46d-1dac-4d44-94cf-897c08b2bbfc">
 
+#### User dashboard
+<img width="1426" alt="Screenshot 2024-06-05 at 0 02 58" src="https://github.com/moscuet/fs17-Frontend/assets/51766137/b9a849b1-133f-475b-a1c1-4613d9d6cca6">
 
 
 ## API Reference
@@ -111,8 +113,23 @@ fs17-fe-project/
 │ └── assets/productImages
 │
 ├── src/ # Source files
-│ ├── app/ # Reusable UI components
-│ ├── features/ 
+│ ├── app/ # redux store
+│ ├── common-types/ 
+│ ├── features/
+│    ├── addresses/ # address fearture
+│       ├── const/
+│       ├── addressDto.ts
+│       ├── addressSlice.ts 
+│       ├── AddAddress,tsx
+│       ├── addressSlice.ts 
+│    ├── auth/ 
+│    ├── cart/
+│    ├── categories/
+│    ├── contact/
+│    ├── layout/ 
+│    ├── orders/ 
+│    ├── products/ 
+│    ├── users/
 │ ├── pages/ 
 │ ├── shared-components/
 │ ├── shared-features/
@@ -138,7 +155,7 @@ npm test
 
 # Deployment
 
-Deployed using Netlify for the frontend and potentially AWS or another cloud service for the backend. Continuous integration and deployment are configured to update the live application upon new commits to the repository.
+Deployed using Netlify for the frontend and Railway cloud service for the backend. Continuous integration and deployment are configured to update the live application upon new commits to the repository.
 
 **Live Application:** [fs17-fe-project](https://elaborate-churros-5c1d91.netlify.app/)
 
