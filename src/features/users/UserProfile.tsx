@@ -38,13 +38,6 @@ const UserProfile: React.FC = () => {
   const [formData, setFormData] = useState<UserForm>(userFormInitialValues );
   const [addressFormDatas, setAddressFormDatas] = useState<AddressForms>({});
 
-  useEffect(() => {
-   if(user?.id) {
-    dispatch(addressActions.fetchAddressByUserId(user?.id as string));
-    dispatch(ordersActions.fetchAll());
-   }
-  }, [dispatch, user?.id]);
-
 
   useEffect(() => {
     if (user) {

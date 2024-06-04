@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import "./App.css";
 import {
   BrowserRouter as Router,
@@ -8,8 +8,6 @@ import {
 import HomePage from "./pages/HomePage";
 import About from "./pages/About";
 import Layout from "./features/layout/Layout";
-import { useAppDispatch } from "./app/hooks";
-import { rehydrateAuth } from "./features/auth/authSlice";
 import UserProfile from "./features/users/UserProfile";
 import ProductDetailsPage from "./features/products/ProductDetailsPage";
 import Cart from "./features/cart/CartPage";
@@ -22,11 +20,6 @@ import SignUpPage from "./features/users/SignUpPage ";
 import Contact from "./features/contact/componenets/Contact";
 
 const App: React.FC = () => {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(rehydrateAuth());
-  }, [dispatch]);
 
   return (
     <Router>

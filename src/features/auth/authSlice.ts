@@ -12,7 +12,7 @@ interface AuthState {
 }
 
 
-interface AxiosErrorResponse {
+export interface AxiosErrorResponse {
   message: string;
   statusCode: number;
 }
