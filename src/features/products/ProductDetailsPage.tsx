@@ -35,7 +35,7 @@ const ProductDetailsPage = () => {
   }
 
   const images = product.images.map((img) => img.url);
-
+ console.log(product)
   const handleAddToCart = () => {
     dispatch(
       addToCart({
@@ -64,11 +64,11 @@ const ProductDetailsPage = () => {
         >
           <ImageSlider images={images} />
           <Typography
-            variant="h4"
-            component="h1"
+            variant="h5"
+            component="h5"
             sx={{
               position: "absolute",
-              top: "50%",
+              bottom: "10%",
               left: "50%",
               transform: "translate(-50%, -50%)",
               color: "white",
@@ -101,13 +101,21 @@ const ProductDetailsPage = () => {
             }}
           >
             <Typography
-              variant="h4"
+              variant="h6"
               sx={{
                 color: theme.palette.info.main,
                 fontWeight: "bold",
               }}
             >
               Price: ${product.price}
+            </Typography>
+            <Typography
+              variant="body2"
+              sx={{
+                color: theme.palette.info.main,
+              }}
+            >
+              Size: {product.productSizeValue} Color: {product.productColorValue}
             </Typography>
             <Typography variant="h6" sx={{ marginTop: 2, fontStyle: "italic" }}>
               See shipping costs from €4.90

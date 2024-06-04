@@ -18,7 +18,8 @@ interface ImageSliderProps {
         const newIndex = isLastImage ? 0 : currentIndex + 1;
         setCurrentIndex(newIndex);
     };
- const imageUrl = `/assets/productLineImages/${images[currentIndex]}`
+ const imageUrl = `/assets/productLineImages/${images[currentIndex]}.webp`
+ console.log('imageUrl',imageUrl )
     return (
         <div className="slider">
         <button onClick={goToPrevious} className="left-arrow">&lt;</button>
