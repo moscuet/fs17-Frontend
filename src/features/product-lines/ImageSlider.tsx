@@ -18,15 +18,15 @@ interface ImageSliderProps {
         const newIndex = isLastImage ? 0 : currentIndex + 1;
         setCurrentIndex(newIndex);
     };
-
+ const imageUrl = `/assets/productLineImages/${images[currentIndex]}`
     return (
         <div className="slider">
         <button onClick={goToPrevious} className="left-arrow">&lt;</button>
-        {/* <img src={images[currentIndex]} alt={`Slide ${currentIndex}`} /> */}
-        <img 
+        <img src={imageUrl} alt={`Slide ${currentIndex}`} />
+        {/* <img 
             src={"/assets/productLineImages/defaultProduct.webp"} 
             alt="Default Product" 
-        />
+        /> */}
         <button onClick={goToNext} className="right-arrow">&gt;</button>
     </div>
         
