@@ -42,7 +42,7 @@ const UserProfile: React.FC = () => {
   useEffect(() => {
     dispatch(fetchAddressByUserId(user?.id as string));
     dispatch(ordersActions.fetchAll());
-  }, [dispatch]);
+  }, [dispatch, user?.id]);
 
 
   useEffect(() => {
