@@ -28,7 +28,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
     };
   
     return (
-      <Grid item xs={12} sm={6} md={4} key={product.id}>
+      <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
         <Card
           sx={{
             cursor: "pointer",
@@ -53,7 +53,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
             <Typography variant="body2" color="textSecondary">
               Size: {product.productSizeValue}, Color: {product.productColorValue}
             </Typography>
-            <Typography variant="h6" sx={{ color: theme.palette.info.main }}>
+            <Typography variant="h6" sx={{ color: theme.palette.warning.main }}>
               ${product.price.toFixed(2)}
             </Typography>
             <SaveButton

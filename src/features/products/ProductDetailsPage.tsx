@@ -35,7 +35,7 @@ const ProductDetailsPage = () => {
   }
 
   const images = product.images.map((img) => img.url);
- console.log(product)
+  console.log(product);
   const handleAddToCart = () => {
     dispatch(
       addToCart({
@@ -63,20 +63,6 @@ const ProductDetailsPage = () => {
           }}
         >
           <ImageSlider images={images} />
-          <Typography
-            variant="h5"
-            component="h5"
-            sx={{
-              position: "absolute",
-              bottom: "10%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              color: "white",
-              textShadow: "1px 1px 4px rgba(0, 0, 0, 0.7)",
-            }}
-          >
-            {product.productLineName}
-          </Typography>
         </Grid>
         <Grid
           item
@@ -101,9 +87,18 @@ const ProductDetailsPage = () => {
             }}
           >
             <Typography
-              variant="h6"
+              variant="h4"
               sx={{
                 color: theme.palette.info.main,
+                fontWeight: "bold",
+              }}
+            >
+              {product.productLineName}
+            </Typography>
+            <Typography
+              variant="h6"
+              sx={{
+                color: theme.palette.warning.main,
                 fontWeight: "bold",
               }}
             >
@@ -112,10 +107,11 @@ const ProductDetailsPage = () => {
             <Typography
               variant="body2"
               sx={{
-                color: theme.palette.info.main,
+                color: theme.palette.text.secondary,
               }}
             >
-              Size: {product.productSizeValue} Color: {product.productColorValue}
+              Size: {product.productSizeValue} Color:{" "}
+              {product.productColorValue}
             </Typography>
             <Typography variant="h6" sx={{ marginTop: 2, fontStyle: "italic" }}>
               See shipping costs from €4.90
@@ -128,7 +124,7 @@ const ProductDetailsPage = () => {
               sx={{
                 marginTop: 1,
                 fontStyle: "italic",
-                color: theme.palette.info.main,
+                color: theme.palette.warning.main,
                 fontWeight: "bold",
               }}
             >
