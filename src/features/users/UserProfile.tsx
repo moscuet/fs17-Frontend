@@ -4,7 +4,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
 import {
   addressActions,
-  fetchAddressByUserId,
 } from "../addresses/addressSlice";
 import EditableView from "../../shared-components/EditableView";
 import theme from "../../theme/theme";
@@ -40,8 +39,10 @@ const UserProfile: React.FC = () => {
   const [addressFormDatas, setAddressFormDatas] = useState<AddressForms>({});
 
   useEffect(() => {
-    dispatch(fetchAddressByUserId(user?.id as string));
+   if(user?.id) {
+    dispatch(addressActions.fetchAddressByUserId(user?.id as string));
     dispatch(ordersActions.fetchAll());
+   }
   }, [dispatch, user?.id]);
 
 
