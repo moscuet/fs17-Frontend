@@ -75,7 +75,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
     onChangeCommitted={handlePriceChangeCommitted}
     valueLabelDisplay="auto"
     min={0}
-    max={100}
+    max={1000}
     sx={{
       '& .MuiSlider-thumb': {
         backgroundColor: theme.palette.secondary.main, 
