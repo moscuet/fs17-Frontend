@@ -1,51 +1,29 @@
-# Frontend project
+# Fullstack Project Overview
 
+This project involves creating a robust full-stack application utilizing modern technologies including React, Redux Toolkit, TypeScript, SASS on the frontend, and ASP.NET Core with Entity Framework Core and PostgreSQL on the backend. This application is designed to cater to both regular users and administrators, providing a seamless and interactive experience.
 
-This repository for the Frontend project to build an e-commerce website.
+## Technologies Used
 
-## Requirements
+- **Frontend:** SASS, TypeScript, React, Redux Toolkit
+- **Backend:** ASP.NET Core, Entity Framework Core, PostgreSQL
 
-### Basic requirements
+## Project Repositories
 
-The Front end project must use TypeScript and Redux toolkit.
+- **Frontend Repository:** [Frontend Repo](https://github.com/Integrify-Finland/fs17-Frontend-project)
+- **Backend Repository:** [Backend Repo](https://github.com/moscuet/CSharp_FullStack)
 
-1. Use the API endpoint `https://fakeapi.platzi.com/`.
+## Live Version
 
-2. Create at lease 4 pages (can be more if you want): Page for all products, product page, profile page (only available if user logins), and cart page (cart page could be a page or a modal)
+Access the live version of the application [here](https://main--elaborate-churros-5c1d91.netlify.app/).
 
-3. Create Redux store for following features:
+## Getting Started
 
-   - product reducer: get all products, find a single products, filter products by categories, sort products by price. Create, update and delete a product (enable update & delete features only for admin of the webapp)
-   - user reducer: register and login
-   - cart reducer: add product to cart, remove products, update products's quantity in cart
+### Prerequisites
 
-4. When adding routers to your application, set certain routes to be private. For example, route to user profile page should not be accessible if user has not logged in.
+- Ensure you have the latest version of [.NET Core](https://dotnet.microsoft.com/) and [Node.js](https://nodejs.org/) installed.
 
-5. Styling: must have responsive
+### Installation
 
-6. Implement unit testing for the reducers
-
-7. **Deploy** the application and rewrite README file.
-
-### Additional features:
-
-- Use Context API to switch theme
-- Use pagination when fetching/displaying all the products
-- Implement performance optimization where applicable
-
-## Grading (1-5)
-
-1: Late submission or not complete basic requirements
-
-2: Basic requirement + Presentation
-
-3: Folder structure + follow convention(naming convention ,loading, error) + some additional features
-
-4: All additional features + reusable logic + custom hook
-
-5: UI-UX (for example: send alert when user add same product) + styling (animation or transition, scroll to top) + advanced feature (google log in)
-
-## Deadline
-
-- Presentation: **7/3** and **8/3/ 2024**
-- Submitting Front-end project **10am 8/3/2024**
+1. **Clone the backend repository:**
+   ```bash
+   git clone https://github.com/moscuet/CSharp_FullStack.git

@@ -60,7 +60,7 @@ const ProductsPage: React.FC = () => {
             : undefined,
       })
     );
-  }, [location.search, dispatch, setSelectedCategory, setSearchTerm]);
+  }, [location.search, dispatch, setSelectedCategory, setSearchTerm, sortOrder]);
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value);
