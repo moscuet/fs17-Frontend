@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Container, Typography } from "@mui/material";
+import { Box, CircularProgress, Container, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { ordersActions } from "./orderSlice";
@@ -18,8 +18,13 @@ const OrderList: React.FC = () => {
 
   const orders = useAppSelector((state) => state.orders);
 
+ 
   if (orders.loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (orders.items.length < 1) {
