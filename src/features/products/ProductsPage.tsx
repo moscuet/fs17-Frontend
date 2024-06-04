@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, SelectChangeEvent, Grid } from "@mui/material";
+import { Box, SelectChangeEvent, Grid, CircularProgress } from "@mui/material";
 import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { CategoryReadDto } from "../categories/categoryDto";
 import FilterBar from "../../shared-components/FilterBar";
@@ -23,9 +23,12 @@ const ProductsPage: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
 
+  const loading = useAppSelector((state) => state.products.loading);
   const products: ProductReadDto[] = useAppSelector(
     (state) => state.products.items
   );
+
+
   const categories: CategoryReadDto[] = useAppSelector(
     (state) => state.categories.items
   );
@@ -119,6 +122,15 @@ const ProductsPage: React.FC = () => {
     navigate({ pathname: "/products", search: params.toString() });
   };
 
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+  
   return (
     <Box>
       <TopCategory handleCategoryClick={handleCategoryClick} />

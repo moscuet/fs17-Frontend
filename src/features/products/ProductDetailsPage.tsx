@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Typography, Button, Grid, Paper, Box, Container } from "@mui/material";
+import { Typography, Button, Grid, Paper, Box, Container, CircularProgress } from "@mui/material";
 import { productsActions } from "./productsSlice";
 import { addToCart } from "../cart/cartSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
@@ -22,8 +22,13 @@ const ProductDetailsPage = () => {
     }
   }, [id, dispatch]);
 
+ 
   if (loading) {
-    return <Typography>Loading...</Typography>;
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
   }
 
   if (error) {

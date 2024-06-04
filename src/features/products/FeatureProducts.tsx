@@ -4,6 +4,7 @@ import {
   Typography,
   Container,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../app/hooks";
@@ -27,12 +28,23 @@ const ProductsDisplay: React.FC<{ products: ProductReadDto[] }> = ({
 };
 
 const FeatureProducts: React.FC = () => {
-  const products: ProductReadDto[] = useAppSelector(
-    (state) => state.products.items
-  );
   const navigate = useNavigate();
 
-  const randomProducts = shuffleArray([...products]).slice(0, 6);
+  const {items, loading}= useAppSelector(
+    (state) => state.products
+  );
+
+
+  const randomProducts = shuffleArray([...items]).slice(0, 6);
+
+
+  if (loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
 
   return (
     <ThemeProvider theme={theme}>
