@@ -34,7 +34,6 @@ const ProductsPage: React.FC = () => {
     const query = new URLSearchParams(location.search);
     const categoryId = query.get("categoryId");
     const search = query.get("search");
-    console.log("search", search);
     const priceRangeParam = query
       .get("priceRange")
       ?.split(",")
@@ -61,7 +60,7 @@ const ProductsPage: React.FC = () => {
             : undefined,
       })
     );
-  }, [location.search, dispatch]);
+  }, [location.search, dispatch, setSelectedCategory, setSearchTerm]);
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value);

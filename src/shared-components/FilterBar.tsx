@@ -11,7 +11,7 @@ import {
   useTheme 
 } from "@mui/material";
 import { PrimaryButton } from "./CustomButton";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface Category {
   id: string;
