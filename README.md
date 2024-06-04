@@ -17,7 +17,7 @@
 
 **Deployed Application:** [fs17-fe-project Live](https://elaborate-churros-5c1d91.netlify.app/)
 
-**Frontend Repository:** [GitHub Repo](https://github.com/moscuet/fs17-Frontend)
+**Backend deployed :** [GitHub Repo](https://virtuous-motivation-production.up.railway.app/index.html)
 
 **Backend Repository:** [GitHub Backend Repo](https://github.com/moscuet/CSharp_FullStack)
 
