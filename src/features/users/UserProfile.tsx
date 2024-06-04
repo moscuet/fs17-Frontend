@@ -2,9 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Container, Typography, Paper } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { userActions } from "./userSlice";
-import {
-  addressActions,
-} from "../addresses/addressSlice";
+import { addressActions } from "../addresses/addressSlice";
 import EditableView from "../../shared-components/EditableView";
 import theme from "../../theme/theme";
 import AddAddress from "../addresses/AddAddress";
@@ -14,15 +12,21 @@ import CircularImageBox from "./CircularImageBox";
 import Order from "../orders/OrderList";
 import { ordersActions } from "../orders/orderSlice";
 import ProfileTab from "./ProfileTab";
-import { userFormInitialValues, userTableFileds, userValidationSchema } from "./const/valueObject";
-import { addressTableFileds, addressValidationSchema } from "../addresses/const/valueObject";
+import {
+  userFormInitialValues,
+  userTableFileds,
+  userValidationSchema,
+} from "./const/valueObject";
+import {
+  addressTableFileds,
+  addressValidationSchema,
+} from "../addresses/const/valueObject";
 import { authActions } from "../auth/authSlice";
 import { useNavigate } from "react-router-dom";
 
-
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
-  
+
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const addresses = useAppSelector((state) => state.address.items);
@@ -35,9 +39,8 @@ const UserProfile: React.FC = () => {
   const [editAddressMode, setEditAddressMode] = useState<{
     [id: string]: boolean;
   }>({});
-  const [formData, setFormData] = useState<UserForm>(userFormInitialValues );
+  const [formData, setFormData] = useState<UserForm>(userFormInitialValues);
   const [addressFormDatas, setAddressFormDatas] = useState<AddressForms>({});
-
 
   useEffect(() => {
     if (user) {
@@ -68,12 +71,11 @@ const UserProfile: React.FC = () => {
     }
   }, [addresses]);
 
-
   useEffect(() => {
     if (user) {
       dispatch(ordersActions.fetchAll());
     }
-  })
+  });
 
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
@@ -91,13 +93,12 @@ const UserProfile: React.FC = () => {
 
   const handleSaveUser = () => {
     dispatch(userActions.updateCurrentUser(formData));
-    setTimeout(
-      () => dispatch(authActions.fetchUserByToken()), 100);
+    setTimeout(() => dispatch(authActions.fetchUserByToken()), 100);
     handleEditToggle();
   };
-const handleCloseUserEdit = () => {
-  setEditMode(false);
-}
+  const handleCloseUserEdit = () => {
+    setEditMode(false);
+  };
 
   const handleEditAddressMode = (id: string, mode: boolean) => {
     setEditAddressMode({ ...editAddressMode, [id]: mode });
@@ -111,11 +112,13 @@ const handleCloseUserEdit = () => {
       })
     );
     setEditAddressMode({ ...editAddressMode, [id]: false });
-    setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
+    setTimeout(() =>
+      dispatch(addressActions.fetchAddressByUserId(user?.id as string))
+    );
   };
-const handleCloseAddressEdit = (id: string) => {
-  setEditAddressMode({ ...editAddressMode, [id]: false });
-}
+  const handleCloseAddressEdit = (id: string) => {
+    setEditAddressMode({ ...editAddressMode, [id]: false });
+  };
 
   const handleAddressInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -128,15 +131,17 @@ const handleCloseAddressEdit = (id: string) => {
     });
   };
 
-  const  handleDeleteAddress = async (id: string) => {
+  const handleDeleteAddress = async (id: string) => {
     await dispatch(addressActions.deleteAddress(id));
-    setTimeout(() => dispatch(addressActions.fetchAddressByUserId(user?.id as string)));
-  }
+    setTimeout(() =>
+      dispatch(addressActions.fetchAddressByUserId(user?.id as string))
+    );
+  };
 
-  const  handleDeleteUser = async () => {
-   await dispatch(userActions.deleteUser());
-   navigate('/')
-  }
+  const handleDeleteUser = async () => {
+    await dispatch(userActions.deleteUser());
+    navigate("/");
+  };
 
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
@@ -160,14 +165,14 @@ const handleCloseAddressEdit = (id: string) => {
           <Box display={"flex"} justifyContent={"center"} mb={1}>
             <CircularImageBox imageUrl="default_avatar.webp" size={120} />
           </Box>
-          <ProfileTab tabIndex={tabIndex} handleTabChange={handleTabChange}/>
+          <ProfileTab tabIndex={tabIndex} handleTabChange={handleTabChange} />
         </Box>
         <Box
           sx={{
             flexGrow: 1,
             ml: "280px",
             padding: "20px",
-            maxWidth:"600px",
+            maxWidth: "600px",
             backgroundColor: theme.palette.background.default,
             color: theme.palette.text.primary,
           }}
@@ -183,32 +188,32 @@ const handleCloseAddressEdit = (id: string) => {
               toggleEdit={handleEditToggle}
               onClose={handleCloseUserEdit}
               onDelete={() => handleDeleteUser()}
-
             />
           )}
-          {tabIndex === 1 &&
 
-            addresses.map((address) => (
-              <>
-              { addresses.length<1 && <Typography>You have No Saved address</Typography>}
-              <Paper key={address.id} sx={{ p: 2, mb: 2 }}>
-                <EditableView
-                  data={addressFormDatas[address.id]}
-                  onChange={(e) => handleAddressInputChange(e, address.id)}
-                  onSave={() => handleSaveAddress(address.id)}
-                  onClose={() => handleCloseAddressEdit(address.id)}
-                  onDelete={() => handleDeleteAddress(address.id)}
-                  editMode={editAddressMode[address.id]}
-                  fields={addressTableFileds}
-                  validationSchema={addressValidationSchema}
-                  toggleEdit={() => handleEditAddressMode(address.id, true)}
-                  dataType="address"
-                />
-              </Paper>
-              </>
-            ))}
+          {tabIndex === 1 && (
+            <>
+              { addresses.length<0 && <Typography>You have No Saved address</Typography>}
+              {addresses.map((address) => (
+                <Paper key={address.id} sx={{ p: 2, mb: 2 }}>
+                  <EditableView
+                    data={addressFormDatas[address.id]}
+                    onChange={(e) => handleAddressInputChange(e, address.id)}
+                    onSave={() => handleSaveAddress(address.id)}
+                    onClose={() => handleCloseAddressEdit(address.id)}
+                    onDelete={() => handleDeleteAddress(address.id)}
+                    editMode={editAddressMode[address.id]}
+                    fields={addressTableFileds}
+                    validationSchema={addressValidationSchema}
+                    toggleEdit={() => handleEditAddressMode(address.id, true)}
+                    dataType="address"
+                  />
+                </Paper>
+              ))}
+            </>
+          )}
           {tabIndex === 2 && <AddAddress />}
-          {tabIndex === 3 && (<Order/>  )}
+          {tabIndex === 3 && <Order />}
         </Box>
       </Box>
     </Container>
