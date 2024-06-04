@@ -11,7 +11,6 @@ import { InfoButton } from "../shared-components/CustomButton";
 const HomePage: React.FC = () => {
   const location = useLocation();
   const dispatch = useAppDispatch();
-
   useEffect(() => {
     dispatch(fetchAllCategories());
     dispatch(productsActions.fetchAllWithParams({}));

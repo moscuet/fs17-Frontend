@@ -21,11 +21,12 @@ const LoginModal: React.FC<LoginModalProps> = ({title, open, handleClose }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = () => {
-    dispatch(login({ email, password }));
+  const handleLogin = async() => {
+    await dispatch(login({ email, password }));
     handleClose();
   };
 
+  
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>

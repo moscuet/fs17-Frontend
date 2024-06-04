@@ -3,6 +3,7 @@ import { AxiosError } from 'axios';
 import appAxios from '../../shared-features/appAxios';
 import { UserReadDto } from '../users/userDto';
 import { toast } from 'react-toastify';
+import { useAppDispatch } from '../../app/hooks';
 
 interface AuthState {
   user: UserReadDto| null; 
