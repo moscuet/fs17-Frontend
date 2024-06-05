@@ -32,7 +32,6 @@ export interface ProductUpdateDto {
     imageUrls?: string[];
 }
 
-
   
   export interface ProductDetails {
     id: string;

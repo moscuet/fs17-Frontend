@@ -84,12 +84,12 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
     }
   });
 
-  const deleteOne = createAsyncThunk<T, string>(
+  const deleteOne = createAsyncThunk<string, string>(
     `${name}/deleteOne`,
     async (id, { rejectWithValue }) => {
       try {
         const response = await appAxios.delete(`${endpoint}/${id}`);
-        return response.data;
+        return id;
       } catch (e) {
         const error = e as AxiosError;
         return rejectWithValue(error.response?.data);
@@ -210,9 +210,7 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
         state.error = undefined;
       });
       builder.addCase(deleteOne.fulfilled, (state, action) => {
-        state.items = state.items.filter(
-          (item) => item.id !== (action.payload as T).id
-        );
+        state.items = state.items.filter((item) => item.id !== action.payload); 
         state.error = undefined;
       });
       builder.addCase(deleteOne.rejected, (state, action) => {
