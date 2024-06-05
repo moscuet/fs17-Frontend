@@ -11,6 +11,9 @@ import { rehydrateAuth } from "../auth/authSlice";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { addressActions } from "../addresses/addressSlice";
 import { ordersActions } from "../orders/orderSlice";
+import { productLinesActions } from "../product-lines/productLinesSlice";
+import { colorsActions } from "../product-colors/productColorSlice";
+import { sizesActions } from "../product-sizes/productSizeSlice";
 
 interface LayoutProps {
   children: ReactNode;
@@ -45,6 +48,11 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    dispatch(productLinesActions.fetchAll());
+    dispatch(colorsActions.fetchAll());
+    dispatch(sizesActions.fetchAll());
+    dispatch(productLinesActions.fetchAll());
+
     !userId && dispatch(rehydrateAuth());
     if (userId) {
       dispatch(addressActions.fetchAddressByUserId(userId));

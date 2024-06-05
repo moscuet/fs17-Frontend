@@ -1,6 +1,4 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
-
-namespace Eshop.Service.src.Dto {
     export interface ProductColorCreateDto {
         value: string;
     }
@@ -13,4 +11,4 @@ namespace Eshop.Service.src.Dto {
     export interface ProductColorUpdateDto {
         value: string;
     }
-}
+

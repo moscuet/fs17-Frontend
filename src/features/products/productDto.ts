@@ -3,9 +3,9 @@ import { ProductImage } from "../images/imageDto";
 import { ReviewReadDto } from "../reviews/ReviewDto";
 
 export interface ProductCreateDto {
-    productLineId: string;
-    productSizeId?: string;
-    productColorId?: string;
+    productLineId: string ;
+    productSizeId?: string | null;
+    productColorId?: string | null;
     inventory: number;
     imageUrls: string[];
 }
@@ -13,8 +13,8 @@ export interface ProductCreateDto {
 export interface ProductReadDto extends BaseEntity {
   id: string;
   productLineId: string;
-  productSizeId: string;
-  productColorId: string;
+  productSizeId?: string;
+  productColorId?: string;
   inventory: number;
   price: number;
   images: ProductImage[];
@@ -29,6 +29,7 @@ export interface ProductUpdateDto {
     productSizeId?: string;
     productColorId?: string;
     inventory?: number;
+    imageUrls?: string[];
 }
 
 

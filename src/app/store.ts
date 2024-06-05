@@ -8,6 +8,8 @@ import { addressReducer } from '../features/addresses/addressSlice';
 import toastMiddleware from '../middleware/toastNotificationMiddleware';
 import { ordersReducer } from '../features/orders/orderSlice';
 import { authReducer } from '../features/auth/authSlice';
+import { colorsReducer } from '../features/product-colors/productColorSlice';
+import { sizesReducer } from '../features/product-sizes/productSizeSlice';
 export const store = configureStore({
   reducer: {
     products: productsReducer,
@@ -17,7 +19,9 @@ export const store = configureStore({
     address:addressReducer,
     cart: cartReducer,
     orders:ordersReducer,
-    auth: authReducer
+    auth: authReducer,
+    colors:colorsReducer,
+    sizes:sizesReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(toastMiddleware),
 });

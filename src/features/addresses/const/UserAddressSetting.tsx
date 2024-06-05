@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { addressActions } from "../addresses/addressSlice";
-import EditableView from "../../shared-components/EditableView";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { addressActions } from "../addressSlice";
+import EditableView from "../../../shared-components/EditableView";
 import { Paper, Typography } from "@mui/material";
 import {
   addressTableFileds,
   addressValidationSchema,
-} from "../addresses/const/valueObject";
-import { AddressForms } from "./Interface";
+} from "./valueObject";
+import { AddressForms } from "../../users/Interface";
 
 const UserAddressesSetting: React.FC = () => {
   const dispatch = useAppDispatch();

@@ -15,6 +15,8 @@ import NetworkErrorPage from "./pages/NetworkErrorPage";
 import SignUpPage from "./features/users/SignUpPage ";
 import Contact from "./features/contact/componenets/Contact";
 import AdminDashboard from "./features/admin/AdminDashboard";
+import AdminPrivateRoute from "./Routes/AdminPrivateRoute";
+import AdminProfile from "./features/admin/AdminProfile";
 
 const App: React.FC = () => {
   return (
@@ -41,7 +43,7 @@ const App: React.FC = () => {
             </UserPrivateRoute>
           } 
         />
-{/*         
+        
         <Route 
           path="/admin-profile" 
           element={
@@ -49,7 +51,7 @@ const App: React.FC = () => {
               <AdminProfile />
             </AdminPrivateRoute>
           } 
-        /> */}
+        />
 
           <Route path="/network-error" element={<NetworkErrorPage />} />
           <Route path="*" element={<NotFoundPage />} />

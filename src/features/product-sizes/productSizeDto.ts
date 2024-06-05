@@ -6,7 +6,7 @@ import { BaseEntity } from "../../common-types/BaseEntity";
 
     export interface ProductSizeReadDto extends BaseEntity{
         id: string;
-        Value: string;
+        value: string;
     }
 
     export interface ProductSizeUpdateDto {

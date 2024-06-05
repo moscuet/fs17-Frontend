@@ -6,7 +6,7 @@ interface TabProps {
   tabIndex: number;
   handleTabChange: (event: React.SyntheticEvent, newValue: number) => void;
 }
-export default function ProfileTab({ tabIndex, handleTabChange }: TabProps) {
+export default function UserProfileTab({ tabIndex, handleTabChange }: TabProps) {
   return (
     <Box>
       <Tabs

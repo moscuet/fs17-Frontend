@@ -24,39 +24,38 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { logout } from "../auth/authSlice";
 import LoginModal from "../auth/LoginModal";
 
-
-const Search = styled('div')(({ theme }) => ({
-  position: 'relative',
+const Search = styled("div")(({ theme }) => ({
+  position: "relative",
   borderRadius: theme.shape.borderRadius,
   backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
+  "&:hover": {
     backgroundColor: alpha(theme.palette.common.white, 0.25),
   },
   marginRight: theme.spacing(2),
   marginLeft: 0,
-  width: 'auto',
-  display: 'flex',
-  alignItems: 'center',
+  width: "auto",
+  display: "flex",
+  alignItems: "center",
 }));
 
 const SearchIconWrapper = styled(IconButton)(({ theme }) => ({
   padding: theme.spacing(0, 2),
-  height: '100%',
-  position: 'absolute',
+  height: "100%",
+  position: "absolute",
   right: 0,
-  zIndex: 1, 
-  cursor: 'pointer',
+  zIndex: 1,
+  cursor: "pointer",
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: 'inherit',
-  '& .MuiInputBase-input': {
+  color: "inherit",
+  "& .MuiInputBase-input": {
     padding: theme.spacing(1, 1, 1, 2),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
+    transition: theme.transitions.create("width"),
+    width: "100%",
+    [theme.breakpoints.up("md")]: {
+      width: "20ch",
     },
   },
 }));
@@ -80,7 +79,8 @@ const Navbar = () => {
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     if (window.innerWidth >= 960) {
-      navigate("/user-profile");
+      user?.userRole === "User" && navigate("/user-profile");
+      user?.userRole === "Admin" && navigate("/admin-profile");
     } else {
       setAnchorEl(event.currentTarget);
     }
@@ -123,11 +123,10 @@ const Navbar = () => {
   };
 
   const handleSearch = () => {
-    console.log("I am clicked")
-      const params = new URLSearchParams();
-      params.set("search", searchTerm);
-      navigate({ pathname: "/products", search: params.toString() });
-  
+    console.log("I am clicked");
+    const params = new URLSearchParams();
+    params.set("search", searchTerm);
+    navigate({ pathname: "/products", search: params.toString() });
   };
 
   // Handle Enter key in the search input
@@ -194,7 +193,8 @@ const Navbar = () => {
         <MenuItem
           onClick={() => {
             handleMobileMenuClose();
-            navigate("/user-profile");
+            user?.userRole === "User" && navigate("/user-profile");
+            user?.userRole === "Admin" && navigate("/admin-profile");
           }}
         >
           <IconButton

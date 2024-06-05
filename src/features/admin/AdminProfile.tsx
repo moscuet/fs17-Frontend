@@ -2,15 +2,12 @@ import React, { useEffect, useState } from "react";
 import { Box, Container, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import theme from "../../theme/theme";
-import AddAddress from "../addresses/AddAddress";
-import CircularImageBox from "./CircularImageBox";
-import Order from "../orders/OrderList";
 import { ordersActions } from "../orders/orderSlice";
-import ProfileTab from "./UserProfileTab";
-import { authActions } from "../auth/authSlice";
 import { useNavigate } from "react-router-dom";
-import UserAccountSetting from "./UserAccountSetting";
-import UserAddressesSetting from "../addresses/const/UserAddressSetting";
+import UserAccountSetting from "../users/UserAccountSetting";
+import CircularImageBox from "../users/CircularImageBox";
+import AdminProfileTabs from "./AdminProfileTabs";
+import ProductSetting from "./ProductSetting";
 
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -55,7 +52,7 @@ const UserProfile: React.FC = () => {
           <Box display={"flex"} justifyContent={"center"} mb={1}>
             <CircularImageBox imageUrl="default_avatar.webp" size={120} />
           </Box>
-          <ProfileTab tabIndex={tabIndex} handleTabChange={handleTabChange} />
+          <AdminProfileTabs tabIndex={tabIndex} handleTabChange={handleTabChange} />
         </Box>
         <Box
           sx={{
@@ -68,9 +65,7 @@ const UserProfile: React.FC = () => {
           }}
         >
           {tabIndex === 0 && <UserAccountSetting />}
-          {tabIndex === 1 && <UserAddressesSetting />}
-          {tabIndex === 2 && <AddAddress />}
-          {tabIndex === 3 && <Order />}
+          {tabIndex === 1 && <ProductSetting/>}
         </Box>
       </Box>
     </Container>
