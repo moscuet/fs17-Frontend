@@ -41,7 +41,7 @@ export interface UserForm {
     dateOfBirth: string;
   }
 
-export type UserRole = 'user' | 'admin';
+export type UserRole = 'User' | 'Admin';
 
 export interface SignUpFormData extends UserCreateDto { 
   confirmPassword: string;

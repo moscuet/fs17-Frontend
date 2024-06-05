@@ -80,7 +80,7 @@ const Navbar = () => {
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     if (window.innerWidth >= 960) {
-      navigate("/profile");
+      navigate("/user-profile");
     } else {
       setAnchorEl(event.currentTarget);
     }
@@ -194,7 +194,7 @@ const Navbar = () => {
         <MenuItem
           onClick={() => {
             handleMobileMenuClose();
-            navigate("/profile");
+            navigate("/user-profile");
           }}
         >
           <IconButton
