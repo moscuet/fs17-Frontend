@@ -9,7 +9,7 @@ import {
 } from "../addresses/const/valueObject";
 import { AddressForms } from "./Interface";
 
-const UserAddresses: React.FC = () => {
+const UserAddressesSetting: React.FC = () => {
   const dispatch = useAppDispatch();
   const addresses = useAppSelector((state) => state.address.items);
   const user = useAppSelector((state) => state.auth.user);
@@ -105,4 +105,4 @@ const UserAddresses: React.FC = () => {
   );
 };
 
-export default UserAddresses;
+export default UserAddressesSetting;
