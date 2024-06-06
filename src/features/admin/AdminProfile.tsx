@@ -8,6 +8,7 @@ import UserAccountSetting from "../users/UserAccountSetting";
 import CircularImageBox from "../users/CircularImageBox";
 import AdminProfileTabs from "./AdminProfileTabs";
 import ProductSetting from "./ProductSetting";
+import CategorySetting from "./CategorySetting";
 
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -66,6 +67,8 @@ const UserProfile: React.FC = () => {
         >
           {tabIndex === 0 && <UserAccountSetting />}
           {tabIndex === 1 && <ProductSetting/>}
+          {tabIndex === 2 && <CategorySetting/>}
+
         </Box>
       </Box>
     </Container>

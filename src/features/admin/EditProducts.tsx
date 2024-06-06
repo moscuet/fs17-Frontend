@@ -22,6 +22,8 @@ import { ProductReadDto, ProductUpdateDto } from "../products/productDto";
 import { productValidationSchema } from "../products/const/valueObjects";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
 const EditProduct: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -76,6 +78,19 @@ const EditProduct: React.FC = () => {
     }
   };
 
+  const handleRemoveImageUrl = (index: number) => {
+    if (formik.values.imageUrls.length > 1) {
+      const newImageUrls = formik.values.imageUrls.filter(
+        (_, idx) => idx !== index
+      );
+      formik.setFieldValue("imageUrls", newImageUrls);
+    }
+  };
+
+  const handleAddImageUrl = () => {
+    const newImageUrls = [...formik.values.imageUrls, ""];
+    formik.setFieldValue("imageUrls", newImageUrls);
+  };
   const handleCancel = () => {
     setOpenDeleteDialog(false);
   };
@@ -160,7 +175,57 @@ const EditProduct: React.FC = () => {
                 label="Inventory"
                 value={formik.values.inventory}
                 onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.inventory && Boolean(formik.errors.inventory)
+                }
+                helperText={formik.touched.inventory && formik.errors.inventory}
               />
+
+              {formik.values.imageUrls.map((url, index) => (
+                <Box key={index} display="flex" alignItems="center">
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    variant="outlined"
+                    label="Image URL"
+                    placeholder="default_product.webp"
+                    value={url}
+                    onChange={(e) =>
+                      formik.setFieldValue(
+                        `imageUrls[${index}]`,
+                        e.target.value
+                      )
+                    }
+                    onBlur={formik.handleBlur}
+                    error={
+                      formik.touched.imageUrls &&
+                      Boolean(formik.errors.imageUrls?.[index])
+                    }
+                    helperText={
+                      formik.touched.imageUrls &&
+                      formik.errors.imageUrls?.[index]
+                    }
+                  />
+
+                  {formik.values.imageUrls.length > 1 && (
+                    <IconButton
+                      onClick={() => handleRemoveImageUrl(index)}
+                      color="error"
+                    >
+                      <RemoveCircleOutlineIcon />
+                    </IconButton>
+                  )}
+                </Box>
+              ))}
+              <Box>
+                <Button
+                  startIcon={<AddCircleOutlineIcon />}
+                  onClick={handleAddImageUrl}
+                >
+                  Add Image URL
+                </Button>
+              </Box>
 
               <Button
                 color="primary"

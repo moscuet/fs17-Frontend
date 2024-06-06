@@ -176,11 +176,14 @@ const AddProduct: React.FC = () => {
               }
               onBlur={formik.handleBlur}
               error={
-                formik.touched.imageUrls && Boolean(formik.errors.imageUrls?.[index])
+                formik.touched.imageUrls &&
+                Boolean(formik.errors.imageUrls?.[index])
               }
-              helperText={formik.touched.imageUrls && formik.errors.imageUrls?.[index]}
+              helperText={
+                formik.touched.imageUrls && formik.errors.imageUrls?.[index]
+              }
             />
-            
+
             {formik.values.imageUrls.length > 1 && (
               <IconButton
                 onClick={() => handleRemoveImageUrl(index)}

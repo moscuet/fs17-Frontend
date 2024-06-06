@@ -29,7 +29,7 @@ export interface ProductUpdateDto {
     productSizeId?: string;
     productColorId?: string;
     inventory?: number;
-    imageUrls?: string[];
+    imageUrls: string[];
 }
 
   

@@ -7,14 +7,10 @@ import CircularImageBox from "./CircularImageBox";
 import Order from "../orders/OrderList";
 import { ordersActions } from "../orders/orderSlice";
 import ProfileTab from "./UserProfileTab";
-import { authActions } from "../auth/authSlice";
-import { useNavigate } from "react-router-dom";
 import UserAccountSetting from "./UserAccountSetting";
 import UserAddressesSetting from "../addresses/const/UserAddressSetting";
 
 const UserProfile: React.FC = () => {
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const error = useAppSelector(

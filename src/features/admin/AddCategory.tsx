@@ -1,11 +1,88 @@
 import React from 'react';
+import {
+  Box, Typography, TextField, FormControl, InputLabel, Select, Button, MenuItem
+} from '@mui/material';
+import { useFormik } from 'formik';
+import * as Yup from 'yup';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { categoriesActions } from '../categories/categoriesSlice';
 
+// Validation Schema using Yup
+const categoryValidationSchema = Yup.object({
+  name: Yup.string().required('Category name is required'),
+  imageUrl: Yup.string().url('Enter a valid URL'),
+});
+
+// Component
 const AddCategory = () => {
+  const dispatch = useAppDispatch();
+  const categories = useAppSelector(state => state.categories.items); // Assuming categories are stored like this
+
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      parentCategoryId: '',
+      imageUrl: ''
+    },
+    validationSchema: categoryValidationSchema,
+    onSubmit: (values) => {
+      dispatch(categoriesActions.createOne(values));
+      formik.resetForm();
+    }
+  });
+
   return (
-    <div>
-      <h1>Add Category</h1>
-      {/* Add Category Form */}
-    </div>
+    <Box>
+      <Typography variant="h6" sx={{ mb: 2 }}>
+        Add a New Category
+      </Typography>
+
+      <form onSubmit={formik.handleSubmit}>
+        <TextField
+          fullWidth
+          margin="normal"
+          id="name"
+          name="name"
+          label="Category Name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
+        />
+
+        <FormControl fullWidth margin="normal">
+          <InputLabel id="parent-category-label">Parent Category</InputLabel>
+          <Select
+            labelId="parent-category-label"
+            id="parentCategoryId"
+            name="parentCategoryId"
+            value={formik.values.parentCategoryId}
+            label="Parent Category"
+            onChange={formik.handleChange}
+          >
+            {categories.map((category) => (
+              <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
+
+        <TextField
+          fullWidth
+          margin="normal"
+          id="imageUrl"
+          name="imageUrl"
+          label="Image URL"
+          value={formik.values.imageUrl}
+          onChange={formik.handleChange}
+          error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
+          helperText={formik.touched.imageUrl && formik.errors.imageUrl}
+        />
+
+        <Button color="primary" variant="contained" type="submit" sx={{ mt: 2 }}>
+          Save Category
+        </Button>
+      </form>
+    </Box>
   );
 };
 

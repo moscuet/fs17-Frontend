@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route, NavLink } from 'react-router-dom';
-import AddCategory from './AddCategory';
+import AddCategory from './CategorySetting';
 import EditCategory from './EditCategory';
 
 const AdminCategories = () => {
