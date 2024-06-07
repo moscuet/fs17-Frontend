@@ -6,16 +6,22 @@ import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import theme from "../../theme/theme";
 import { SaveButton } from "../../shared-components/CustomButton";
 import { getModifiedImagesUrl } from "../../shared-features/utils";
+import { useAppSelector } from "../../app/hooks";
 
 const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-  
+   const isAdmin = useAppSelector (state => state.auth.user?.userRole ==="Admin")
+
     const navigateToProductDetail = () => {
       navigate(`/products/${product.id}`);
     };
   
     const handleAddToCart = () => {
+      if (isAdmin){
+        navigate( "/products/edit/" + product.id  );
+        return
+      }
       dispatch(
         addToCart({
           id: product.id,
@@ -60,7 +66,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
             </Typography>
             <SaveButton
               onClick={handleAddToCart} 
-              text="Add to Cart"
+              text={isAdmin? "Edit product" : "Add to Cart"}
             />
           </CardContent>
         </Card>

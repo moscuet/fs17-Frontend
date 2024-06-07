@@ -215,6 +215,16 @@ const AddEditProduct: React.FC = () => {
         >
           Save Product
         </Button>
+
+       {
+         id &&  <Button
+          color="secondary"
+          sx={{ ml: 1, mt:2 }}
+          onClick={()=> navigate("/products")}
+        >
+         cancel
+        </Button>
+       }
       </form>
     </Box>
   );

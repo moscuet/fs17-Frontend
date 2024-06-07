@@ -1,5 +1,5 @@
 import React, { ReactNode, useEffect } from "react";
-import { CssBaseline } from "@mui/material";
+import { Box, CssBaseline } from "@mui/material";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme/theme";
 import Footer from "./Footer";
@@ -53,12 +53,12 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div>
+      <Box>
         <CssBaseline />
         <Navbar />
         <div style={{ minHeight: "calc(100vh - 180px)" }}>{children}</div>
         <Footer />
-      </div>
+      </Box>
       <ToastComponent />
     </ThemeProvider>
   );

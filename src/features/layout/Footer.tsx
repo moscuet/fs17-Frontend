@@ -9,9 +9,9 @@ const Footer: React.FC = () => {
     <Box
       component="footer"
       sx={{
+        mt:3,
         backgroundColor: theme.palette.secondary.main,
         padding: theme.spacing(3),
-        mt: 'auto',
         zIndex: 99,
         position: 'relative',
         minHeight: '100px',

@@ -1,8 +1,24 @@
-import React from 'react'
-import AddEditProduct from './AddEditProduct'
+import React from 'react';
+import { Box } from '@mui/material';
+import AddEditProduct from './AddEditProduct';
 
-export default function EditProductPage() {
+const ProductPageLayout = () => {
   return (
-    <AddEditProduct />
-  )
-}
+    <Box display={"flex"} justifyContent={"center"} maxWidth={"xl"}>
+      <Box
+        sx={{
+          boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', 
+          border: '1px solid #ccc' ,
+          marginTop:"20px",
+          padding:"20px",
+          borderRadius:"8px"
+
+        }}
+      >
+        <AddEditProduct />
+      </Box>
+    </Box>
+  );
+};
+
+export default ProductPageLayout;
