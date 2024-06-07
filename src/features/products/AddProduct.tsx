@@ -13,11 +13,11 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { productsActions } from "../products/productsSlice";
+import { productsActions } from "./productsSlice";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import * as Yup from "yup";
-import { productValidationSchema } from "../products/const/valueObjects";
+import { productValidationSchema } from "./const/valueObjects";
 
 interface ProductForm {
   productLineId: string;

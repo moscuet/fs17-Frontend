@@ -1,6 +1,6 @@
 import React from "react";
 import { sizesActions } from "./productSizeSlice";
-import EditItem from "../product-colors/EditColorAndSize";
+import EditItem from "../../shared-components/EditColorAndSize";
 
 const EditSize: React.FC = () => {
   const selectSizes = (state: any) => state.sizes.items;

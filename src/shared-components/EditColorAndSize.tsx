@@ -13,29 +13,38 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { useAppDispatch, useAppSelector } from "../app/hooks";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { colorsActions } from "./productColorSlice";
-import { ColorReadDto } from "./colorDto";
 
-// Component
-const EditColor = () => {
+// Define the valid keys for the state
+type ValidKeys = "colors" | "sizes";
+
+interface EditItemProps {
+  itemName: ValidKeys;
+  actions: {
+    updateOne: (payload: { id: string; updateDto: { value: string } }) => any;
+    deleteOne: (id: string) => any;
+  };
+  selectItems: (state: any) => { id: string; value: string }[];
+}
+
+const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) => {
   const dispatch = useAppDispatch();
-  const colors = useAppSelector((state) => state.colors.items);
+  const items = useAppSelector(selectItems);
   const [editMode, setEditMode] = useState<string | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  const colorValidationSchema = Yup.object({
+  const validationSchema = Yup.object({
     value: Yup.string()
-      .required("Color name is required")
+      .required(`${itemName.slice(0, -1)} name is required`)
       .test(
-        "unique-color",
-        "This color already exists",
+        "unique-item",
+        `This ${itemName.slice(0, -1)} already exists`,
         (value) =>
-          !colors.some(
-            (color) =>
-              color.value.toLowerCase() === value?.toLowerCase()
+          !items.some(
+            (item: { id: string; value: string }) =>
+              item.value.toLowerCase() === value?.toLowerCase() && item.id !== editMode
           )
       ),
   });
@@ -44,33 +53,29 @@ const EditColor = () => {
     initialValues: {
       value: "",
     },
-    validationSchema: colorValidationSchema,
+    validationSchema,
     onSubmit: (values) => {
-        if (editMode) {
-          dispatch(
-            colorsActions.updateOne({ id: editMode, updateDto: values })
-          );
-          setEditMode(null);
-        }
-      },
-      enableReinitialize: true,
+      if (editMode) {
+        dispatch(actions.updateOne({ id: editMode, updateDto: values }));
+        setEditMode(null);
+      }
+    },
+    enableReinitialize: true,
   });
 
-  const handleEdit = (color: ColorReadDto) => {
-    formik.setValues({
-      value: color.value,
-    });
-    setEditMode(color.id);
+  const handleEdit = (item: { id: string; value: string }) => {
+    formik.setValues({ value: item.value });
+    setEditMode(item.id);
   };
 
-  const handleDelete = (colorId: string) => {
+  const handleDelete = (itemId: string) => {
     setOpenDeleteDialog(true);
-    setEditMode(colorId);
+    setEditMode(itemId);
   };
 
   const handleConfirmDelete = async () => {
     if (editMode) {
-      await dispatch(colorsActions.deleteOne(editMode));
+      await dispatch(actions.deleteOne(editMode));
       setOpenDeleteDialog(false);
       setEditMode(null);
     }
@@ -82,9 +87,9 @@ const EditColor = () => {
 
   return (
     <Box>
-      {colors.map((color: ColorReadDto) => (
+      {items.map((item: { id: string; value: string }) => (
         <Box
-          key={color.id}
+          key={item.id}
           sx={{
             mb: 2,
             p: 2,
@@ -95,14 +100,14 @@ const EditColor = () => {
             alignItems: "center",
           }}
         >
-          {editMode === color.id ? (
+          {editMode === item.id ? (
             <form onSubmit={formik.handleSubmit}>
               <TextField
                 fullWidth
                 margin="normal"
                 id="value"
                 name="value"
-                label="Color Name"
+                label={`${itemName.slice(0, -1)} Name`}
                 value={formik.values.value}
                 onChange={formik.handleChange}
                 error={formik.touched.value && Boolean(formik.errors.value)}
@@ -115,23 +120,23 @@ const EditColor = () => {
                 type="submit"
                 sx={{ mt: 2 }}
               >
-                Save Color
+                Save {itemName.slice(0, -1)}
               </Button>
             </form>
           ) : (
             <>
               <Typography>
-                {`${color.id.slice(0, 8)} - ${color.value}`}
+                {`${item.id.slice(0, 8)} - ${item.value}`}
               </Typography>
               <Box>
                 <IconButton
-                  onClick={() => handleEdit(color)}
+                  onClick={() => handleEdit(item)}
                   color="secondary"
                 >
                   <EditIcon />
                 </IconButton>
                 <IconButton
-                  onClick={() => handleDelete(color.id)}
+                  onClick={() => handleDelete(item.id)}
                   color="error"
                 >
                   <DeleteIcon />
@@ -146,8 +151,7 @@ const EditColor = () => {
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this color? This action cannot be
-            undone.
+            Are you sure you want to delete this {itemName.slice(0, -1)}? This action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -161,4 +165,4 @@ const EditColor = () => {
   );
 };
 
-export default EditColor;
+export default EditItem;

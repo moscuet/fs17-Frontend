@@ -3,18 +3,15 @@ import { Box, Container, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import theme from "../../theme/theme";
 import { ordersActions } from "../orders/orderSlice";
-import { useNavigate } from "react-router-dom";
 import UserAccountSetting from "../users/UserAccountSetting";
 import CircularImageBox from "../users/CircularImageBox";
 import AdminProfileTabs from "./AdminProfileTabs";
-import ProductSetting from "./ProductSetting";
-import CategorySetting from "./CategorySetting";
+import ProductSetting from "../products/ProductSetting";
+import CategorySetting from "../categories/CategorySetting";
 import ColorSetting from "../product-colors/ColorSetting";
 import SizeSetting from "../product-sizes/SizeSetting";
 
 const UserProfile: React.FC = () => {
-  const navigate = useNavigate();
-
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const error = useAppSelector(
@@ -52,7 +49,7 @@ const UserProfile: React.FC = () => {
             backgroundColor: theme.palette.background.paper,
           }}
         >
-          <Box display={"flex"} justifyContent={"center"} mb={1}>
+          <Box display={"flex"} justifyContent={"center"} mb={1} mt={1}>
             <CircularImageBox imageUrl="default_avatar.webp" size={120} />
           </Box>
           <AdminProfileTabs tabIndex={tabIndex} handleTabChange={handleTabChange} />
@@ -72,8 +69,6 @@ const UserProfile: React.FC = () => {
           {tabIndex === 2 && <CategorySetting/>}
           {tabIndex === 3 && <ColorSetting/>}
           {tabIndex === 4 && <SizeSetting/>}
-
-
         </Box>
       </Box>
     </Container>

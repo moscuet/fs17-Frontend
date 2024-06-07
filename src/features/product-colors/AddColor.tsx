@@ -1,6 +1,6 @@
 import React from "react";
 import { colorsActions } from "./productColorSlice";
-import AddItem from "./AddColorAndSize";
+import AddItem from "../../shared-components/AddColorAndSize";
 
 const AddColor: React.FC = () => {
   return (

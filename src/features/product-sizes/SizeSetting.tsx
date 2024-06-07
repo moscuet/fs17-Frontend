@@ -13,8 +13,8 @@ const ColorSetting: React.FC = () => {
   return (
     <Box>
       <Tabs value={subTabIndex} onChange={handleSubTabChange}>
-        <Tab label="Add Color" />
-        <Tab label="Edit Color" />
+        <Tab label="Add Size" />
+        <Tab label="Edit Size" />
       </Tabs>
       <Box mt={2}>
         {subTabIndex === 0 && <AddSize/>}

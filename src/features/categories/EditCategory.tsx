@@ -19,8 +19,8 @@ import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { CategoryReadDto, CategoryUpdateDto } from "../categories/categoryDto";
-import { categoriesActions } from "../categories/categoriesSlice";
+import { CategoryReadDto, CategoryUpdateDto } from "./categoryDto";
+import { categoriesActions } from "./categoriesSlice";
 import { categoryValidationSchema } from "./AddCategory";
 
 const Editcategory: React.FC = () => {

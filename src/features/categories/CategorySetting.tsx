@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
-import AddCategory from "./AddCategory";
 import Editcategory from "./EditCategory";
+import AddCategory from "./AddCategory";
 
 const CategorySetting: React.FC = () => {
   const [subTabIndex, setSubTabIndex] = useState(0);

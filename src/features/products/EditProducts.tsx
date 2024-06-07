@@ -17,9 +17,9 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { productsActions } from "../products/productsSlice";
-import { ProductReadDto, ProductUpdateDto } from "../products/productDto";
-import { productValidationSchema } from "../products/const/valueObjects";
+import { productsActions } from "./productsSlice";
+import { ProductReadDto, ProductUpdateDto } from "./productDto";
+import { productValidationSchema } from "./const/valueObjects";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";

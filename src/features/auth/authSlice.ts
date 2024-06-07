@@ -3,6 +3,11 @@ import { AxiosError } from 'axios';
 import appAxios from '../../shared-features/appAxios';
 import { UserReadDto } from '../users/userDto';
 import { toast } from 'react-toastify';
+import { productLinesActions } from '../product-lines/productLinesSlice';
+import { productsActions } from '../products/productsSlice';
+import { categoriesActions } from '../categories/categoriesSlice';
+import { colorsActions } from '../product-colors/productColorSlice';
+import { sizesActions } from '../product-sizes/productSizeSlice';
 
 interface AuthState {
   user: UserReadDto| null; 
@@ -80,6 +85,11 @@ export const rehydrateAuth = createAsyncThunk(
     const token = localStorage.getItem('token');
     if (token) {
       dispatch(fetchUserByToken());
+      dispatch(productLinesActions.fetchAll());
+      dispatch(productsActions.fetchAll());
+      dispatch(categoriesActions.fetchAll());
+      dispatch(colorsActions.fetchAll);
+      dispatch(sizesActions.fetchAll)
     }
   }
 );
