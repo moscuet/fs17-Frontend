@@ -3,12 +3,13 @@ import { Box, Container, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import theme from "../../theme/theme";
 import AddAddress from "../addresses/AddAddress";
-import CircularImageBox from "./CircularImageBox";
+import CircularImageBox from "../../shared-components/CircularImageBox";
 import Order from "../orders/OrderList";
 import { ordersActions } from "../orders/orderSlice";
 import ProfileTab from "./UserProfileTab";
 import UserAccountSetting from "./UserAccountSetting";
 import UserAddressesSetting from "../addresses/const/UserAddressSetting";
+import { isValidUrl } from "../../shared-features/utils";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,12 @@ const UserProfile: React.FC = () => {
     setTabIndex(newValue);
   };
 
+  const avatarImage = user?.avatar
+  ? isValidUrl(user.avatar)
+    ? user.avatar
+    : `/assets/${user.avatar}`
+  : "/assets/default_avatar.webp";
+  
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
 
@@ -49,7 +56,7 @@ const UserProfile: React.FC = () => {
           }}
         >
           <Box display={"flex"} justifyContent={"center"} mb={1}>
-            <CircularImageBox imageUrl="default_avatar.webp" size={120} />
+            <CircularImageBox imageUrl={avatarImage} size={120} />
           </Box>
           <ProfileTab tabIndex={tabIndex} handleTabChange={handleTabChange} />
         </Box>

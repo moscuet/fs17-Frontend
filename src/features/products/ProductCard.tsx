@@ -5,6 +5,7 @@ import { addToCart } from "../cart/cartSlice";
 import { Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 import theme from "../../theme/theme";
 import { SaveButton } from "../../shared-components/CustomButton";
+import { getModifiedImagesUrl } from "../../shared-features/utils";
 
 const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
     const navigate = useNavigate();
@@ -27,6 +28,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
       );
     };
   
+  const imageUrl = getModifiedImagesUrl(product.images[0]?.url || 'image_url1.webp');
     return (
       <Grid item xs={12} sm={6} md={4} lg={3} key={product.id}>
         <Card
@@ -42,7 +44,7 @@ const ProductCard: React.FC<{ product: ProductReadDto }> = ({ product }) => {
           <CardMedia
             component="img"
             height="240"
-            image={`/assets/productLineImages/${product.images[0]?.url || 'image_url1.webp'}`}
+            image={imageUrl}
             alt={product.productLineName}
             onClick={navigateToProductDetail} 
           />

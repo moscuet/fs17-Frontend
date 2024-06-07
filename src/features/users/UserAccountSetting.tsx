@@ -27,6 +27,7 @@ const UserAccountSetting: React.FC = () => {
         email: user.email,
         phoneNumber: user.phoneNumber,
         dateOfBirth: user.dateOfBirth,
+        avatar: user.avatar
       });
     }
   }, [user]);

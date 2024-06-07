@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Typography, Button, Grid, Paper, Box, Container, CircularProgress } from "@mui/material";
 import { productsActions } from "./productsSlice";
 import { addToCart } from "../cart/cartSlice";
@@ -9,12 +9,15 @@ import theme from "../../theme/theme";
 
 const ProductDetailsPage = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const {
     selectedItem: product,
     loading,
     error,
   } = useAppSelector((state) => state.products);
+
+  const userRole = useAppSelector((state) => state.auth.user?.userRole);
 
   useEffect(() => {
     if (id) {
@@ -32,16 +35,20 @@ const ProductDetailsPage = () => {
   }
 
   if (error) {
-    return <Typography>Error: {error}</Typography>;
+    return <Typography margin={4}>Error: {error}</Typography>;
   }
 
   if (!product) {
-    return <Typography>Product not found!</Typography>;
+    return <Typography margin={4}>Product not found!</Typography>;
   }
 
   const images = product.images.map((img) => img.url);
-  console.log(product);
+
   const handleAddToCart = () => {
+    if(userRole === "Admin") {
+      navigate( "/products/edit/" + product.id  );
+      return
+    }
     dispatch(
       addToCart({
         id: product.id,
@@ -55,7 +62,7 @@ const ProductDetailsPage = () => {
   };
 
   return (
-    <Container maxWidth="xl">
+    <Container maxWidth="xl" sx={{ mt: 4 }}>
       <Grid container spacing={3}>
         <Grid
           item
@@ -141,11 +148,11 @@ const ProductDetailsPage = () => {
               sx={{ marginTop: 3, padding: "10px 20px", fontSize: "16px" }}
               onClick={handleAddToCart}
             >
-              Add to Cart
+              {userRole === "Admin" ? "Edit product" : "Add to Cart"}
             </Button>
           </Paper>
         </Grid>
-        <Grid item xs={12}>
+        <Grid item xs={6}>
           <Box mt={2}>
             {product.reviews && product.reviews.length > 0 ? (
               product.reviews.map((review, index) => (
@@ -155,7 +162,7 @@ const ProductDetailsPage = () => {
                 </Box>
               ))
             ) : (
-              <Typography variant="body1">No reviews available</Typography>
+              <Typography variant="body1" textAlign={"center"} mb={2}>No reviews available</Typography>
             )}
           </Box>
         </Grid>

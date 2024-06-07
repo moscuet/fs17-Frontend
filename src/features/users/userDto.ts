@@ -39,6 +39,7 @@ export interface UserForm {
     email: string;
     phoneNumber: string;
     dateOfBirth: string;
+    avatar: string;
   }
 
 export type UserRole = 'User' | 'Admin';

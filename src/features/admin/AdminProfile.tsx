@@ -4,12 +4,13 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import theme from "../../theme/theme";
 import { ordersActions } from "../orders/orderSlice";
 import UserAccountSetting from "../users/UserAccountSetting";
-import CircularImageBox from "../users/CircularImageBox";
+import CircularImageBox from "../../shared-components/CircularImageBox";
 import AdminProfileTabs from "./AdminProfileTabs";
 import ProductSetting from "../products/ProductSetting";
 import CategorySetting from "../categories/CategorySetting";
 import ColorSetting from "../product-colors/ColorSetting";
 import SizeSetting from "../product-sizes/SizeSetting";
+import { isValidUrl } from "../../shared-features/utils";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -29,6 +30,12 @@ const UserProfile: React.FC = () => {
   const handleTabChange = (_event: React.SyntheticEvent, newValue: number) => {
     setTabIndex(newValue);
   };
+
+  const avatarImage = user?.avatar
+    ? isValidUrl(user.avatar)
+      ? user.avatar
+      : `/assets/${user.avatar}`
+    : "/assets/default_avatar.webp";
 
   if (error) return <Typography>Error: {error}</Typography>;
   if (!user) return <Typography>User not found!</Typography>;
@@ -50,9 +57,15 @@ const UserProfile: React.FC = () => {
           }}
         >
           <Box display={"flex"} justifyContent={"center"} mb={1} mt={1}>
-            <CircularImageBox imageUrl="default_avatar.webp" size={120} />
+            <CircularImageBox
+              imageUrl={avatarImage}
+              size={120}
+            />
           </Box>
-          <AdminProfileTabs tabIndex={tabIndex} handleTabChange={handleTabChange} />
+          <AdminProfileTabs
+            tabIndex={tabIndex}
+            handleTabChange={handleTabChange}
+          />
         </Box>
         <Box
           sx={{
@@ -65,10 +78,10 @@ const UserProfile: React.FC = () => {
           }}
         >
           {tabIndex === 0 && <UserAccountSetting />}
-          {tabIndex === 1 && <ProductSetting/>}
-          {tabIndex === 2 && <CategorySetting/>}
-          {tabIndex === 3 && <ColorSetting/>}
-          {tabIndex === 4 && <SizeSetting/>}
+          {tabIndex === 1 && <ProductSetting />}
+          {tabIndex === 2 && <CategorySetting />}
+          {tabIndex === 3 && <ColorSetting />}
+          {tabIndex === 4 && <SizeSetting />}
         </Box>
       </Box>
     </Container>

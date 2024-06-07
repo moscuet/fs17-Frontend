@@ -12,7 +12,7 @@ const ImageCard: React.FC<ImageCardProps> = ({ imageUrl }) => {
     <StyledBox
       sx={{
         backgroundImage: `url(${
-          imageUrl ? imageUrl : "assets/productLineImages/image_url1.webp"
+          imageUrl
         })`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
@@ -29,33 +29,33 @@ const HeroPage = () => {
       <Grid item xs={3} sx={{ height: "100%", boxSizing: "border-box", pr: 1 }}> 
         <Box sx={{ height: "48%", mb: "8%" }}>  
           <ImageCard
-            imageUrl="/assets/productLineImages/hero_cover1.webp"
+            imageUrl="/assets/productImages/hero_cover1.webp"
             title="Image 1"
           />
         </Box>
         <Box sx={{ height: "48%" }}>  
           <ImageCard
-            imageUrl="/assets/productLineImages/hero_cover2.webp"
+            imageUrl="/assets/productImages/hero_cover2.webp"
             title="Image 2"
           />
         </Box>
       </Grid>
       <Grid item xs={6} sx={{ height: "100%" }}>
         <ImageCard
-          imageUrl="/assets/productLineImages/hero_cover.webp"
+          imageUrl="/assets/productImages/hero_cover.webp"
           title="Main Feature"
         />
       </Grid>
       <Grid item xs={3} sx={{ height: "100%", boxSizing: "border-box", pl: 1 }}> 
         <Box sx={{ height: "48%", mb: "8%" }}> 
           <ImageCard
-            imageUrl="/assets/productLineImages/hero_cover3.webp"
+            imageUrl="/assets/productImages/hero_cover3.webp"
             title="Image 3"
           />
         </Box>
         <Box sx={{ height: "48%" }}>
           <ImageCard
-            imageUrl="/assets/productLineImages/hero_cover4.webp"
+            imageUrl="/assets/productImages/hero_cover4.webp"
             title="Image 4"
           />
         </Box>
