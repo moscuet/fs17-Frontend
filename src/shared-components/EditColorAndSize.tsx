@@ -29,7 +29,11 @@ interface EditItemProps {
   selectItems: (state: any) => { id: string; value: string }[];
 }
 
-const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) => {
+const EditItem: React.FC<EditItemProps> = ({
+  itemName,
+  actions,
+  selectItems,
+}) => {
   const dispatch = useAppDispatch();
   const items = useAppSelector(selectItems);
   const [editMode, setEditMode] = useState<string | null>(null);
@@ -122,6 +126,14 @@ const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) =
               >
                 Save {itemName.slice(0, -1)}
               </Button>
+
+              <Button
+                color="secondary"
+                onClick={() => setEditMode(null)}
+                sx={{ mt: 2 }}
+              >
+                Cancel 
+              </Button>
             </form>
           ) : (
             <>
@@ -129,16 +141,10 @@ const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) =
                 {`${item.id.slice(0, 8)} - ${item.value}`}
               </Typography>
               <Box>
-                <IconButton
-                  onClick={() => handleEdit(item)}
-                  color="secondary"
-                >
+                <IconButton onClick={() => handleEdit(item)} color="secondary">
                   <EditIcon />
                 </IconButton>
-                <IconButton
-                  onClick={() => handleDelete(item.id)}
-                  color="error"
-                >
+                <IconButton onClick={() => handleDelete(item.id)} color="error">
                   <DeleteIcon />
                 </IconButton>
               </Box>
@@ -151,11 +157,14 @@ const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) =
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete this {itemName.slice(0, -1)}? This action cannot be undone.
+            Are you sure you want to delete this {itemName.slice(0, -1)}? This
+            action cannot be undone.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
+          <Button color="secondary" onClick={handleCancel}>
+            Cancel
+          </Button>
           <Button onClick={handleConfirmDelete} color="error">
             Delete
           </Button>

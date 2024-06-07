@@ -22,7 +22,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CategoryReadDto, CategoryUpdateDto } from "./categoryDto";
 import { categoriesActions } from "./categoriesSlice";
 import * as Yup from "yup";
-
+import { CancelButton } from "../../shared-components/CustomButton";
 
 export const categoryValidationSchema = (categories: { name: string }[]) =>
   Yup.object({
@@ -38,7 +38,6 @@ export const categoryValidationSchema = (categories: { name: string }[]) =>
       ),
     imageUrl: Yup.string(),
   });
-
 
 const Editcategory: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -60,7 +59,7 @@ const Editcategory: React.FC = () => {
         }),
         imageUrl: values.imageUrl || "default_avatar.webp",
       };
-  
+
       if (editMode) {
         dispatch(
           categoriesActions.updateOne({ id: editMode, updateDto: payload })
@@ -70,7 +69,6 @@ const Editcategory: React.FC = () => {
       }
     },
   });
-  
 
   const handleEdit = (category: CategoryReadDto) => {
     formik.setValues({
@@ -94,10 +92,9 @@ const Editcategory: React.FC = () => {
     }
   };
 
-  const handleCancel = () => {
+  const handleDeleteCancel = () => {
     setOpenDeleteDialog(false);
   };
-
 
   return (
     <Box>
@@ -116,57 +113,68 @@ const Editcategory: React.FC = () => {
         >
           {editMode === category.id ? (
             <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              margin="normal"
-              id="name"
-              name="name"
-              label="Category Name"
-              value={formik.values.name}
-              onChange={formik.handleChange}
-              error={formik.touched.name && Boolean(formik.errors.name)}
-              helperText={formik.touched.name && formik.errors.name}
-            />
-    
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="parent-category-label">Parent Category</InputLabel>
-              <Select
-                labelId="parent-category-label"
-                id="parentCategoryId"
-                name="parentCategoryId"
-                value={formik.values.parentCategoryId}
-                label="Parent Category"
+              <TextField
+                fullWidth
+                margin="normal"
+                id="name"
+                name="name"
+                label="Category Name"
+                value={formik.values.name}
                 onChange={formik.handleChange}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
+              />
+
+              <FormControl fullWidth margin="normal">
+                <InputLabel id="parent-category-label">
+                  Parent Category
+                </InputLabel>
+                <Select
+                  labelId="parent-category-label"
+                  id="parentCategoryId"
+                  name="parentCategoryId"
+                  value={formik.values.parentCategoryId}
+                  label="Parent Category"
+                  onChange={formik.handleChange}
+                >
+                  {categories.map((category) => (
+                    <MenuItem key={category.id} value={category.id}>
+                      {category.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+
+              <TextField
+                fullWidth
+                margin="normal"
+                id="imageUrl"
+                name="imageUrl"
+                label="Image URL"
+                value={formik.values.imageUrl}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.imageUrl && Boolean(formik.errors.imageUrl)
+                }
+                helperText={formik.touched.imageUrl && formik.errors.imageUrl}
+              />
+
+              <Button
+                color="primary"
+                variant="contained"
+                type="submit"
+                sx={{ mt: 2 }}
               >
-                {categories.map((category) => (
-                  <MenuItem key={category.id} value={category.id}>
-                    {category.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-    
-            <TextField
-              fullWidth
-              margin="normal"
-              id="imageUrl"
-              name="imageUrl"
-              label="Image URL"
-              value={formik.values.imageUrl}
-              onChange={formik.handleChange}
-              error={formik.touched.imageUrl && Boolean(formik.errors.imageUrl)}
-              helperText={formik.touched.imageUrl && formik.errors.imageUrl}
-            />
-    
-            <Button
-              color="primary"
-              variant="contained"
-              type="submit"
-              sx={{ mt: 2 }}
-            >
-              Save Category
-            </Button>
-          </form>
+                Save Category
+              </Button>
+              <Button
+                color="secondary"
+                onClick={() => setEditMode(null)}
+                sx={{ mt: 2 }}
+              >
+                Cancel
+              </Button>
+            </form>
           ) : (
             <>
               <Typography>
@@ -191,7 +199,7 @@ const Editcategory: React.FC = () => {
         </Box>
       ))}
 
-      <Dialog open={openDeleteDialog} onClose={handleCancel}>
+      <Dialog open={openDeleteDialog} onClose={handleDeleteCancel}>
         <DialogTitle>Confirm Delete</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -200,7 +208,7 @@ const Editcategory: React.FC = () => {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleCancel}>Cancel</Button>
+          <Button onClick={handleDeleteCancel}>Cancel</Button>
           <Button onClick={handleConfirmDelete} color="error">
             Delete
           </Button>

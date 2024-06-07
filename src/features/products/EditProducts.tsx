@@ -237,8 +237,8 @@ const EditProduct: React.FC = () => {
               </Button>
               <Button
                 color="secondary"
-                onClick={() => setEditMode(null)}
                 sx={{ mt: 2, ml: 2 }}
+                onClick={() => setEditMode(null)}
               >
                 Cancel
               </Button>

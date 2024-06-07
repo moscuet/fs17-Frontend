@@ -46,7 +46,6 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = ({
       </DialogContent>
       <DialogActions>
         <CancelButton onClick={onCancel} text="Cancel" size="small" />
-
         <DeleteButton onClick={onConfirm} text={"Confirm"} />
       </DialogActions>
     </Dialog>
