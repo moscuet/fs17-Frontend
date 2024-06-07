@@ -25,7 +25,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 
-const EditProduct: React.FC = () => {
+const EditProducts: React.FC = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.items);
   const productLines = useAppSelector((state) => state.productLines.items);
@@ -288,4 +288,4 @@ const EditProduct: React.FC = () => {
   );
 };
 
-export default EditProduct;
+export default EditProducts;

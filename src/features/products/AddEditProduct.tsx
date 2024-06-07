@@ -17,6 +17,7 @@ import { productsActions } from "./productsSlice";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { productValidationSchema } from "./const/valueObjects";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface ProductForm {
   productLineId: string;
@@ -34,14 +35,27 @@ const productFormInitialValues: ProductForm = {
   imageUrls: [""],
 };
 
-const AddProduct: React.FC = () => {
+const AddEditProduct: React.FC = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
   const sizes = useAppSelector((state) => state.sizes.items);
   const colors = useAppSelector((state) => state.colors.items);
   const productLines = useAppSelector((state) => state.productLines.items);
+  const { id } = useParams<{ id?: string }>();
+  const product = useAppSelector((state) =>
+    id ? state.products.items.find((p) => p.id === id) : null
+  );
 
   const formik = useFormik<ProductForm>({
-    initialValues: productFormInitialValues,
+    initialValues: {
+      productLineId: product?.productLineId || "",
+      productSizeId: product?.productSizeId || "",
+      productColorId: product?.productColorId || "",
+      inventory: product?.inventory || 0,
+      imageUrls: product?.images.map((img) => img.url) || [""],
+    },
+
     validationSchema: productValidationSchema,
     onSubmit: (values, { resetForm }) => {
       const updatedValues = {
@@ -55,7 +69,13 @@ const AddProduct: React.FC = () => {
           productColorId: values.productColorId,
         }),
       };
-      dispatch(productsActions.createOne(updatedValues));
+      id
+        ? dispatch(productsActions.updateOne({ id, updateDto: updatedValues }))
+        : dispatch(productsActions.createOne(updatedValues));
+      setTimeout(() => {
+        id && navigate(`/products/${id}`);
+        dispatch(productsActions.fetchAll());
+      }, 100);
       resetForm();
     },
   });
@@ -77,7 +97,7 @@ const AddProduct: React.FC = () => {
   return (
     <Box>
       <Typography variant="h6" sx={{ mb: 2 }}>
-        Add a New Product
+        {id ? "Edit Product" : "Add a New Product"}
       </Typography>
 
       <form onSubmit={formik.handleSubmit}>
@@ -207,4 +227,4 @@ const AddProduct: React.FC = () => {
   );
 };
 
-export default AddProduct;
+export default AddEditProduct;

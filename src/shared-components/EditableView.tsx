@@ -71,7 +71,7 @@ const EditableView: React.FC<EditableViewProps> = ({
     <Box>
       {fields.map((field) => (
         <Typography key={field?.name} variant="subtitle1">
-          {data[field?.name]}
+          { field?.name !=="avatar" && data[field?.name]}
         </Typography>
       ))}
       <Button
