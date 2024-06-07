@@ -15,12 +15,20 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { categoriesActions } from "../categories/categoriesSlice";
 
 // Validation Schema using Yup
-export const categoryValidationSchema = Yup.object({
-  name: Yup.string().required("Category name is required"),
+export const categoryValidationSchema = (categories: { name: string }[]) => Yup.object({
+  name: Yup.string()
+    .required("Category name is required")
+    .test(
+      "unique-category",
+      "This category already exists",
+      (value) =>
+        !categories.some(
+          (category) => category.name.toLowerCase() === value?.toLowerCase()
+        )
+    ),
   imageUrl: Yup.string(),
 });
 
-// Component
 const AddCategory = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.items);
@@ -31,14 +39,14 @@ const AddCategory = () => {
       parentCategoryId: "",
       imageUrl: "",
     },
-    validationSchema: categoryValidationSchema,
+    validationSchema: categoryValidationSchema(categories),
     onSubmit: (values) => {
       const payload = {
         name: values.name,
         ...(values.parentCategoryId && {
           parentCategoryId: values.parentCategoryId,
         }),
-        imageUrl: values.imageUrl || "default_avatar.webp", 
+        imageUrl: values.imageUrl || "default_avatar.webp",
       };
       dispatch(categoriesActions.createOne(payload));
       formik.resetForm();

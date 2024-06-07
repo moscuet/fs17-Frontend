@@ -44,7 +44,7 @@ const EditItem: React.FC<EditItemProps> = ({ itemName, actions, selectItems }) =
         (value) =>
           !items.some(
             (item: { id: string; value: string }) =>
-              item.value.toLowerCase() === value?.toLowerCase() && item.id !== editMode
+              item.value.toLowerCase() === value?.toLowerCase()
           )
       ),
   });

@@ -21,39 +21,56 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { CategoryReadDto, CategoryUpdateDto } from "./categoryDto";
 import { categoriesActions } from "./categoriesSlice";
-import { categoryValidationSchema } from "./AddCategory";
+import * as Yup from "yup";
+
+
+export const categoryValidationSchema = (categories: { name: string }[]) =>
+  Yup.object({
+    name: Yup.string()
+      .required("Category name is required")
+      .test(
+        "unique-category",
+        "This category already exists",
+        (value) =>
+          !categories.some(
+            (category) => category.name.toLowerCase() === value?.toLowerCase()
+          )
+      ),
+    imageUrl: Yup.string(),
+  });
+
 
 const Editcategory: React.FC = () => {
   const dispatch = useAppDispatch();
   const categories = useAppSelector((state) => state.categories.items);
   const [editMode, setEditMode] = useState<string | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
-
   const formik = useFormik<CategoryUpdateDto>({
     initialValues: {
       name: "",
       parentCategoryId: "",
       imageUrl: "",
     },
-    validationSchema: categoryValidationSchema,
+    validationSchema: categoryValidationSchema(categories),
     onSubmit: (values) => {
       const payload = {
         name: values.name,
         ...(values.parentCategoryId && {
           parentCategoryId: values.parentCategoryId,
         }),
-        imageUrl: values.imageUrl || "default_avatar.webp", 
+        imageUrl: values.imageUrl || "default_avatar.webp",
       };
-
+  
       if (editMode) {
         dispatch(
-          categoriesActions.updateOne({ id: editMode, updateDto: payload  })
+          categoriesActions.updateOne({ id: editMode, updateDto: payload })
         );
         dispatch(categoriesActions.fetchAll());
         setEditMode(null);
       }
     },
   });
+  
 
   const handleEdit = (category: CategoryReadDto) => {
     formik.setValues({
