@@ -87,6 +87,7 @@ dotnet run
 <img width="1421" alt="Screenshot 2024-06-04 at 10 07 16" src="https://github.com/moscuet/fs17-Frontend-project/assets/51766137/13abba42-a289-45fd-98fc-0be8563522e2">
 
 #### Contacts form 
+
 <img width="771" alt="Screenshot 2024-06-04 at 10 07 28" src="https://github.com/moscuet/fs17-Frontend-project/assets/51766137/03dbeb75-044e-4c32-9f72-282664aeb32e">
 
 #### Cart page 
@@ -94,7 +95,12 @@ dotnet run
 <img width="1420" alt="Screenshot 2024-06-04 at 10 07 35" src="https://github.com/moscuet/fs17-Frontend-project/assets/51766137/534be46d-1dac-4d44-94cf-897c08b2bbfc">
 
 #### User dashboard
+
 <img width="1426" alt="Screenshot 2024-06-05 at 0 02 58" src="https://github.com/moscuet/fs17-Frontend/assets/51766137/b9a849b1-133f-475b-a1c1-4613d9d6cca6">
+
+#### Admin dashboard
+
+<img width="1188" alt="Screenshot 2024-06-07 at 13 21 17" src="https://github.com/moscuet/fs17-Frontend/assets/51766137/24946b41-0e65-4203-9b78-b30f0763437f">
 
 
 ## API Reference
