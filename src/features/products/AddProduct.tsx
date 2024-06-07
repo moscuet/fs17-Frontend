@@ -16,7 +16,6 @@ import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { productsActions } from "./productsSlice";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import * as Yup from "yup";
 import { productValidationSchema } from "./const/valueObjects";
 
 interface ProductForm {
@@ -60,12 +59,6 @@ const AddProduct: React.FC = () => {
       resetForm();
     },
   });
-
-  const handleImageUrlChange = (index: number, value: string) => {
-    const newImageUrls = [...formik.values.imageUrls];
-    newImageUrls[index] = value;
-    formik.setFieldValue("imageUrls", newImageUrls);
-  };
 
   const handleRemoveImageUrl = (index: number) => {
     if (formik.values.imageUrls.length > 1) {

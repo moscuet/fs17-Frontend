@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography, TextField, Button, capitalize } from "@mui/material";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../app/hooks";
