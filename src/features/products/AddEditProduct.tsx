@@ -27,13 +27,6 @@ interface ProductForm {
   imageUrls: string[];
 }
 
-const productFormInitialValues: ProductForm = {
-  productLineId: "",
-  productSizeId: "",
-  productColorId: "",
-  inventory: 0,
-  imageUrls: [""],
-};
 
 const AddEditProduct: React.FC = () => {
   const dispatch = useAppDispatch();
