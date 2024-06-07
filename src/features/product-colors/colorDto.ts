@@ -1,14 +1,14 @@
 import { BaseEntity } from "../../common-types/BaseEntity";
-    export interface ProductColorCreateDto {
+    export interface ColorCreateDto {
         value: string;
     }
 
-    export interface ProductColorReadDto extends BaseEntity {
+    export interface ColorReadDto extends BaseEntity {
         id: string;
         value: string;
     }
 
-    export interface ProductColorUpdateDto {
+    export interface ColorUpdateDto {
         value: string;
     }
 

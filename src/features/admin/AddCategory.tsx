@@ -1,34 +1,48 @@
-import React from 'react';
+import React from "react";
 import {
-  Box, Typography, TextField, FormControl, InputLabel, Select, Button, MenuItem
-} from '@mui/material';
-import { useFormik } from 'formik';
-import * as Yup from 'yup';
-import { useAppDispatch, useAppSelector } from '../../app/hooks';
-import { categoriesActions } from '../categories/categoriesSlice';
+  Box,
+  Typography,
+  TextField,
+  FormControl,
+  InputLabel,
+  Select,
+  Button,
+  MenuItem,
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { useAppDispatch, useAppSelector } from "../../app/hooks";
+import { categoriesActions } from "../categories/categoriesSlice";
 
 // Validation Schema using Yup
-const categoryValidationSchema = Yup.object({
-  name: Yup.string().required('Category name is required'),
-  imageUrl: Yup.string().url('Enter a valid URL'),
+export const categoryValidationSchema = Yup.object({
+  name: Yup.string().required("Category name is required"),
+  imageUrl: Yup.string(),
 });
 
 // Component
 const AddCategory = () => {
   const dispatch = useAppDispatch();
-  const categories = useAppSelector(state => state.categories.items); // Assuming categories are stored like this
+  const categories = useAppSelector((state) => state.categories.items);
 
   const formik = useFormik({
     initialValues: {
-      name: '',
-      parentCategoryId: '',
-      imageUrl: ''
+      name: "",
+      parentCategoryId: "",
+      imageUrl: "",
     },
     validationSchema: categoryValidationSchema,
     onSubmit: (values) => {
-      dispatch(categoriesActions.createOne(values));
+      const payload = {
+        name: values.name,
+        ...(values.parentCategoryId && {
+          parentCategoryId: values.parentCategoryId,
+        }),
+        imageUrl: values.imageUrl || "default_avatar.webp", 
+      };
+      dispatch(categoriesActions.createOne(payload));
       formik.resetForm();
-    }
+    },
   });
 
   return (
@@ -61,7 +75,9 @@ const AddCategory = () => {
             onChange={formik.handleChange}
           >
             {categories.map((category) => (
-              <MenuItem key={category.id} value={category.id}>{category.name}</MenuItem>
+              <MenuItem key={category.id} value={category.id}>
+                {category.name}
+              </MenuItem>
             ))}
           </Select>
         </FormControl>
@@ -78,7 +94,12 @@ const AddCategory = () => {
           helperText={formik.touched.imageUrl && formik.errors.imageUrl}
         />
 
-        <Button color="primary" variant="contained" type="submit" sx={{ mt: 2 }}>
+        <Button
+          color="primary"
+          variant="contained"
+          type="submit"
+          sx={{ mt: 2 }}
+        >
           Save Category
         </Button>
       </form>

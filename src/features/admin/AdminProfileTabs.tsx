@@ -37,8 +37,8 @@ export default function AdminProfileTabs({ tabIndex, handleTabChange }: TabProps
         <Tab label="Account" />
         <Tab label="Product" />
         <Tab label="Category" />
-        <Tab label="Size" />
         <Tab label="Color" />
+        <Tab label="Size" />
       </Tabs>
     </Box>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./App.css";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
@@ -14,11 +14,37 @@ import NotFoundPage from "./pages/NotFoundPage";
 import NetworkErrorPage from "./pages/NetworkErrorPage";
 import SignUpPage from "./features/users/SignUpPage ";
 import Contact from "./features/contact/componenets/Contact";
-import AdminDashboard from "./features/admin/AdminDashboard";
 import AdminPrivateRoute from "./Routes/AdminPrivateRoute";
 import AdminProfile from "./features/admin/AdminProfile";
+import { useAppDispatch, useAppSelector } from "./app/hooks";
+import { addressActions } from "./features/addresses/addressSlice";
+import { rehydrateAuth } from "./features/auth/authSlice";
+import { ordersActions } from "./features/orders/orderSlice";
+import { colorsActions } from "./features/product-colors/productColorSlice";
+import { productLinesActions } from "./features/product-lines/productLinesSlice";
+import { sizesActions } from "./features/product-sizes/productSizeSlice";
 
 const App: React.FC = () => {
+
+  const dispatch = useAppDispatch();
+  const userId = useAppSelector((state) => state.auth.user?.id);
+
+  useEffect(() => {
+    dispatch(productLinesActions.fetchAll());
+    dispatch(colorsActions.fetchAll());
+    dispatch(sizesActions.fetchAll());
+
+    if (!userId) {
+      dispatch(rehydrateAuth());
+    }
+
+    if (userId) {
+      dispatch(addressActions.fetchAddressByUserId(userId));
+      dispatch(ordersActions.fetchByUserId(userId));
+    }
+  }, [dispatch, userId]);
+
+  
   return (
     <Router>
       <Layout>
@@ -32,7 +58,6 @@ const App: React.FC = () => {
 
           <Route path="/order/:id" element={<OrderDetails />} />
           <Route path="/products/:id" element={<ProductDetailsPage />} />
-          <Route path="/admin" element={<AdminDashboard />} />
 
          
           <Route 

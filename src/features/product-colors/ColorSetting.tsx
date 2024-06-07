@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
-import AddCategory from "./AddCategory";
-import Editcategory from "./EditCategory";
+import AddColor from "./AddColor";
+import EditColor from "./EditColor";
 
-const CategorySetting: React.FC = () => {
+const ColorSetting: React.FC = () => {
   const [subTabIndex, setSubTabIndex] = useState(0);
 
   const handleSubTabChange = (_event: React.SyntheticEvent, newValue: number) => {
@@ -13,15 +13,15 @@ const CategorySetting: React.FC = () => {
   return (
     <Box>
       <Tabs value={subTabIndex} onChange={handleSubTabChange}>
-        <Tab label="Add Category" />
-        <Tab label="Edit Category" />
+        <Tab label="Add Color" />
+        <Tab label="Edit Color" />
       </Tabs>
       <Box mt={2}>
-        {subTabIndex === 0 && <AddCategory/>}
-        {subTabIndex === 1 && <Editcategory />}
+        {subTabIndex === 0 && <AddColor/>}
+        {subTabIndex === 1 && <EditColor />}
       </Box>
     </Box>
   );
 };
 
-export default CategorySetting;
+export default ColorSetting;

@@ -38,13 +38,6 @@ export const fetchAddressByUserId = createAsyncThunk<
   try {
     const response = await appAxios.get(`/api/v1/addresses/user/${userId}`);
     return response.data;
-    // } catch (error) {
-    //   const axiosError = error as AxiosError;
-    //   if (axiosError.response && axiosError.response.data) {
-    //     return rejectWithValue(JSON.stringify(axiosError.response.data) || 'Fetch failed');
-    //   }
-    //   return rejectWithValue("Fetch failed");
-    // }
   } catch (error) {
     const axiosError = error as AxiosError<AxiosErrorResponse>;
     if (axiosError.response && axiosError.response.data) {

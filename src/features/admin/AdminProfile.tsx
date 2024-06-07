@@ -9,6 +9,8 @@ import CircularImageBox from "../users/CircularImageBox";
 import AdminProfileTabs from "./AdminProfileTabs";
 import ProductSetting from "./ProductSetting";
 import CategorySetting from "./CategorySetting";
+import ColorSetting from "../product-colors/ColorSetting";
+import SizeSetting from "../product-sizes/SizeSetting";
 
 const UserProfile: React.FC = () => {
   const navigate = useNavigate();
@@ -68,6 +70,9 @@ const UserProfile: React.FC = () => {
           {tabIndex === 0 && <UserAccountSetting />}
           {tabIndex === 1 && <ProductSetting/>}
           {tabIndex === 2 && <CategorySetting/>}
+          {tabIndex === 3 && <ColorSetting/>}
+          {tabIndex === 4 && <SizeSetting/>}
+
 
         </Box>
       </Box>

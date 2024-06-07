@@ -4,11 +4,14 @@ import { toast } from 'react-toastify';
 function singularize(entityName: string): string {
     if (entityName.endsWith('addresses')) {
         return entityName.replace('addresses', 'address');
+    } else if (entityName.endsWith('categories')) {
+        return entityName.replace('categories', 'category');
     } else if (entityName.endsWith('s')) {
         return entityName.slice(0, -1);
     }
     return entityName;
 }
+
 
 const toastMiddleware: Middleware = ({ getState }) => (next) => (action) => {
     const validActions = ['updateOne', 'createOne', 'deleteOne', 'signup', 'updateCurrentUser'];

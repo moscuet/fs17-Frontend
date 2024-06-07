@@ -3,7 +3,7 @@ import { BaseEntity } from "../../common-types/BaseEntity";
 export interface CategoryCreateDto {
     name: string;
     parentCategoryId?: string;
-    imageUrl: string;
+    imageUrl?: string;
 }
 
 export interface CategoryReadDto extends BaseEntity {
