@@ -11,7 +11,6 @@ import { useAppSelector } from "../../app/hooks";
 import { ThemeProvider } from "@mui/material/styles";
 import theme from "../../theme/theme";
 import { ProductReadDto } from "./productDto";
-import { shuffleArray } from "./helpers";
 import ProductCard from "./ProductCard";
 import { InfoButton } from "../../shared-components/CustomButton";
 
@@ -35,8 +34,7 @@ const FeatureProducts: React.FC = () => {
   );
 
 
-  const randomProducts = data?.products ? shuffleArray([...data?.products]).slice(0, 6) : [];
-
+  const randomProducts = data?.products?.slice(0, 6) ?? [];
 
   if (loading) {
     return (
