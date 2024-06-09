@@ -34,7 +34,7 @@ const FeatureProducts: React.FC = () => {
   );
 
 
-  const randomProducts = data?.products?.slice(0, 6) ?? [];
+  const randomProducts = data?.products?data?.products.slice(0, 6) : [];
 
   if (loading) {
     return (
