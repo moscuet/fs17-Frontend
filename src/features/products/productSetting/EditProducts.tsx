@@ -54,6 +54,8 @@ const EditProducts: React.FC = () => {
       }
     },
   });
+  console.log(products?.[0])
+  console.log("########", products?.[0].productLineId)
 
   const handleEdit = (product: ProductReadDto) => {
     formik.setValues({
