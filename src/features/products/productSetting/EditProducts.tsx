@@ -96,6 +96,8 @@ const EditProducts: React.FC = () => {
     setOpenDeleteDialog(false);
   };
 
+  if (!productLines.length) return <div>Loading...</div>;
+
   return (
     <Box>
       { products && products.map((product) => (
@@ -119,7 +121,7 @@ const EditProducts: React.FC = () => {
                   labelId="product-line-label"
                   id="productLineId"
                   name="productLineId"
-                  label="Product Line*"
+                  label="ProductLine*"
                   value={formik.values.productLineId}
                   onChange={formik.handleChange}
                 >
