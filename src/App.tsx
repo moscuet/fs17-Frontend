@@ -41,7 +41,7 @@ const App: React.FC = () => {
 
     if (userId) {
       dispatch(addressActions.fetchAddressByUserId(userId));
-      dispatch(ordersActions.fetchByUserId(userId));
+      dispatch(ordersActions.fetchAll());
     }
   }, [dispatch, userId]);
 
