@@ -28,14 +28,6 @@ const ProductsPage: React.FC = () => {
     (state) => state.products.data?.products ?? []
   );
 
-  const [currentPage, setCurrentPage] = useState(
-    useAppSelector((state) => state.products.data?.currentPage ?? 1)
-  );
-  const [totalPages, setTotalPages] = useState(
-    useAppSelector((state) => state.products.data?.totalPages ?? 1)
-  );
-
-
   const categories: CategoryReadDto[] = useAppSelector(
     (state) => state.categories.items
   );
@@ -62,7 +54,7 @@ const ProductsPage: React.FC = () => {
         searchKey: search,
         sortBy: sortOption,
         limit: queryParamsDefault.limit,
-        startingAfter: (currentPage - 1) * queryParamsDefault.limit,
+        startingAfter: 0,
         sortOrder: sortOrder,
         priceRange:
           priceRangeParam && priceRangeParam.length === 2
@@ -134,9 +126,7 @@ const ProductsPage: React.FC = () => {
     navigate({ pathname: "/products", search: params.toString() });
   };
 
-  const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
-    setCurrentPage(newPage);
-  };
+
   
 
   if (loading) {
