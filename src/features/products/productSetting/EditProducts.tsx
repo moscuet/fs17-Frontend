@@ -14,6 +14,7 @@ import {
   IconButton,
   MenuItem,
   TextField,
+  CircularProgress,
 } from "@mui/material";
 import { useFormik } from "formik";
 
@@ -28,12 +29,15 @@ import { productsActions } from "../productsSlice";
 
 const EditProducts: React.FC = () => {
   const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.products.data?.products);
+  const products = useAppSelector((state) => state.products.data?.products) || [];
   const productLines = useAppSelector((state) => state.productLines.items);
   const colors = useAppSelector((state) => state.colors.items);
   const sizes = useAppSelector((state) => state.sizes.items);
   const [editMode, setEditMode] = useState<string | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
+  const loading = useAppSelector((state) => state.products.loading);
+
+
 
   const formik = useFormik<ProductUpdateDto>({
     initialValues: {
@@ -95,12 +99,20 @@ const EditProducts: React.FC = () => {
   const handleCancel = () => {
     setOpenDeleteDialog(false);
   };
+  
 
-  if (!productLines.length) return <div>Loading...</div>;
+  if (loading || !products || !productLines ) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+  
 
   return (
     <Box>
-      { products && products.map((product) => (
+      { products && products.length>0 && products.map((product) => (
         <Box
           key={product.id}
           sx={{
