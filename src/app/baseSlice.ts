@@ -88,7 +88,7 @@ export const createBaseSlice = <T extends BaseEntity, TCreateDto, TUpdateDto>(
     `${name}/deleteOne`,
     async (id, { rejectWithValue }) => {
       try {
-        const response = await appAxios.delete(`${endpoint}/${id}`);
+         await appAxios.delete(`${endpoint}/${id}`);
         return id;
       } catch (e) {
         const error = e as AxiosError;

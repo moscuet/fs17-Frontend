@@ -25,11 +25,12 @@ interface EditItemProps {
   actions: {
     updateOne: (payload: { id: string; updateDto: { value: string } }) => any;
     deleteOne: (id: string) => any;
+    fetchAll: () => any;
   };
   selectItems: (state: any) => { id: string; value: string }[];
 }
 
-const EditItem: React.FC<EditItemProps> = ({
+const EditColorAndSize: React.FC<EditItemProps> = ({
   itemName,
   actions,
   selectItems,
@@ -61,6 +62,7 @@ const EditItem: React.FC<EditItemProps> = ({
     onSubmit: (values) => {
       if (editMode) {
         dispatch(actions.updateOne({ id: editMode, updateDto: values }));
+        setTimeout(() => dispatch(actions.fetchAll()), 100);
         setEditMode(null);
       }
     },
@@ -132,7 +134,7 @@ const EditItem: React.FC<EditItemProps> = ({
                 onClick={() => setEditMode(null)}
                 sx={{ mt: 2 }}
               >
-                Cancel 
+                Cancel
               </Button>
             </form>
           ) : (
@@ -174,4 +176,4 @@ const EditItem: React.FC<EditItemProps> = ({
   );
 };
 
-export default EditItem;
+export default EditColorAndSize;

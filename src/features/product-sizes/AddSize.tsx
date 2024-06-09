@@ -1,11 +1,11 @@
 import React from "react";
-import AddItem from "../../shared-components/AddColorAndSize";
+import AddColorAndSize from "../../shared-components/AddColorAndSize";
 import { sizesActions } from "./productSizeSlice";
 
 
 const AddColor: React.FC = () => {
   return (
-    <AddItem
+    <AddColorAndSize
       itemName="Size"
       onSubmit={sizesActions.createOne}
     />

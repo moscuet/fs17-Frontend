@@ -49,7 +49,7 @@ const EditProducts: React.FC = () => {
         dispatch(
           productsActions.updateProduct({ id: editMode, updateDto: values })
         );
-        dispatch(productsActions.fetchAllWithQuery({}));
+       setTimeout( ()=> dispatch(productsActions.fetchAllWithQuery({})),100)
         setEditMode(null);
       }
     },

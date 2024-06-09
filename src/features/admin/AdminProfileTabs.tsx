@@ -8,7 +8,7 @@ interface TabProps {
 }
 export default function AdminProfileTabs({ tabIndex, handleTabChange }: TabProps) {
   return (
-    <Box>
+    <Box pb={2}>
       <Tabs
         orientation="vertical"
         value={tabIndex}
@@ -36,6 +36,7 @@ export default function AdminProfileTabs({ tabIndex, handleTabChange }: TabProps
       >
         <Tab label="Account" />
         <Tab label="Product" />
+        <Tab label="Product Line" />
         <Tab label="Category" />
         <Tab label="Color" />
         <Tab label="Size" />

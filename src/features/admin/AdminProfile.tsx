@@ -11,6 +11,7 @@ import CategorySetting from "../categories/CategorySetting";
 import ColorSetting from "../product-colors/ColorSetting";
 import SizeSetting from "../product-sizes/SizeSetting";
 import { isValidUrl } from "../../shared-features/utils";
+import ProductLineSetting from "../product-lines/ProductLineSetting";
 
 const UserProfile: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -79,9 +80,10 @@ const UserProfile: React.FC = () => {
         >
           {tabIndex === 0 && <UserAccountSetting />}
           {tabIndex === 1 && <ProductSetting />}
-          {tabIndex === 2 && <CategorySetting />}
-          {tabIndex === 3 && <ColorSetting />}
-          {tabIndex === 4 && <SizeSetting />}
+          {tabIndex === 2 && <ProductLineSetting />}
+          {tabIndex === 3 && <CategorySetting />}
+          {tabIndex === 4 && <ColorSetting />}
+          {tabIndex === 5 && <SizeSetting />}
         </Box>
       </Box>
     </Container>

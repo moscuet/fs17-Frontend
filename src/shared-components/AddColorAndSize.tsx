@@ -10,7 +10,7 @@ interface AddItemProps {
 }
 type ValidKeys = "colors" | "sizes";
 
-const AddItem: React.FC<AddItemProps> = ({ itemName, onSubmit }) => {
+const AddColorAndSize: React.FC<AddItemProps> = ({ itemName, onSubmit }) => {
   const stateName = `${itemName.toLowerCase()}s` as ValidKeys;
 
   const dispatch = useAppDispatch();
@@ -74,4 +74,4 @@ const AddItem: React.FC<AddItemProps> = ({ itemName, onSubmit }) => {
   );
 };
 
-export default AddItem;
+export default AddColorAndSize;

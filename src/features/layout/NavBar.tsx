@@ -64,6 +64,9 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const user = useAppSelector((state) => state.auth.user);
   const isLoggedIn = Boolean(user);
+  const isAdmin = useAppSelector(
+    (state) => state.auth.user?.userRole === "Admin"
+  );
   const cartItems = useAppSelector((state) => state.cart.items);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -79,8 +82,8 @@ const Navbar = () => {
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     if (window.innerWidth >= 960) {
-      user?.userRole === "User" && navigate("/user-profile");
-      user?.userRole === "Admin" && navigate("/admin-profile");
+      !isAdmin && navigate("/user-profile");
+      isAdmin && navigate("/admin-profile");
     } else {
       setAnchorEl(event.currentTarget);
     }
@@ -161,12 +164,14 @@ const Navbar = () => {
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem onClick={() => navigate("/signup")}>
-        <IconButton color="inherit">
-          <LoginIcon />
-        </IconButton>
-        <p>Signup</p>
-      </MenuItem>
+      {
+        <MenuItem onClick={() => navigate("/signup")}>
+          <IconButton color="inherit">
+            <LoginIcon />
+          </IconButton>
+          <p>Signup</p>
+        </MenuItem>
+      }
       <MenuItem>
         <IconButton aria-label="show cart" color="inherit">
           <ShoppingCart />
@@ -192,8 +197,8 @@ const Navbar = () => {
         <MenuItem
           onClick={() => {
             handleMobileMenuClose();
-            user?.userRole === "User" && navigate("/user-profile");
-            user?.userRole === "Admin" && navigate("/admin-profile");
+            !isAdmin && navigate("/user-profile");
+            isAdmin && navigate("/admin-profile");
           }}
         >
           <IconButton
@@ -249,20 +254,22 @@ const Navbar = () => {
             </Typography>
           )}
 
-          <Typography
-            component={Link}
-            to="/contact"
-            sx={{
-              marginLeft: "1rem",
-              textTransform: "none",
-              color: "inherit",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-          >
-            CONTACT
-          </Typography>
+          {!isAdmin && (
+            <Typography
+              component={Link}
+              to="/contact"
+              sx={{
+                marginLeft: "1rem",
+                textTransform: "none",
+                color: "inherit",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+            >
+              CONTACT
+            </Typography>
+          )}
 
           <Box sx={{ flexGrow: 1 }} />
           <Search>
@@ -281,29 +288,31 @@ const Navbar = () => {
           <Box
             sx={{ display: { xs: "none", md: "flex" }, alignItems: "center" }}
           >
-            <IconButton
-              aria-label="show cart"
-              color="inherit"
-              style={{ position: "relative", fontSize: "1.5rem" }}
-              onClick={handleCartClick}
-            >
-              <ShoppingCart />
-              <span
-                style={{
-                  position: "absolute",
-                  top: "4px",
-                  right: "4px",
-                  background: "red",
-                  borderRadius: "50%",
-                  padding: "2px 6px",
-                  color: "white",
-                  fontSize: "12px",
-                  lineHeight: "1",
-                }}
+            {!isAdmin && (
+              <IconButton
+                aria-label="show cart"
+                color="inherit"
+                style={{ position: "relative", fontSize: "1.5rem" }}
+                onClick={handleCartClick}
               >
-                {cartItems.reduce((total, item) => total + item.quantity, 0)}
-              </span>
-            </IconButton>
+                <ShoppingCart />
+                <span
+                  style={{
+                    position: "absolute",
+                    top: "4px",
+                    right: "4px",
+                    background: "red",
+                    borderRadius: "50%",
+                    padding: "2px 6px",
+                    color: "white",
+                    fontSize: "12px",
+                    lineHeight: "1",
+                  }}
+                >
+                  {cartItems.reduce((total, item) => total + item.quantity, 0)}
+                </span>
+              </IconButton>
+            )}
             {isLoggedIn ? (
               <>
                 <IconButton

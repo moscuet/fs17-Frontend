@@ -22,7 +22,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { CategoryReadDto, CategoryUpdateDto } from "./categoryDto";
 import { categoriesActions } from "./categoriesSlice";
 import * as Yup from "yup";
-import { CancelButton } from "../../shared-components/CustomButton";
 
 export const categoryValidationSchema = (categories: { name: string }[]) =>
   Yup.object({
@@ -64,7 +63,7 @@ const Editcategory: React.FC = () => {
         dispatch(
           categoriesActions.updateOne({ id: editMode, updateDto: payload })
         );
-        dispatch(categoriesActions.fetchAll());
+       setTimeout( ()=> dispatch(categoriesActions.fetchAll()),100)
         setEditMode(null);
       }
     },
