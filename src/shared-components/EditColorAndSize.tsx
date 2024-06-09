@@ -17,7 +17,6 @@ import { useAppDispatch, useAppSelector } from "../app/hooks";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-// Define the valid keys for the state
 type ValidKeys = "colors" | "sizes";
 
 interface EditItemProps {

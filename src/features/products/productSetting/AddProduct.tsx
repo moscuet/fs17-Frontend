@@ -36,9 +36,7 @@ const AddProduct: React.FC = () => {
   const colors = useAppSelector((state) => state.colors.items);
   const productLines = useAppSelector((state) => state.productLines.items);
   const { id } = useParams<{ id?: string }>();
-  const product = useAppSelector((state) =>
-    id ? state.products.items.find((p) => p.id === id) : null
-  );
+const product = useAppSelector((state) => state.products.data?.products.find( p =>p.id ===id));
 
   const formik = useFormik<ProductForm>({
     initialValues: {

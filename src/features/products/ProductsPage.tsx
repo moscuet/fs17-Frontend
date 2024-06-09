@@ -40,9 +40,6 @@ const ProductsPage: React.FC = () => {
     (state) => state.categories.items
   );
 
-
-  console.log(currentPage, totalPages)
-
   useEffect(() => {
     const query = new URLSearchParams(location.search);
     const categoryId = query.get("categoryId");

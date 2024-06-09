@@ -14,7 +14,6 @@ import * as Yup from "yup";
 import { useAppDispatch, useAppSelector } from "../../app/hooks";
 import { categoriesActions } from "../categories/categoriesSlice";
 
-// Validation Schema using Yup
 export const categoryValidationSchema = (categories: { name: string }[]) => Yup.object({
   name: Yup.string()
     .required("Category name is required")

@@ -131,7 +131,6 @@ const Navbar = () => {
     navigate({ pathname: "/products", search: params.toString() });
   };
 
-  // Handle Enter key in the search input
   const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.key === "Enter") {
       handleSearch();
