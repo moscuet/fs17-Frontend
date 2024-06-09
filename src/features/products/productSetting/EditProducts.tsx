@@ -37,7 +37,7 @@ const EditProducts: React.FC = () => {
 
   const formik = useFormik<ProductUpdateDto>({
     initialValues: {
-      productLineId: "",
+      productLineId: undefined,
       productSizeId: undefined,
       productColorId: undefined,
       inventory: 0,
@@ -54,8 +54,6 @@ const EditProducts: React.FC = () => {
       }
     },
   });
-  console.log(products?.[0])
-  console.log("########", products?.[0].productLineId)
 
   const handleEdit = (product: ProductReadDto) => {
     formik.setValues({
