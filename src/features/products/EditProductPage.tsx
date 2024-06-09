@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
-import AddEditProduct from './AddEditProduct';
+import AddEditProduct from './productSetting/AddProduct';
 
 const ProductPageLayout = () => {
   return (

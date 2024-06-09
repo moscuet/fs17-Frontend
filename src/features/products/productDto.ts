@@ -24,6 +24,12 @@ export interface ProductReadDto extends BaseEntity {
   productColorValue: string;
 }
 
+export interface QueryProductReadDto {
+  products: ProductReadDto[];
+  currentPage: number;
+  totalPages: number;
+}
+
 export interface ProductUpdateDto {
     productLineId?: string;
     productSizeId?: string;
@@ -40,7 +46,7 @@ export interface ProductUpdateDto {
     productColorId: string | null;
     inventory: number;
     images: ProductImage[];
-    reviewss: any[] | null;
+    reviews: any[] | null;
     productLineName: string;
     productSizeValue: string | null;
     productColorValue: string | null;

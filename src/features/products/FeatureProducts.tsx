@@ -30,12 +30,12 @@ const ProductsDisplay: React.FC<{ products: ProductReadDto[] }> = ({
 const FeatureProducts: React.FC = () => {
   const navigate = useNavigate();
 
-  const {items, loading}= useAppSelector(
+  const {data, loading}= useAppSelector(
     (state) => state.products
   );
 
 
-  const randomProducts = shuffleArray([...items]).slice(0, 6);
+  const randomProducts = shuffleArray([...(data?.products ?? [])]).slice(0, 6);
 
 
   if (loading) {

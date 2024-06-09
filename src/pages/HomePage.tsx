@@ -13,7 +13,7 @@ const HomePage: React.FC = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(fetchAllCategories());
-    dispatch(productsActions.fetchAllWithParams({}));
+    dispatch(productsActions.fetchAllWithQuery({}));
   }, [location.search, dispatch]);
 
   const navigate = useNavigate();

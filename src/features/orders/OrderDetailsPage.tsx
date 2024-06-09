@@ -45,8 +45,6 @@ const OrderDetailsPage: React.FC =  () => {
     );
   }
 
-  console.log(order);
-
   return (
     <Card raised sx={{ maxWidth: 600, margin: "20px auto" }}>
       <CardContent>

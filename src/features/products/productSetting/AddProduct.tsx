@@ -12,12 +12,12 @@ import {
   FormHelperText,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { productsActions } from "./productsSlice";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
-import { productValidationSchema } from "./const/valueObjects";
+import { productValidationSchema } from "../const/valueObjects";
 import { useNavigate, useParams } from "react-router-dom";
+import { productsActions } from "../productsSlice";
 
 interface ProductForm {
   productLineId: string;
@@ -28,7 +28,7 @@ interface ProductForm {
 }
 
 
-const AddEditProduct: React.FC = () => {
+const AddProduct: React.FC = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
@@ -63,11 +63,11 @@ const AddEditProduct: React.FC = () => {
         }),
       };
       id
-        ? dispatch(productsActions.updateOne({ id, updateDto: updatedValues }))
-        : dispatch(productsActions.createOne(updatedValues));
+        ? dispatch(productsActions.updateProduct({ id, updateDto: updatedValues }))
+        : dispatch(productsActions.createProduct(updatedValues));
       setTimeout(() => {
         id && navigate(`/products/${id}`);
-        dispatch(productsActions.fetchAll());
+        dispatch(productsActions.fetchAllWithQuery({}));
       }, 100);
       resetForm();
     },
@@ -230,4 +230,4 @@ const AddEditProduct: React.FC = () => {
   );
 };
 
-export default AddEditProduct;
+export default AddProduct;

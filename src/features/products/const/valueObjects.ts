@@ -26,3 +26,10 @@ export const productFormInitialValues = {
   inventory: 0,
   imageUrls: [""],
 };
+
+
+export const queryParamsDefault = {
+  page: 1,
+  limit: 50,
+  sortOrder: "asc"
+}

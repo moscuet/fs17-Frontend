@@ -3,7 +3,7 @@ import { BaseEntity } from "../common-types/BaseEntity";
 import appAxios from "../shared-features/appAxios";
 import { AxiosError } from "axios";
 
-interface BaseState<T extends BaseEntity> {
+export interface BaseState<T extends BaseEntity> {
   items: T[];
   loading: boolean;
   error?: string;

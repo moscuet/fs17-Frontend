@@ -4,10 +4,10 @@ import { useAppSelector, useAppDispatch } from "../../app/hooks";
 import { CategoryReadDto } from "../categories/categoryDto";
 import FilterBar from "../../shared-components/FilterBar";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ProductReadDto } from "./productDto";
-import { productsActions } from "./productsSlice";
 import TopCategory from "../categories/TopCategory";
 import ProductCard from "./ProductCard";
+import { productsActions } from "./productsSlice";
+import { queryParamsDefault } from "./const/valueObjects";
 
 const ProductsPage: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -15,23 +15,33 @@ const ProductsPage: React.FC = () => {
   const [sortOption, setSortOption] = useState<string | null>(null);
   const [sortOrder, setSortOrder] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState<string | null>(null);
-  const [ selectedSortOption, setSelectedSortOption] = useState<string | null>(null);
+  const [selectedSortOption, setSelectedSortOption] = useState<string | null>(
+    null
+  );
 
-
- 
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
 
   const loading = useAppSelector((state) => state.products.loading);
-  const products: ProductReadDto[] = useAppSelector(
-    (state) => state.products.items
+  const products = useAppSelector(
+    (state) => state.products.data?.products ?? []
+  );
+
+  const [currentPage, setCurrentPage] = useState(
+    useAppSelector((state) => state.products.data?.currentPage ?? 1)
+  );
+  const [totalPages, setTotalPages] = useState(
+    useAppSelector((state) => state.products.data?.totalPages ?? 1)
   );
 
 
   const categories: CategoryReadDto[] = useAppSelector(
     (state) => state.categories.items
   );
+
+
+  console.log(currentPage, totalPages)
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -50,12 +60,12 @@ const ProductsPage: React.FC = () => {
     if (sortOption) setSortOption(sortOption);
 
     dispatch(
-      productsActions.fetchAllWithParams({
+      productsActions.fetchAllWithQuery({
         categoryId: categoryId,
         searchKey: search,
-        sortBy: sortOption, 
-        limit: 50,
-        startingAfter: 0,
+        sortBy: sortOption,
+        limit: queryParamsDefault.limit,
+        startingAfter: (currentPage - 1) * queryParamsDefault.limit,
         sortOrder: sortOrder,
         priceRange:
           priceRangeParam && priceRangeParam.length === 2
@@ -63,7 +73,13 @@ const ProductsPage: React.FC = () => {
             : undefined,
       })
     );
-  }, [location.search, dispatch, setSelectedCategory, setSearchTerm, sortOrder]);
+  }, [
+    location.search,
+    dispatch,
+    setSelectedCategory,
+    setSearchTerm,
+    sortOrder,
+  ]);
 
   const handleCategoryChange = (event: SelectChangeEvent<string>) => {
     setSelectedCategory(event.target.value);
@@ -89,13 +105,13 @@ const ProductsPage: React.FC = () => {
 
   const handleSortByPrice = (event: SelectChangeEvent<string>) => {
     setSelectedSortOption(event.target.value);
-    let order 
+    let order;
     if (event.target.value === "Price increase") order = "ASC";
     if (event.target.value === "Price decrease") order = "DESC";
     setSortOption("Price");
     order && setSortOrder(order);
-    
-    updateUrl(selectedCategory, searchTerm, "price", order??"", priceRange);
+
+    updateUrl(selectedCategory, searchTerm, "price", order ?? "", priceRange);
   };
 
   const handleCategoryClick = (categoryId: string) => {
@@ -118,19 +134,27 @@ const ProductsPage: React.FC = () => {
     if (priceRange) params.append("priceRange", priceRange.join(","));
     if (sortOption) params.append("sortOption", sortOption);
     if (sortOrder) params.append("sortOrder", sortOrder);
-    console.log(params.toString());
     navigate({ pathname: "/products", search: params.toString() });
   };
 
+  const handlePageChange = (event: React.ChangeEvent<unknown>, newPage: number) => {
+    setCurrentPage(newPage);
+  };
+  
 
   if (loading) {
     return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        minHeight="100vh"
+      >
         <CircularProgress />
       </Box>
     );
   }
-  
+
   return (
     <Box>
       <TopCategory handleCategoryClick={handleCategoryClick} />

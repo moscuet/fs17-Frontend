@@ -39,7 +39,6 @@ const EditableView: React.FC<EditableViewProps> = ({
 }) => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
 
-  console.log(data);
   const handleDelete = () => {
     setOpenDeleteDialog(true);
   };

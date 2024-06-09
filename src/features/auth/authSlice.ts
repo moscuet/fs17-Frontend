@@ -86,7 +86,7 @@ export const rehydrateAuth = createAsyncThunk(
     if (token) {
       dispatch(fetchUserByToken());
       dispatch(productLinesActions.fetchAll());
-      dispatch(productsActions.fetchAll());
+      dispatch(productsActions.fetchAllWithQuery({}));
       dispatch(categoriesActions.fetchAll());
       dispatch(colorsActions.fetchAll);
       dispatch(sizesActions.fetchAll)

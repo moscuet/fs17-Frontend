@@ -123,7 +123,6 @@ const Navbar = () => {
   };
 
   const handleSearch = () => {
-    console.log("I am clicked");
     const params = new URLSearchParams();
     params.set("search", searchTerm);
     navigate({ pathname: "/products", search: params.toString() });

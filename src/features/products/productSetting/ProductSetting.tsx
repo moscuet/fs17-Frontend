@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
-import AddProduct from "./AddEditProduct";
+import AddProduct from "./AddProduct";
 import EditProducts from "./EditProducts";
 
 const ProductSetting: React.FC = () => {

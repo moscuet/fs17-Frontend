@@ -6,7 +6,7 @@ import { ordersActions } from "../orders/orderSlice";
 import UserAccountSetting from "../users/UserAccountSetting";
 import CircularImageBox from "../../shared-components/CircularImageBox";
 import AdminProfileTabs from "./AdminProfileTabs";
-import ProductSetting from "../products/ProductSetting";
+import ProductSetting from "../products/productSetting/ProductSetting";
 import CategorySetting from "../categories/CategorySetting";
 import ColorSetting from "../product-colors/ColorSetting";
 import SizeSetting from "../product-sizes/SizeSetting";

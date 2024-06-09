@@ -16,18 +16,19 @@ import {
   TextField,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { useAppDispatch, useAppSelector } from "../../app/hooks";
-import { productsActions } from "./productsSlice";
-import { ProductReadDto, ProductUpdateDto } from "./productDto";
-import { productValidationSchema } from "./const/valueObjects";
+
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import { useAppDispatch, useAppSelector } from "../../../app/hooks";
+import { productValidationSchema } from "../const/valueObjects";
+import { ProductUpdateDto, ProductReadDto } from "../productDto";
+import { productsActions } from "../productsSlice";
 
 const EditProducts: React.FC = () => {
   const dispatch = useAppDispatch();
-  const products = useAppSelector((state) => state.products.items);
+  const products = useAppSelector((state) => state.products.data?.products);
   const productLines = useAppSelector((state) => state.productLines.items);
   const colors = useAppSelector((state) => state.colors.items);
   const sizes = useAppSelector((state) => state.sizes.items);
@@ -46,9 +47,9 @@ const EditProducts: React.FC = () => {
     onSubmit: (values) => {
       if (editMode) {
         dispatch(
-          productsActions.updateOne({ id: editMode, updateDto: values })
+          productsActions.updateProduct({ id: editMode, updateDto: values })
         );
-        dispatch(productsActions.fetchAll());
+        dispatch(productsActions.fetchAllWithQuery({}));
         setEditMode(null);
       }
     },
@@ -72,7 +73,7 @@ const EditProducts: React.FC = () => {
 
   const handleConfirmDelete = async () => {
     if (editMode) {
-      await dispatch(productsActions.deleteOne(editMode));
+      await dispatch(productsActions.deleteProduct(editMode));
       setOpenDeleteDialog(false);
       setEditMode(null);
     }
@@ -97,7 +98,7 @@ const EditProducts: React.FC = () => {
 
   return (
     <Box>
-      {products.map((product) => (
+      { products && products.map((product) => (
         <Box
           key={product.id}
           sx={{
