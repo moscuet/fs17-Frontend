@@ -36,6 +36,8 @@ const EditProduct: React.FC<EditProductProps> = ({ product }) => {
  console.log('product',product)
 console.log('product.productLineId',product.productLineId)
 console.log('selectedproductLine',selectedproductLine)
+console.log('selectedproductLine',productLines)
+
 
   const formik = useFormik<ProductUpdateDto>({
     initialValues: {
