@@ -117,7 +117,7 @@ const EditProducts: React.FC = () => {
 
   return (
     <Box>
-      { products && products.length>0 && productLines && products.map((product) => (
+      { products && products.length>0 && productLines.length>0 && products.map((product) => (
         <Box
           key={product.id}
           sx={{
