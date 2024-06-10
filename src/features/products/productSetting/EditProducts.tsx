@@ -37,8 +37,6 @@ const EditProducts: React.FC = () => {
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const loading = useAppSelector((state) => state.products.loading);
 
-
-
   const formik = useFormik<ProductUpdateDto>({
     initialValues: {
       productLineId: undefined,
@@ -119,7 +117,7 @@ const EditProducts: React.FC = () => {
 
   return (
     <Box>
-      { products && products.length>0 && products.map((product) => (
+      { products && products.length>0 && productLines && products.map((product) => (
         <Box
           key={product.id}
           sx={{
