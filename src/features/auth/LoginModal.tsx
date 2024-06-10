@@ -11,22 +11,25 @@ import { useAppDispatch } from "../../app/hooks";
 import { login } from "./authSlice";
 
 interface LoginModalProps {
-  title:string
+  title: string;
   open: boolean;
   handleClose: () => void;
 }
 
-const LoginModal: React.FC<LoginModalProps> = ({title, open, handleClose }) => {
+const LoginModal: React.FC<LoginModalProps> = ({
+  title,
+  open,
+  handleClose,
+}) => {
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async() => {
+  const handleLogin = async () => {
     await dispatch(login({ email, password }));
     handleClose();
   };
 
-  
   return (
     <Dialog open={open} onClose={handleClose}>
       <DialogTitle>{title}</DialogTitle>
@@ -53,15 +56,16 @@ const LoginModal: React.FC<LoginModalProps> = ({title, open, handleClose }) => {
           onChange={(e) => setPassword(e.target.value)}
         />
       </DialogContent>
+      <DialogContent>
+        login as admin: test.admin@gmail.com pass: testadmin
+      </DialogContent>
       <DialogActions>
-        <DialogActions>
-          <Button onClick={handleClose} style={{ color: "#333333" }}>
-            Cancel
-          </Button>
-          <Button onClick={handleLogin} style={{ color: "#333333" }}>
-            Login
-          </Button>
-        </DialogActions>
+        <Button onClick={handleClose} color="secondary">
+          Cancel
+        </Button>
+        <Button onClick={handleLogin} color="primary" variant="contained">
+          Login
+        </Button>
       </DialogActions>
     </Dialog>
   );

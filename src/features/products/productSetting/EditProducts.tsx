@@ -109,6 +109,13 @@ const EditProducts: React.FC = () => {
     );
   }
   
+  if (products.length<1 && !loading) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+       <h4>No product found</h4>
+      </Box>
+    );
+  }
 
   return (
     <Box>
