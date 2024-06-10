@@ -52,8 +52,10 @@ console.log('selectedproductLine',productLines)
       dispatch(
         productsActions.updateProduct({ id: product.id, updateDto: values })
       );
-      setTimeout( productsActions.fetchAllWithQuery({}),100)
-      navigate(`/products/${product.id}`)
+      setTimeout( ()=> {
+        dispatch(productsActions.fetchAllWithQuery({}))
+        navigate(`/products/${product.id}`)
+    },100)
     },
   });
 
