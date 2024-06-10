@@ -16,6 +16,7 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { productValidationSchema } from "../const/valueObjects";
 import { ProductUpdateDto, ProductReadDto } from "../productDto";
 import { productsActions } from "../productsSlice";
+import { useNavigate } from "react-router-dom";
 
 interface EditProductProps {
   product: ProductReadDto;
@@ -25,9 +26,16 @@ const EditProduct: React.FC<EditProductProps> = ({ product }) => {
 
     
   const dispatch = useAppDispatch();
+  const navigate  = useNavigate();
+
   const productLines = useAppSelector((state) => state.productLines.items);
   const colors = useAppSelector((state) => state.colors.items);
   const sizes = useAppSelector((state) => state.sizes.items);
+  const selectedproductLine = productLines.find(pl =>pl.id ===product.id)
+
+ console.log('product',product)
+console.log('product.productLineId',product.productLineId)
+console.log('selectedproductLine',selectedproductLine)
 
   const formik = useFormik<ProductUpdateDto>({
     initialValues: {
@@ -42,8 +50,11 @@ const EditProduct: React.FC<EditProductProps> = ({ product }) => {
       dispatch(
         productsActions.updateProduct({ id: product.id, updateDto: values })
       );
+      setTimeout( productsActions.fetchAllWithQuery({}),100)
+      navigate(`/products/${product.id}`)
     },
   });
+
 
   const handleAddImageUrl = () => {
     const newImageUrls = [...formik.values.imageUrls, ""];
