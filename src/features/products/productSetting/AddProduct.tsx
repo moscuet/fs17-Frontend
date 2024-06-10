@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Box,
   Typography,
@@ -10,6 +10,7 @@ import {
   Button,
   IconButton,
   FormHelperText,
+  CircularProgress,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
@@ -84,6 +85,21 @@ const product = useAppSelector((state) => state.products.data?.products.find( p 
     const newImageUrls = [...formik.values.imageUrls, ""];
     formik.setFieldValue("imageUrls", newImageUrls);
   };
+
+  useEffect(() => {
+    if (id) {
+      dispatch(productsActions.fetchAllWithQuery({}));
+    }
+  },[id]);
+
+  if (id && !product?.id) {
+    return (
+      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+        <CircularProgress />
+      </Box>
+    );
+  }
+
 
   return (
     <Box>

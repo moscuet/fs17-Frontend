@@ -27,7 +27,7 @@ import { productValidationSchema } from "../const/valueObjects";
 import { ProductUpdateDto, ProductReadDto } from "../productDto";
 import { productsActions } from "../productsSlice";
 
-const EditProducts: React.FC = () => {
+const EditableProducts: React.FC = () => {
   const dispatch = useAppDispatch();
   const products = useAppSelector((state) => state.products.data?.products) || [];
   const productLines = useAppSelector((state) => state.productLines.items);
@@ -99,7 +99,7 @@ const EditProducts: React.FC = () => {
   };
   
 
-  if (loading || !products || !productLines  || products.length<1) {
+  if (loading || !products || !productLines ) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <CircularProgress />
@@ -308,4 +308,4 @@ const EditProducts: React.FC = () => {
   );
 };
 
-export default EditProducts;
+export default EditableProducts;

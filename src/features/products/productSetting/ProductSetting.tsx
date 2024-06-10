@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Box, Tabs, Tab } from "@mui/material";
 import AddProduct from "./AddProduct";
-import EditProducts from "./EditProducts";
+import EditableProducts from "./EditableProducts";
 
 const ProductSetting: React.FC = () => {
   const [subTabIndex, setSubTabIndex] = useState(0);
@@ -18,7 +18,7 @@ const ProductSetting: React.FC = () => {
       </Tabs>
       <Box mt={2}>
         {subTabIndex === 0 && <AddProduct />}
-        {subTabIndex === 1 && <EditProducts />}
+        {subTabIndex === 1 && <EditableProducts />}
       </Box>
     </Box>
   );
