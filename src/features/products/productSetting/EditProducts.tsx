@@ -101,7 +101,7 @@ const EditProducts: React.FC = () => {
   };
   
 
-  if (loading || !products || !productLines ) {
+  if (loading || !products || !productLines  || products.length<1) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
         <CircularProgress />
