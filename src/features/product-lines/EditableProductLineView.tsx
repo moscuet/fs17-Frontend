@@ -42,7 +42,7 @@ const EditableProductLineView = () => {
     onSubmit: (values) => {
       if (editMode) {
         dispatch(productLinesActions.updateOne({ id: editMode, updateDto: values }));
-         setTimeout( ()=>dispatch(productLinesActions.fetchAll()),100)
+         setTimeout( ()=>dispatch(productLinesActions.fetchAllWithParams({limit:100})),100)
         setEditMode(null);
       }
       formik.resetForm();

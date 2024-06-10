@@ -31,7 +31,7 @@ const App: React.FC = () => {
   const userId = useAppSelector((state) => state.auth.user?.id);
 
   useEffect(() => {
-    dispatch(productLinesActions.fetchAll());
+    dispatch(productLinesActions.fetchAllWithParams({limit:100}));
     dispatch(colorsActions.fetchAll());
     dispatch(sizesActions.fetchAll());
 
