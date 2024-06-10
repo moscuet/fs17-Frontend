@@ -22,6 +22,8 @@ interface EditProductProps {
 }
 
 const EditProduct: React.FC<EditProductProps> = ({ product }) => {
+
+    
   const dispatch = useAppDispatch();
   const productLines = useAppSelector((state) => state.productLines.items);
   const colors = useAppSelector((state) => state.colors.items);

@@ -1,7 +1,20 @@
 import { Box } from '@mui/material';
-import AddEditProduct from './productSetting/AddProduct';
+import { useEffect } from 'react';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+import { productsActions } from './productsSlice';
+import { useParams } from 'react-router-dom';
+import EditProduct from './productSetting/EditProduct';
 
 const ProductPageLayout = () => {
+const dispatch = useAppDispatch()
+const { id } = useParams<{ id?: string }>();
+
+useEffect ( ()=>{
+   id && dispatch(productsActions.fetchById(id))
+  },[id, dispatch])
+
+  const selectedProduct = useAppSelector( state => state.products.selectedItem)
+
   return (
     <Box display={"flex"} justifyContent={"center"} maxWidth={"xl"}>
       <Box
@@ -14,7 +27,7 @@ const ProductPageLayout = () => {
 
         }}
       >
-        <AddEditProduct />
+        {selectedProduct?.id && <EditProduct product={selectedProduct} />}
       </Box>
     </Box>
   );

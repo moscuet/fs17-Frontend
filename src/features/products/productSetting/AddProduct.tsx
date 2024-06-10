@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   Box,
   Typography,
@@ -10,14 +10,13 @@ import {
   Button,
   IconButton,
   FormHelperText,
-  CircularProgress,
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { productValidationSchema } from "../const/valueObjects";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { productsActions } from "../productsSlice";
 
 interface ProductForm {
@@ -36,18 +35,14 @@ const AddProduct: React.FC = () => {
   const sizes = useAppSelector((state) => state.sizes.items);
   const colors = useAppSelector((state) => state.colors.items);
   const productLines = useAppSelector((state) => state.productLines.items);
-  const { id } = useParams<{ id?: string }>();
-const product = useAppSelector((state) => state.products.data?.products.find( p =>p.id ===id));
 
-
-console.log('id ',id, 'product',product )
   const formik = useFormik<ProductForm>({
     initialValues: {
-      productLineId: product?.productLineId || "",
-      productSizeId: product?.productSizeId || "",
-      productColorId: product?.productColorId || "",
-      inventory: product?.inventory || 0,
-      imageUrls: product?.images.map((img) => img.url) || [""],
+      productLineId:  "",
+      productSizeId:  "",
+      productColorId:  "",
+      inventory:  0,
+      imageUrls:  [""],
     },
 
     validationSchema: productValidationSchema,
@@ -63,12 +58,9 @@ console.log('id ',id, 'product',product )
           productColorId: values.productColorId,
         }),
       };
-      id
-        ? dispatch(productsActions.updateProduct({ id, updateDto: updatedValues }))
-        : dispatch(productsActions.createProduct(updatedValues));
-      setTimeout(() => {
-        id && navigate(`/products/${id}`);
-        dispatch(productsActions.fetchAllWithQuery({}));
+
+       dispatch(productsActions.createProduct(updatedValues));
+      setTimeout(() => { dispatch(productsActions.fetchAllWithQuery({}));
       }, 100);
       resetForm();
     },
@@ -88,25 +80,20 @@ console.log('id ',id, 'product',product )
     formik.setFieldValue("imageUrls", newImageUrls);
   };
 
-  useEffect(() => {
-    if (id) {
-      dispatch(productsActions.fetchAllWithQuery({}));
-    }
-  },[id]);
 
-  if (id && !product?.id) {
-    return (
-      <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
-        <CircularProgress />
-      </Box>
-    );
-  }
+  // if (!product.is) {
+  //   return (
+  //     <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh">
+  //       <CircularProgress />
+  //     </Box>
+  //   );
+  // }
 
 
   return (
     <Box>
-      <Typography variant="h6" sx={{ mb: 2 }}>
-        {id ? "Edit Product" : "Add a New Product"}
+      <Typography variant="body1" sx={{ mb: 2 }}>
+        Add a New Product
       </Typography>
 
       <form onSubmit={formik.handleSubmit}>
@@ -232,15 +219,15 @@ console.log('id ',id, 'product',product )
           Save Product
         </Button>
 
-       {
-         id &&  <Button
+       
+         <Button
           color="secondary"
           sx={{ ml: 1, mt:2 }}
           onClick={()=> navigate("/products")}
         >
          cancel
         </Button>
-       }
+       
       </form>
     </Box>
   );

@@ -23,7 +23,7 @@ const { actions: baseActions } = createBaseSlice<
   ProductCreateDto,
   ProductUpdateDto
 >("products", "/api/v1/products");
-// Replace the existing method with fetchAllWithQuery
+
 export const fetchAllWithQuery= createAsyncThunk<
   QueryProductReadDto,
   { [key: string]: any },
