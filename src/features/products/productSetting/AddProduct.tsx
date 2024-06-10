@@ -39,6 +39,8 @@ const AddProduct: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
 const product = useAppSelector((state) => state.products.data?.products.find( p =>p.id ===id));
 
+
+console.log('id ',id, 'product',product )
   const formik = useFormik<ProductForm>({
     initialValues: {
       productLineId: product?.productLineId || "",
