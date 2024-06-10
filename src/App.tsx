@@ -24,7 +24,6 @@ import { colorsActions } from "./features/product-colors/productColorSlice";
 import { productLinesActions } from "./features/product-lines/productLinesSlice";
 import { sizesActions } from "./features/product-sizes/productSizeSlice";
 import EditProductPage from "./features/products/EditProductPage";
-import EditableProduct from "./features/products/productSetting/EditableProducts";
 
 const App: React.FC = () => {
 
